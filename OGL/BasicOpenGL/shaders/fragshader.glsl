@@ -1,12 +1,12 @@
 #version 410
 // Fragment shader
 
-layout (location = 1) in vec3 vertcolour_in;
+in vec3 vertcolour_out;
 
 out vec4 fColor;
 
 void main() {
 
-  fColor = vec4(vertcolour_in, 1.0);
+  fColor = vec4(vertcolour_out, 1.0);
 
 }
