@@ -85,7 +85,8 @@ Hit Sphere::intersect(const Ray &ray)
     * Insert calculation of the sphere's normal at the intersection point.
     ****************************************************/
 
-    Vector N /* = ... */;
+
+    Vector N = position - (ray.O + t*ray.D);
 
     return Hit(t,N);
 }
