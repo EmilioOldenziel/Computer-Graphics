@@ -7,7 +7,7 @@ layout (location = 1) in vec3 vertcolour_in;
 uniform mat4 modelviewmatrix;
 uniform mat4 projectionmatrix;
 
-layout (location = 1) out vec3 vertcolour_out;
+out vec3 vertcolour_out;
 
 void main() {
 

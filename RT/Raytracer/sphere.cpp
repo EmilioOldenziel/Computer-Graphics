@@ -40,30 +40,15 @@ Hit Sphere::intersect(const Ray &ray)
 
     // place holder for actual intersection calculation
 
-    void abc(double a, double b, double c, double* x1, double* x2){
-        double discriminant  = (b*b) - (4 * a * c)
-        if(discriminant > 0){
-            *x1 = (-b + sqrt(discriminant))/2
-            *x2 = (-b - sqrt(discriminant))/2
-            return
-        }
-        if(discriminant < 0){
-            *x1 = null
-            *x2 = null
-        }
-        // discriminant == 0
-        else{
-            *x1 = (-b + sqrt(discriminant))/2
-            *x2 = null
-            return
-        }
-    }
-
     Vector OC = (position - ray.O).normalized();
     if (OC.dot(ray.D) < 0.999) {
         return Hit::NO_HIT();
     }
     double t = 1000;
+
+    double a = 1;
+    double b = 2 * (ray.O - position).dot (ray.D);
+    double c = ((ray.O - position).dot (ray.O - position)) - (r * r);
 
     /****************************************************
     * RT1.2: NORMAL CALCULATION
@@ -77,4 +62,23 @@ Hit Sphere::intersect(const Ray &ray)
     Vector N /* = ... */;
 
     return Hit(t,N);
+}
+
+void abc(double a, double b, double c, double* x1, double* x2){
+    double discriminant  = (b*b) - (4 * a * c);
+    if(discriminant > 0){
+        *x1 = (-b + sqrt(discriminant))/2;
+        *x2 = (-b - sqrt(discriminant))/2;
+        return;
+    }
+    if(discriminant < 0){
+        x1 = NULL;
+        x2 = NULL;
+    }
+    // discriminant == 0
+    else{
+        *x1 = (-b + sqrt(discriminant))/2;
+        x2 = NULL;
+        return;
+    }
 }
