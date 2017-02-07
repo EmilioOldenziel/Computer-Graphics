@@ -35,3 +35,8 @@
 *.dep
 *.out
 ray
+
+#images
+.png
+.jpeg
+.jpg
