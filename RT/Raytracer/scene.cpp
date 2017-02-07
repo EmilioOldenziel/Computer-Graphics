@@ -57,14 +57,15 @@ Color Scene::trace(const Ray &ray)
     *        pow(a,b)           a to the power of b
     ****************************************************/
 
-    // Set colour to black.
-    Color color = Color(0.0, 0.0, 0.0);                  // place holder
+    // Set colour to ambient light.
+    Color color = material->color * material->ka;
 
     // For each light source.
     for (unsigned int i = 0; i < lights.size (); i++)
     {
         // Compute ray to light source from hit point.
-        Ray diffusedLightRay (hit, (hit - lights[i]->position).normalized ());
+        Vector L = (hit - lights[i]->position).normalized ();
+        Ray diffusedLightRay (hit, L);
 
         // Determine blocking object(s).
         Object *tmp = NULL;
@@ -75,9 +76,18 @@ Color Scene::trace(const Ray &ray)
                 tmp = objects[i];
         }
 
+        Vector R = 2 * (L.dot (N)) * N - L;
+
         // No blocking objects -> Determine colour.
         if (!tmp) 
-            color += lights[i]->color * material->color * (fmax (0, (hit - lights[i]->position).normalized ().dot (N)) * material->kd);
+        {
+            // Diffuse lighting.
+            color += lights[i]->color * material->color * (fmax (0, L.dot (N)) * material->kd);
+            // Specular lighting.
+            color += material->ks * pow (fmin (0, R.dot (V)), material->n);
+        }
+
+
     }
     
     return color;
