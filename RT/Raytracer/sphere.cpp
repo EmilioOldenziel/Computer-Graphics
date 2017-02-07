@@ -58,16 +58,17 @@ Hit Sphere::intersect(const Ray &ray)
     * intersection point from the ray origin in *t (see example).
     ****************************************************/
 
-    // place holder for actual intersection calculation
-
+    // Determine coefficients
     double a = 1;
     double b = 2 * (ray.O - position).dot (ray.D);
     double c = ((ray.O - position).dot (ray.O - position)) - (r * r);
 
+    // Determine hitpoints (on the ray).
     double x1 = 0;
     double x2 = 0;
     int cnt = abc (a, b, c, &x1, &x2);
 
+    // Determine closests hit point (if any).
     double t = 0;
     if (cnt == 2)
         t = min (x1, x2);
@@ -85,8 +86,8 @@ Hit Sphere::intersect(const Ray &ray)
     * Insert calculation of the sphere's normal at the intersection point.
     ****************************************************/
 
-
-    Vector N = position - (ray.O + t*ray.D);
+    // Determine normal.
+    Vector N = (position - (ray.O + t*ray.D)).normalized ();
 
     return Hit(t,N);
 }

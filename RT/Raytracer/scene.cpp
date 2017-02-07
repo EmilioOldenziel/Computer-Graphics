@@ -57,8 +57,29 @@ Color Scene::trace(const Ray &ray)
     *        pow(a,b)           a to the power of b
     ****************************************************/
 
-    Color color = material->color;                  // place holder
+    // Set colour to black.
+    Color color = Color(0.0, 0.0, 0.0);                  // place holder
 
+    // For each light source.
+    for (unsigned int i = 0; i < lights.size (); i++)
+    {
+        // Compute ray to light source from hit point.
+        Ray diffusedLightRay (hit, (hit - lights[i]->position).normalized ());
+
+        // Determine blocking object(s).
+        Object *tmp = NULL;
+        for (unsigned int j = 0; j < objects.size(); ++j) 
+        {
+            Hit hit(objects[j]->intersect(diffusedLightRay));
+            if (hit.t == Hit::NO_HIT ().t)
+                tmp = objects[i];
+        }
+
+        // No blocking objects -> Determine colour.
+        if (!tmp) 
+            color += lights[i]->color * material->color * (fmax (0, (hit - lights[i]->position).normalized ().dot (N)) * material->kd);
+    }
+    
     return color;
 }
 
