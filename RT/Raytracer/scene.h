@@ -22,6 +22,13 @@
 #include "light.h"
 #include "object.h"
 #include "image.h"
+#include "string.h"
+
+typedef enum RenderMode {
+    Phong,
+    ZBuffer,
+    Normal
+} RenderMode;
 
 class Scene
 {
@@ -29,12 +36,14 @@ private:
     std::vector<Object*> objects;
     std::vector<Light*> lights;
     Triple eye;
+    RenderMode rm;
 public:
-    Color trace(const Ray &ray);
+    Color trace(const Ray &ray, RenderMode rm);
     void render(Image &img);
     void addObject(Object *o);
     void addLight(Light *l);
     void setEye(Triple e);
+    void setRenderMode (string in);
     unsigned int getNumObjects() { return objects.size(); }
     unsigned int getNumLights() { return lights.size(); }
 };

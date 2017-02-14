@@ -109,6 +109,7 @@ bool Raytracer::readScene(const std::string& inputFilename)
             parser.GetNextDocument(doc);
 
             // Read scene configuration options
+            scene->setRenderMode (doc["RenderMode"]);
             scene->setEye(parseTriple(doc["Eye"]));
 
             // Read and parse the scene objects

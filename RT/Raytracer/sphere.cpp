@@ -87,7 +87,7 @@ Hit Sphere::intersect(const Ray &ray)
     ****************************************************/
 
     // Determine normal.
-    Vector N = (position - (ray.O + t*ray.D)).normalized ();
+    Vector N = ((ray.O + t*ray.D) - position).normalized ();
 
     return Hit(t,N);
 }

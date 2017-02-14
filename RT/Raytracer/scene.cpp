@@ -14,10 +14,11 @@
 //  http://isgwww.cs.uni-magdeburg.de/graphik/lehre/cg2/projekt/rtprojekt.html 
 //
 
+#include <limits>
 #include "scene.h"
 #include "material.h"
 
-Color Scene::trace(const Ray &ray)
+Color Scene::trace(const Ray &ray, RenderMode rm)
 {
     // Find hit object and distance
     Hit min_hit(std::numeric_limits<double>::infinity(),Vector());
@@ -57,6 +58,11 @@ Color Scene::trace(const Ray &ray)
     *        pow(a,b)           a to the power of b
     ****************************************************/
 
+    if (rm == ZBuffer)
+        return Color (min_hit.t, min_hit.t, min_hit.t);
+    else if (rm == Normal)
+        return (N * 0.5) + 0.5;
+
     // Set colour to ambient light.
     Color color = material->color * material->ka;
 
@@ -64,7 +70,7 @@ Color Scene::trace(const Ray &ray)
     for (unsigned int i = 0; i < lights.size (); i++)
     {
         // Compute ray to light source from hit point.
-        Vector L = (hit - lights[i]->position).normalized ();
+        Vector L = (lights[i]->position - hit).normalized ();
         Ray diffusedLightRay (hit, L);
 
         // Determine blocking object(s).
@@ -82,9 +88,9 @@ Color Scene::trace(const Ray &ray)
         if (!tmp) 
         {
             // Diffuse lighting.
-            color += lights[i]->color * material->color * (fmax (0, L.dot (N)) * material->kd);
+            color += lights[i]->color * material->color * (fmax (0, N.dot (L)) * material->kd);
             // Specular lighting.
-            color += material->ks * pow (fmin (0, R.dot (V)), material->n);
+            color += material->ks * pow (fmax (0, R.dot (V)), material->n);
         }
 
 
@@ -97,13 +103,36 @@ void Scene::render(Image &img)
 {
     int w = img.width();
     int h = img.height();
+    double min = std::numeric_limits<double>::max (), max = std::numeric_limits<double>::min ();
     for (int y = 0; y < h; y++) {
         for (int x = 0; x < w; x++) {
             Point pixel(x+0.5, h-1-y+0.5, 0);
             Ray ray(eye, (pixel-eye).normalized());
-            Color col = trace(ray);
-            col.clamp();
+            Color col = trace(ray, rm);
+            if (rm != ZBuffer)
+                col.clamp();
+            else
+            {
+                if (col.r > 0 && col.r < min)
+                    min = col.r;
+                if (col.r > max)
+                    max = col.r;
+            }
             img(x,y) = col;
+        }
+    }
+    if (rm == ZBuffer)
+    {
+        cerr << min << " " << max << endl;
+        for (int y = 0; y < h; y++) {
+            for (int x = 0; x < w; x++) {
+                Color col = img.get_pixel (x, y);
+                if (!col.r) continue;
+                col.r = 1 - ((col.r - min) / (max - min));
+                col.g = 1 - ((col.g - min) / (max - min));
+                col.b = 1 - ((col.b - min) / (max - min));
+                img (x, y) = col;
+            }
         }
     }
 }
@@ -121,4 +150,14 @@ void Scene::addLight(Light *l)
 void Scene::setEye(Triple e)
 {
     eye = e;
+}
+
+void Scene::setRenderMode (string in)
+{
+    if (!in.compare ("zbuffer"))
+        rm = ZBuffer;
+    else if (!in.compare ("normal"))
+        rm = Normal;
+    else
+        rm = Phong;
 }
