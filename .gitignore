@@ -40,3 +40,6 @@ ray
 *.png
 *.jpeg
 *.jpg
+
+#editor meuk
+.vscode
