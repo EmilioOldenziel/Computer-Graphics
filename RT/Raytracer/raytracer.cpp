@@ -15,6 +15,7 @@
 #include "raytracer.h"
 #include "object.h"
 #include "sphere.h"
+#include "plane.h"
 #include "triangle.h"
 #include "torus.h"
 #include "material.h"
@@ -70,6 +71,15 @@ Object* Raytracer::parseObject(const YAML::Node& node)
         node["radius"] >> r;
         Sphere *sphere = new Sphere(pos,r);		
         returnObject = sphere;
+    }
+     
+    if (objectType == "plane") {
+        Point center;
+        node["center"] >> center;
+        Vector N;
+        node["N"] >> N;
+        Plane *plane = new Plane(center, N);		
+        returnObject = plane;
     }
 
     //Added triangle support
