@@ -1,0 +1,22 @@
+
+RenderMode: "standard"
+
+Eye: [200,200,1000]  
+
+Lights:
+- position: [-200,600,1500]
+  color: [1.0,1.0,1.0]
+
+Objects:
+- type: torus
+  position: [200,200,300]
+  radius: 50
+  alpha: 20
+  material: # blue
+    color: [0.58,0.47,0.15]
+    ka: 0.2
+    kd: 0.7
+    ks: 0
+    n: 32
+
+147 120 39
