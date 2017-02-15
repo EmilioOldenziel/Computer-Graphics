@@ -16,6 +16,7 @@
 #include "object.h"
 #include "sphere.h"
 #include "triangle.h"
+#include "torus.h"
 #include "material.h"
 #include "light.h"
 #include "image.h"
@@ -70,6 +71,8 @@ Object* Raytracer::parseObject(const YAML::Node& node)
         Sphere *sphere = new Sphere(pos,r);		
         returnObject = sphere;
     }
+
+    //Added triangle support
     if (objectType == "triangle") {
         Point pos1;
         Point pos2;
@@ -79,6 +82,17 @@ Object* Raytracer::parseObject(const YAML::Node& node)
         node["position3"] >> pos3;
         Triangle *triangle = new Triangle(pos1, pos2, pos3);		
         returnObject = triangle;
+
+    // Added support for tori.
+    if (objectType == "torus") 
+    {
+        Point pos;
+        node["position"] >> pos;
+        double r, alpha;
+        node["radius"] >> r;
+        node["alpha"] >> alpha;
+        Torus *torus = new Torus (pos, r, alpha);
+        returnObject = torus;
     }
 
     if (returnObject) {

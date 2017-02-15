@@ -15,7 +15,6 @@
 //
 
 #include "sphere.h"
-#include <iostream>
 #include <math.h>
 
 /************************** Sphere **********************************/

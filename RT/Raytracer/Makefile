@@ -17,7 +17,8 @@ LIBS = -lm
 EXECUTABLE = ray
 
 OBJS = main.o raytracer.o sphere.o triangle.o light.o material.o \
-	image.o triple.o lodepng.o scene.o
+	image.o triple.o lodepng.o scene.o torus.o algebra.o
+
 
 YAMLOBJS = $(subst .cpp,.o,$(wildcard yaml/*.cpp))
 
@@ -43,6 +44,9 @@ make.dep:
 	gcc -MM $(OBJS:.o=.cpp) > make.dep
 
 ### RULES
+
+algebra.o:
+	$(CPP) -c -o $@ algebra/algebra.cpp
 
 .SUFFIXES: .cpp .o .yaml .png
 
