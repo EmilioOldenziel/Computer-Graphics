@@ -3,7 +3,7 @@
 #ifndef TORUS_H
 #define TORUS_H
 
-#include "Object.h"
+#include "object.h"
 
 class Torus : public Object
 {

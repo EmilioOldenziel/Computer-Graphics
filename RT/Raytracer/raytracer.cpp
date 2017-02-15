@@ -82,7 +82,8 @@ Object* Raytracer::parseObject(const YAML::Node& node)
         node["position3"] >> pos3;
         Triangle *triangle = new Triangle(pos1, pos2, pos3);		
         returnObject = triangle;
-
+    }
+    
     // Added support for tori.
     if (objectType == "torus") 
     {
