@@ -19,6 +19,9 @@
 
 #include "object.h"
 
+
+// An infinite plane consist of a center point 
+// and a orientation which is equal to the normal
 class Plane : public Object
 {
 public:

@@ -24,17 +24,17 @@
 Hit Plane::intersect(const Ray &ray)
 {
     /****************************************************
-    * RT1.1: INTERSECTION CALCULATION
+    * RT1.3: INTERSECTION CALCULATION
     *
-    * Given: ray, center, N
+    * Given: ray, center, N (orientation)
     * Sought: intersects? if true: *t
     ****************************************************/
 
-    float denom = N.dot(ray.D);
-    if (fabs(denom) > 0.0001f) // your favorite epsilon
+    float d = N.dot(ray.D);
+    if (fabs(d) > 0.0001f)
     {
-        float t = (center - ray.O).dot(N) / denom;
-        if (t >= 0) return Hit(t,N.normalized());
+        float t = (center - ray.O).dot(N) / d;
+        if (t >= 0) return Hit(t ,N.normalized());
     }
     return Hit::NO_HIT();
 }
