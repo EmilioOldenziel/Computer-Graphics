@@ -18,6 +18,8 @@
 #include "plane.h"
 #include "triangle.h"
 #include "torus.h"
+#include "cylinder.h"
+#include "circle.h"
 #include "material.h"
 #include "light.h"
 #include "image.h"
@@ -104,6 +106,31 @@ Object* Raytracer::parseObject(const YAML::Node& node)
         node["alpha"] >> alpha;
         Torus *torus = new Torus (pos, r, alpha);
         returnObject = torus;
+    }
+
+    // Added support for cylinders.
+    if (objectType == "cylinder")
+    {
+        Point pos;
+        double height, radius;
+        node["position"] >> pos;
+        node["radius"] >> radius;
+        node["height"] >> height;
+        Cylinder *cylinder = new Cylinder (pos, radius, height);
+        returnObject = cylinder;
+    }
+
+    // Added support for circles.
+    if (objectType == "circle")
+    {
+        Point center;
+        Vector N;
+        double radius;
+        node["center"] >> center;
+        node["radius"] >> radius;
+        node["N"] >> N;
+        Circle *circle = new Circle (center, N, radius);
+        returnObject = circle;
     }
 
     if (returnObject) {

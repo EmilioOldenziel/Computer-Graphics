@@ -1,0 +1,19 @@
+RenderMode: "phong"
+
+Eye: [200,200,1000]  
+
+Lights:
+- position: [-200,600,1500]
+  color: [1.0,1.0,1.0]
+
+Objects:
+- type: circle
+  center: [200,200,200]
+  N: [0, 0, 1]
+  radius: 50
+  material: # blue
+    color: [0.0,0.0,1.0]
+    ka: 0.2
+    kd: 0.7
+    ks: 0.5
+    n: 64

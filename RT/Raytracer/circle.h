@@ -14,23 +14,24 @@
 //  http://isgwww.cs.uni-magdeburg.de/graphik/lehre/cg2/projekt/rtprojekt.html 
 //
 
-#ifndef PLANE_H
-#define PLANE_H
+#ifndef CIRCLE_H
+#define CIRCLE_H
 
 #include "object.h"
 
 
 // An infinite plane consist of a center point 
 // and a orientation which is equal to the normal
-class Plane : public Object
+class Circle : public Object
 {
 public:
-    Plane(Point center, Vector N) : center(center), N(N) { }
+    Circle(Point center, Vector N, double radius) : center(center), N(N), radius(radius) { }
 
     virtual Hit intersect(const Ray &ray);
 
     const Point center;
     const Vector N;
+    const double radius;
 };
 
 #endif

@@ -20,6 +20,10 @@
 
 /************************** Triangle **********************************/
 
+double abs (double x)
+{
+    return x < 0 ? -x : x;
+}
 
 Hit Triangle::intersect(const Ray &ray)
 {
@@ -36,21 +40,21 @@ Hit Triangle::intersect(const Ray &ray)
 
     Vector Q = ray.D.cross(e02);
 
-    float a = e01.dot(Q);
+    double a = e01.dot(Q);
 
     if ((N.dot(ray.D) >= 0) || (abs(a) <= 0.001)) return Hit::NO_HIT();
 
     Vector s = (ray.O - p0) / a;
     Vector r = s.cross(e01);
 
-    float k = s.dot(Q);
-    float l = r.dot(ray.D);
-    float m = 1.0f - k - l;
+    double k = s.dot(Q);
+    double l = r.dot(ray.D);
+    double m = 1.0f - k - l;
 
     //check if point is on the rectangle plane
     if ((k < 0.0f) || (l < 0.0f) || (m < 0.0f)) return Hit::NO_HIT();
 
-    float t = e02.dot(r);
+    double t = e02.dot(r);
     
     if(t >= 0.0f){
         return Hit(t,N.normalized());

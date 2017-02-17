@@ -1,5 +1,5 @@
 
-RenderMode: "standard"
+RenderMode: "phong"
 
 Eye: [200,200,1000]  
 
@@ -10,13 +10,11 @@ Lights:
 Objects:
 - type: torus
   position: [200,200,300]
-  radius: 50
-  alpha: 20
-  material: # blue
-    color: [0.58,0.47,0.15]
+  radius: 70
+  alpha: 45
+  material: # Green
+    color: [0.17,0.74,0.14]
     ka: 0.2
-    kd: 0.7
-    ks: 0
+    kd: 0.9
+    ks: 0.3
     n: 32
-
-147 120 39

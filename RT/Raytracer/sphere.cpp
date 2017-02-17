@@ -15,29 +15,9 @@
 //
 
 #include "sphere.h"
-#include <math.h>
+#include "algebra/algebra.h"
 
 /************************** Sphere **********************************/
-
-
-int abc(double a, double b, double c, double* x1, double* x2){
-    double discriminant  = (b*b) - (4 * a * c);
-    if(discriminant > 0){
-        *x1 = (-b + sqrt(discriminant))/2;
-        *x2 = (-b - sqrt(discriminant))/2;
-        return 2;
-    }
-    if(discriminant < 0){
-        x1 = NULL;
-        x2 = NULL;
-        return 0;
-    }
-    // discriminant == 0
-    *x1 = (-b + sqrt(discriminant))/2;
-    x2 = NULL;
-    return 1;
-}
-
 
 Hit Sphere::intersect(const Ray &ray)
 {
@@ -62,17 +42,16 @@ Hit Sphere::intersect(const Ray &ray)
     double b = 2 * (ray.O - position).dot (ray.D);
     double c = ((ray.O - position).dot (ray.O - position)) - (r * r);
 
-    // Determine hitpoints (on the ray).
-    double x1 = 0;
-    double x2 = 0;
-    int cnt = abc (a, b, c, &x1, &x2);
+    // Determine hit points (on the ray).
+    double roots [2];
+    int cnt = Algebra::SolveQuadraticEquation (a, b, c, roots);
 
-    // Determine closests hit point (if any).
+    // Determine closest hit point (if any).
     double t = 0;
     if (cnt == 2)
-        t = min (x1, x2);
+        t = min (roots[0], roots[1]);
     else if (cnt == 1)
-        t = x1;
+        t = roots[0];
     else
         return Hit::NO_HIT ();
 
