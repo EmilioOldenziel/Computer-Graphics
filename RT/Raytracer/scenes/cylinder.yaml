@@ -11,6 +11,7 @@ Objects:
   position: [200,150,200]
   radius: 50
   height: 100
+  direction: [1,1,-1]
   material: # blue
     color: [0.0,0.0,1.0]
     ka: 0.2

@@ -22,13 +22,14 @@
 class Cylinder : public Object
 {
 public:
-	Cylinder (Point position, double r, double height) : position (position), r (r), height (height) { }
+	Cylinder (Point position, double r, double height, Vector direction) : position (position), r (r), height (height), direction(direction) { }
 
     virtual Hit intersect(const Ray &ray);
 
     const Point position;
     const double r;
     const double height;
+    const Vector direction;
 };
 
 #endif

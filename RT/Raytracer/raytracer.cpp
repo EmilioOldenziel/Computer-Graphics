@@ -113,10 +113,12 @@ Object* Raytracer::parseObject(const YAML::Node& node)
     {
         Point pos;
         double radius, height;
+        Vector direction;
         node["position"] >> pos;
         node["radius"] >> radius;
         node["height"] >> height;
-        Cylinder *cylinder = new Cylinder (pos, radius, height);
+        node["direction"] >> direction;
+        Cylinder *cylinder = new Cylinder (pos, radius, height, direction.normalized ());
         returnObject = cylinder;
     }
 

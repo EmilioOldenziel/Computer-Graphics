@@ -6,27 +6,48 @@
 
 Hit Cylinder::intersect (const Ray &ray)
 {
-	double a = ray.D.z * ray.D.z + ray.D.x * ray.D.x;
-	double b = 2 * ((ray.O.z - position.z) * ray.D.z + (ray.O.x - position.x) * ray.D.x);
-	double c = (ray.O.z - position.z) * (ray.O.z - position.z) + (ray.O.x - position.x) * (ray.O.x - position.x) - r * r;
+	double a = 1 - ray.D.dot (direction) * ray.D.dot (direction);
+	double b = 2 * ((ray.O - position).dot (ray.D) - (ray.D.dot (direction) * (ray.O - position).dot (direction)));
+	double c = (ray.O - position).dot (ray.O - position) - (((ray.O - position).dot (direction)) * ((ray.O - position).dot (direction))) - (r * r);
 
 	// Determine hit points (on the ray).
-    double roots [2];
-    int numRoots = Algebra::SolveQuadraticEquation (a, b, c, roots);
+	double roots [2];
+	int numRoots = Algebra::SolveQuadraticEquation (a, b, c, roots);
 
-    // Determine closest hit point (if any).
-    double t = 0;
-    if (numRoots == 2)
-        t = min (roots[0], roots[1]);
-    else if (numRoots == 1)
-        t = roots[0];
-    else
-        return Hit::NO_HIT ();
+	// Determine closest hit point (if any).
+	double t = 0;
+	if (numRoots == 2)
+		t = min (roots[0], roots[1]);
+	else if (numRoots == 1)
+		t = roots[0];
+	else
+		return Hit::NO_HIT ();
 
-    Point hit = ray.O + ray.D * t;
-    if (hit.y >= position.y && hit.y <= position.y + height){
-    	return Hit(t, Vector ((ray.O + t*ray.D).x - position.x, 0, (ray.O + t*ray.D).z - position.z).normalized ());
-    }
+	/****************************************************
+	* RT1.2: NORMAL CALCULATION
+	*
+	* Given: t, C, r
+	* Sought: N
+	* 
+	* Insert calculation of the sphere's normal at the intersection point.
+	****************************************************/
 
-	return Hit::NO_HIT ();    
+	// Determine normal.
+	double m = ray.D.dot (direction) * t + (ray.O - position).dot (direction);
+	if (m < 0)
+	{
+		Circle *circle = new Circle (position, -direction, r);
+		return circle->intersect (ray);
+	}
+	if (m > height)
+	{
+		Circle *circle = new Circle (position + direction * height, direction, r);
+		return circle->intersect (ray);
+	}
+
+
+	Vector N = ((ray.O + t*ray.D) - position - direction * m).normalized ();
+
+
+	return Hit(t,N);  
 }
