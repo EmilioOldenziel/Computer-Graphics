@@ -24,8 +24,9 @@ Hit Cylinder::intersect (const Ray &ray)
         return Hit::NO_HIT ();
 
     Point hit = ray.O + ray.D * t;
-    if (hit.y >= position.y && hit.y <= position.y + height)
+    if (hit.y >= position.y && hit.y <= position.y + height){
     	return Hit(t, Vector ((ray.O + t*ray.D).x - position.x, 0, (ray.O + t*ray.D).z - position.z).normalized ());
+    }
 
 	return Hit::NO_HIT ();    
 }

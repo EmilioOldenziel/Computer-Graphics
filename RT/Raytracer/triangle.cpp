@@ -20,11 +20,6 @@
 
 /************************** Triangle **********************************/
 
-double abs (double x)
-{
-    return x < 0 ? -x : x;
-}
-
 Hit Triangle::intersect(const Ray &ray)
 {
     /****************************************************
@@ -42,7 +37,7 @@ Hit Triangle::intersect(const Ray &ray)
 
     double a = e01.dot(Q);
 
-    if ((N.dot(ray.D) >= 0) || (abs(a) <= 0.001)) return Hit::NO_HIT();
+    if ((N.dot(ray.D) >= 0) || (fabs(a) <= 0.001)) return Hit::NO_HIT();
 
     Vector s = (ray.O - p0) / a;
     Vector r = s.cross(e01);
