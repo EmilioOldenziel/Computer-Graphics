@@ -30,17 +30,26 @@ Hit Circle::intersect(const Ray &ray)
     * Sought: intersects? if true: *t
     ****************************************************/
 
-    double d = N.dot(ray.D);
-    if (fabs(d) > 0.0001f)
+    double angle = ray.D.dot(N.normalized ());
+    if (fabs(angle) > 0.0001f)
     {
-        double t = (center - ray.O).dot(N) / d;
+        double t = (-N).dot (ray.O - center) / angle;
         if (t >= 0) 
         {
             Point hit = ray.O + t * ray.D;
             if ((hit - center).length () < radius)
-                return Hit(t, N.normalized());
+                return Hit(t, (angle > 0.0001l ? -N : N).normalized());
         }
     }
+
+    // double angle = ray.D.dot(N.normalized ());
+    // if (fabs(angle) > 0.0001l)
+    // {
+    //     double t = (-N).dot (ray.O - center) / angle;
+    //     if (t >= 0 && angle > 0.0001l) return Hit (t, (-N).normalized());
+    //     if (t >= 0 && angle < -0.0001l) return Hit (t, N.normalized());
+    // }
+    // return Hit::NO_HIT();
     return Hit::NO_HIT();
 }
 

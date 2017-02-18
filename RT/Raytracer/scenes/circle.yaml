@@ -7,10 +7,10 @@ Lights:
   color: [1.0,1.0,1.0]
 
 Objects:
-- type: cylinder
-  position: [200,200,200]
-  radius: 50
-  height: 50
+- type: circle
+  center: [200,200,200]
+  N: [-0.2, 0.2, 1]
+  radius: 100
   material: # blue
     color: [0.0,0.0,1.0]
     ka: 0.2

@@ -44,13 +44,13 @@ Hit Sphere::intersect(const Ray &ray)
 
     // Determine hit points (on the ray).
     double roots [2];
-    int cnt = Algebra::SolveQuadraticEquation (a, b, c, roots);
+    int numRoots = Algebra::SolveQuadraticEquation (a, b, c, roots);
 
     // Determine closest hit point (if any).
     double t = 0;
-    if (cnt == 2)
+    if (numRoots == 2)
         t = min (roots[0], roots[1]);
-    else if (cnt == 1)
+    else if (numRoots == 1)
         t = roots[0];
     else
         return Hit::NO_HIT ();

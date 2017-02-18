@@ -30,11 +30,17 @@ Hit Plane::intersect(const Ray &ray)
     * Sought: intersects? if true: *t
     ****************************************************/
 
-    float d = N.dot(ray.D);
-    if (fabs(d) > 0.0001f)
+    // P0 = position.
+    // P = (x,y,z) = ray.O + ray.D * t
+    // S = P - P0
+    // S dot (N) == 0 => P on plane.
+
+    double angle = ray.D.dot(N.normalized ());
+    if (fabs(angle) > 0.0001l)
     {
-        float t = (center - ray.O).dot(N) / d;
-        if (t >= 0) return Hit(t ,N.normalized());
+        double t = (-N).dot (ray.O - center) / angle;
+        if (t >= 0 && angle > 0.0001l) return Hit (t, (-N).normalized());
+        if (t >= 0 && angle < -0.0001l) return Hit (t, N.normalized());
     }
     return Hit::NO_HIT();
 }

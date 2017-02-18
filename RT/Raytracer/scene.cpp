@@ -15,6 +15,7 @@
 //
 
 #include <limits>
+#include <math.h>
 #include "scene.h"
 #include "material.h"
 
@@ -78,7 +79,7 @@ Color Scene::trace(const Ray &ray, RenderMode rm)
         for (unsigned int j = 0; j < objects.size(); ++j) 
         {
             Hit hit(objects[j]->intersect(diffusedLightRay));
-            if (hit.t == Hit::NO_HIT ().t)
+            if (isnan (hit.t))
                 tmp = objects[i];
         }
 

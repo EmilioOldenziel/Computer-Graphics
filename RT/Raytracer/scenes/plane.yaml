@@ -23,51 +23,51 @@ Lights:
 Objects:
 - type: plane
   center: [190,360,30]
-  N: [0,0,100]
+  N: [-0.15,0.15,1]
   material: # white
-    color: [1.0,1.0,1.0]
+    color: [0,0,1.0]
     ka: 0.2
     kd: 0.7
     ks: 0.5
     n: 64
 
-- type: triangle
-  position1: [190,360,100]
-  position2: [190,300,100]
-  position3: [250,320,100]
-  material: # blue
-    color: [0.0,1.0,1.0]
-    ka: 0.2
-    kd: 0.7
-    ks: 0.5
-    n: 64
+# - type: triangle
+#   position1: [190,360,100]
+#   position2: [190,300,100]
+#   position3: [250,320,100]
+#   material: # blue
+#     color: [0.0,1.0,1.0]
+#     ka: 0.2
+#     kd: 0.7
+#     ks: 0.5
+#     n: 64
 
-- type: sphere
-  position: [190,360,100]
-  radius: 5
-  material: # blue
-    color: [0.0,1.0,1.0]
-    ka: 0.2
-    kd: 0.7
-    ks: 0.5
-    n: 64
+# - type: sphere
+#   position: [190,360,100]
+#   radius: 5
+#   material: # blue
+#     color: [0.0,1.0,1.0]
+#     ka: 0.2
+#     kd: 0.7
+#     ks: 0.5
+#     n: 64
 
-- type: sphere
-  position: [190,300,100]
-  radius: 5
-  material: # blue
-    color: [0.0,1.0,1.0]
-    ka: 0.2
-    kd: 0.7
-    ks: 0.5
-    n: 64
+# - type: sphere
+#   position: [190,300,100]
+#   radius: 5
+#   material: # blue
+#     color: [0.0,1.0,1.0]
+#     ka: 0.2
+#     kd: 0.7
+#     ks: 0.5
+#     n: 64
 
-- type: sphere
-  position: [250,320,100]
-  radius: 5
-  material: # blue
-    color: [0.0,1.0,1.0]
-    ka: 0.2
-    kd: 0.7
-    ks: 0.5
-    n: 64
+# - type: sphere
+#   position: [250,320,100]
+#   radius: 5
+#   material: # blue
+#     color: [0.0,1.0,1.0]
+#     ka: 0.2
+#     kd: 0.7
+#     ks: 0.5
+#     n: 64

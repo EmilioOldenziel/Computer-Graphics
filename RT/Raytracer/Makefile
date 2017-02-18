@@ -16,9 +16,8 @@ LIBS = -lm
 
 EXECUTABLE = ray
 
-OBJS = main.o raytracer.o sphere.o triangle.o plane.o light.o material.o \
-	image.o triple.o lodepng.o scene.o torus.o algebra.o cylinder.o circle.o
-
+OBJS = main.o raytracer.o light.o material.o image.o triple.o lodepng.o scene.o algebra.o \
+	sphere.o triangle.o plane.o torus.o cylinder.o circle.o
 
 YAMLOBJS = $(subst .cpp,.o,$(wildcard yaml/*.cpp))
 
@@ -27,7 +26,7 @@ IMAGES = $(subst .yaml,.png,$(wildcard *.yaml))
 
 ### TARGETS
 
-$(EXECUTABLE): $(OBJS) $(YAMLOBJS)
+$(EXECUTABLE): $(OBJS) $(YAMLOBJS) $(SHAPES)
 	$(CPP) $(OBJS) $(YAMLOBJS) $(LIBS) -o $@
 
 run: $(IMAGES)

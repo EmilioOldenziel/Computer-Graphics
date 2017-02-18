@@ -112,7 +112,7 @@ Object* Raytracer::parseObject(const YAML::Node& node)
     if (objectType == "cylinder")
     {
         Point pos;
-        double height, radius;
+        double radius, height;
         node["position"] >> pos;
         node["radius"] >> radius;
         node["height"] >> height;
