@@ -31,13 +31,16 @@ Hit Triangle::intersect(const Ray &ray)
     Vector e01 = p1 - p0;
     Vector e02 = p2 - p0;
 
+    //normal calculation
     Vector N = e01.cross(e02);
 
     Vector Q = ray.D.cross(e02);
 
     double a = e01.dot(Q);
 
-    if ((N.dot(ray.D) >= 0) || (fabs(a) <= 0.001)) return Hit::NO_HIT();
+    // check if triangle is not behind the camera or parallel to the ray
+    if ((N.dot(ray.D) >= 0) || (fabs(a) <= 0.001)) 
+        return Hit::NO_HIT();
 
     Vector s = (ray.O - p0) / a;
     Vector r = s.cross(e01);
@@ -47,7 +50,8 @@ Hit Triangle::intersect(const Ray &ray)
     double m = 1.0f - k - l;
 
     //check if point is on the rectangle plane
-    if ((k < 0.0f) || (l < 0.0f) || (m < 0.0f)) return Hit::NO_HIT();
+    if ((k < 0.0f) || (l < 0.0f) || (m < 0.0f)) 
+        return Hit::NO_HIT();
 
     double t = e02.dot(r);
     

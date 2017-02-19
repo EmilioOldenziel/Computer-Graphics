@@ -4,7 +4,8 @@ Group: Tuesday 02
 Raytracer 1
     1.1:
         1.1.1: Intersect Sphere
-            For the intersection of a ray and sphere we had to use the abc formula.
+            For the intersection of a ray and sphere we had to use the
+            abc formula.
             ...
 
         1.1.2: Normal Calculation
@@ -15,14 +16,21 @@ Raytracer 1
 
     1.2:
         1.2.1: Z-buffer
-            For the z-buffer we changed the trace class to only return the distance to the hit point in a triple.
-            From that we calulated the shortest and longest distance and use that to scale the color of the intersection between that range.
+            For the z-buffer we changed the trace class to only return
+            the distance to the hit point in a triple.
+            From that we calulated the shortest and longest distance
+            and use that to scale the color of the intersection between
+            that range.
                 
         1.2.2: Normal-buffer
-            ...
+            For the normal-buffer we returned the normal of a hit point in the 
+            trace method and normalized it so that clamp 
+            could give a color for each value.
 
     1.3:    
-        For all shapes that we added, we implemented the intersect and normal calculation and added it to the makefile.
+        For all shapes that we added, we implemented the intersect 
+        and normal calculation and added it to the makefile.
+        
         Shapes that we added:
             -   Plane:
                 -   There are two versions that we added: an bound and infinite plane.
