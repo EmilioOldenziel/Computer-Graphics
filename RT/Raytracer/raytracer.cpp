@@ -100,11 +100,12 @@ Object* Raytracer::parseObject(const YAML::Node& node)
     if (objectType == "torus") 
     {
         Point pos;
-        node["position"] >> pos;
         double r, alpha;
+        Vector direction;
+        node["position"] >> pos;
         node["radius"] >> r;
         node["alpha"] >> alpha;
-        Torus *torus = new Torus (pos, r, alpha);
+        Torus *torus = new Torus (pos, r, alpha, direction.normalized ());
         returnObject = torus;
     }
 

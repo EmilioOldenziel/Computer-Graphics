@@ -10,8 +10,8 @@ Lights:
 Objects:
 - type: torus
   position: [200,200,300]
-  radius: 70
-  alpha: 45
+  radius: 50
+  alpha: 20
   material: # Green
     color: [0.17,0.74,0.14]
     ka: 0.2

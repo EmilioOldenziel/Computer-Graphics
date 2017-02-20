@@ -75,18 +75,27 @@ Color Scene::trace(const Ray &ray, RenderMode rm)
         Ray diffusedLightRay (hit, L);
 
         // Determine blocking object(s).
+        // Object *tmp = NULL;
+        // for (unsigned int j = 0; j < objects.size(); ++j) 
+        // {
+        //     Hit hit(objects[j]->intersect(diffusedLightRay));
+        //     if (!isnan (hit.t))
+        //         tmp = objects[i];
+        // }
+        Hit tmp_hit(std::numeric_limits<double>::infinity(),Vector());
         Object *tmp = NULL;
-        for (unsigned int j = 0; j < objects.size(); ++j) 
-        {
-            Hit hit(objects[j]->intersect(diffusedLightRay));
-            if (isnan (hit.t))
+        for (unsigned int i = 0; i < objects.size(); ++i) {
+            Hit hit(objects[i]->intersect(ray));
+            if (hit.t<tmp_hit.t) {
+                tmp_hit = hit;
                 tmp = objects[i];
+            }
         }
 
         Vector R = 2 * (L.dot (N)) * N - L;
 
         // No blocking objects -> Determine colour.
-        if (!tmp) 
+        if (!tmp || tmp == obj) 
         {
             // Diffuse lighting.
             color += lights[i]->color * material->color * (fmax (0, N.dot (L)) * material->kd);

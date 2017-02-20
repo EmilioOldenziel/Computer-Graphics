@@ -7,8 +7,11 @@
 Hit Cylinder::intersect (const Ray &ray)
 {
 	double a = 1 - ray.D.dot (direction) * ray.D.dot (direction);
-	double b = 2 * ((ray.O - position).dot (ray.D) - (ray.D.dot (direction) * (ray.O - position).dot (direction)));
-	double c = (ray.O - position).dot (ray.O - position) - (((ray.O - position).dot (direction)) * ((ray.O - position).dot (direction))) - (r * r);
+	double b = 2 * ((ray.O - position).dot (ray.D) - 
+		(ray.D.dot (direction) * (ray.O - position).dot (direction)));
+	double c = (ray.O - position).dot (ray.O - position) - 
+		(((ray.O - position).dot (direction)) * 
+		((ray.O - position).dot (direction))) - (r * r);
 
 	// Determine hit points (on the ray).
 	double roots [2];
