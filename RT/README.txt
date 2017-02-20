@@ -37,9 +37,8 @@ Raytracer 1
         
         Shapes that we added:
             -   Plane:
-                -   There are two versions that we added: an bound and infinite plane.
-                    Parameters for a infinite plane in the YAML file are center (Point) and a orientation which is the same as the normal (Vector),
-                    if you want the plane to be of a non-infinite size you can add w as width (float) and h as height.
+                -   We implemented an infinite plane, the parameters that we used are, 
+                    a center (Point) and a orientation which is the same as the normal (Vector).
                     Examples of this can be found in plane.yaml in the scenes folder.
             -   Triangle
                 -   For the triangle we had to add a shape with 3 corners (Point) 
