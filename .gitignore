@@ -43,3 +43,6 @@ ray
 
 #editor meuk
 .vscode
+
+#builds
+build*
