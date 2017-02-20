@@ -42,12 +42,28 @@ Raytracer 1
                     Examples of this can be found in plane.yaml in the scenes folder.
             -   Triangle
                 -   For the triangle we had to add a shape with 3 corners (Point) 
-                    we also checked if the rectangle as behind the camera or if it was parallel to a ray, and if it was we returned that there was no hit.
-                    Examples of triangles can be found in triangle.yaml in the scenes folder.
+                    we also checked if the rectangle as behind the camera or if it was 
+                    parallel to a ray, and if it was we returned that there was no hit.
+                    Examples of triangles can be found in triangle.yaml in the scenes 
+                    folder. This scene contains two triangles forming a square. One of 
+                    the triangles is matte, the other shiny.
 
             -   Bonus:
                 -   Disk:
                         The disk is a non-infinite plane which is bound with a radius
                         and makes a disk. An example of this can be found in disk.yaml
-                -   Cilinder
-                -   Thorus
+                -   Cylinder:  
+                        The cylinder is defined as a finite tube along an axis, with a 
+                        certain length. At both ends of the axis a disk is inserted. An 
+                        example of a cylinder can be found in cylinder.yaml.
+                -   Torus:
+                        The torus is simply a donut shape. In order to solve the fourth 
+                        degree equation it involved, we found a library that did this 
+                        for us. Included in the algebra subdirectory, all credits to 
+                        Don Cross. An example of this shape can be found in torus.yaml. 
+                        All shapes in scene01 have also been replaced by tori. This scene 
+                        is included as tori.yaml.
+
+Comments:
+-   All mentioned yaml files can found in the Scenes subdirectory. The corresponding 
+    output images have been included in the Screenshots subdirectory. 
