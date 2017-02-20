@@ -19,6 +19,7 @@
 #include "scene.h"
 #include "material.h"
 
+// method to give the color based on rendermode
 Color Scene::trace(const Ray &ray, RenderMode rm)
 {
     // Find hit object and distance
@@ -59,8 +60,10 @@ Color Scene::trace(const Ray &ray, RenderMode rm)
     *        pow(a,b)           a to the power of b
     ****************************************************/
 
+    // return the distance to hitpoint for the zbuffer
     if (rm == ZBuffer)
         return Color (min_hit.t, min_hit.t, min_hit.t);
+    // return the color between 0 and 1
     else if (rm == Normal)
         return (N * 0.5) + 0.5;
 
@@ -102,8 +105,6 @@ Color Scene::trace(const Ray &ray, RenderMode rm)
             // Specular lighting.
             color += material->ks * pow (fmax (0, R.dot (V)), material->n);
         }
-
-
     }
     
     return color;
@@ -162,6 +163,7 @@ void Scene::setEye(Triple e)
     eye = e;
 }
 
+//rendermodes can be zbuffer normal or phong (=default)
 void Scene::setRenderMode (string in)
 {
     if (!in.compare ("zbuffer"))

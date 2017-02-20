@@ -1,5 +1,5 @@
 
-RenderMode: "phong"
+RenderMode: "normal"
 
 Eye: [200,200,1000]  
 

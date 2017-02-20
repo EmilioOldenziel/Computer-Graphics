@@ -36,9 +36,11 @@ Hit Plane::intersect(const Ray &ray)
     // S dot (N) == 0 => P on plane.
 
     double angle = ray.D.dot(N.normalized ());
+    // check if ray and plane are not parallel
     if (fabs(angle) > 0.0001l)
     {
         double t = (-N).dot (ray.O - center) / angle;
+        //check if plane is not behind the camera and which side is shown
         if (t >= 0 && angle > 0.0001l) return Hit (t, (-N).normalized());
         if (t >= 0 && angle < -0.0001l) return Hit (t, N.normalized());
     }
