@@ -4,17 +4,21 @@ Group: Tuesday 02
 Raytracer 1
     1.1:
         1.1.1: Intersect Sphere
+            We implemented sphere intersection in the sphere class.
             For the intersection of a ray and sphere we had to use the
-            abc formula.
-            ...
+            abc formula. 
 
         1.1.2: Normal Calculation
-            ...
+            The normal is the vector which is orthogonal to the surface of the hit point.
 
         1.1.3: Phong
-            ...
+            We implemented the Phong illumination in the scene.
+            We added ambient, diffuse and specular lighting from each light source.
 
     1.2:
+        First we introduced 3 rendermodes in the yaml file: 
+        zbuffer,normal and phong. If no rendermode is give phong wil be used as default.
+
         1.2.1: Z-buffer
             For the z-buffer we changed the trace class to only return
             the distance to the hit point in a triple.
@@ -43,5 +47,8 @@ Raytracer 1
                     Examples of triangles can be found in triangle.yaml in the scenes folder.
 
             -   Bonus:
-                -   Cilinder?
+                -   Disk:
+                        The disk is a non-infinite plane which is bound with a radius
+                        and makes a disk. An example of this can be found in disk.yaml
+                -   Cilinder
                 -   Thorus

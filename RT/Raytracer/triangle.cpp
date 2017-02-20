@@ -38,7 +38,7 @@ Hit Triangle::intersect(const Ray &ray)
 
     double a = e01.dot(Q);
 
-    // check if triangle is not behind the camera or parallel to the ray
+    //check if triangle is not parallel with the ray
     if ((N.dot(ray.D) >= 0) || (fabs(a) <= 0.001)) 
         return Hit::NO_HIT();
 
@@ -55,6 +55,7 @@ Hit Triangle::intersect(const Ray &ray)
 
     double t = e02.dot(r);
     
+    //check if triangle is not behind the camera
     if(t >= 0.0f){
         return Hit(t,N.normalized());
     }
