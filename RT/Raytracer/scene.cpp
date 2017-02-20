@@ -78,13 +78,6 @@ Color Scene::trace(const Ray &ray, RenderMode rm)
         Ray diffusedLightRay (hit, L);
 
         // Determine blocking object(s).
-        // Object *tmp = NULL;
-        // for (unsigned int j = 0; j < objects.size(); ++j) 
-        // {
-        //     Hit hit(objects[j]->intersect(diffusedLightRay));
-        //     if (!isnan (hit.t))
-        //         tmp = objects[i];
-        // }
         Hit tmp_hit(std::numeric_limits<double>::infinity(),Vector());
         Object *tmp = NULL;
         for (unsigned int i = 0; i < objects.size(); ++i) {
@@ -132,13 +125,14 @@ void Scene::render(Image &img)
             img(x,y) = col;
         }
     }
+    // If ZBuffer has been selected, scale the colours.
     if (rm == ZBuffer)
     {
         cerr << min << " " << max << endl;
         for (int y = 0; y < h; y++) {
             for (int x = 0; x < w; x++) {
                 Color col = img.get_pixel (x, y);
-                if (!col.r) continue;
+                if (!col.r) continue; // Colour is black (background).
                 col.r = 1 - ((col.r - min) / (max - min));
                 col.g = 1 - ((col.g - min) / (max - min));
                 col.b = 1 - ((col.b - min) / (max - min));

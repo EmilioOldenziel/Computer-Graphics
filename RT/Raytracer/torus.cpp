@@ -27,29 +27,32 @@ Hit Torus::intersect (const Ray &ray)
 	// Rewrite:
 	// 		aa t^4 + bb t^3 + cc t^2 + dd t + ee = 0
 
+	// Determine coefficients.
 	double aa = d * d;
 	double bb = 2 * d * e;
 	double cc = 2 * d * f + e * e - a;
 	double dd = 2 * e * f - b;
 	double ee = f * f - c;
 
+	// Compute roots.
 	double roots[4];
 	int numRoots = Algebra::SolveQuarticEquation (aa, bb, cc, dd, ee, roots);
 
+	// Find smallest root, if any.
 	if (!numRoots)
 		return Hit::NO_HIT ();
-
-	double minimalT = roots[0];
-
+	double t = roots[0];
 	for (int i = 1; i < numRoots; i++)
-		if (roots [i] < minimalT)
-			minimalT = roots [i];
+		if (roots [i] < t)
+			t = roots [i];
 
-	Point hit = ori + minimalT * dir;
+	// Determine centre of the tube perpendicular to the hit point.
+	Point hit = ori + t * dir;
 	Vector direction = hit - position;
 	direction.z = 0;
 	Point centre = position + direction.normalized () * r;
 
-	return Hit (minimalT, (hit - centre).normalized ());
+	// Determine normal and return hit.
+	return Hit (t, (hit - centre).normalized ());
 
 }

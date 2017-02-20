@@ -1,23 +1,10 @@
-//
-//  Framework for a raytracer
-//  File: sphere.h
-//
-//  Created for the Computer Science course "Introduction Computer Graphics"
-//  taught at the University of Groningen by Tobias Isenberg.
-//
-//  Authors:
-//    Maarten Everts
-//    Jasper van de Gronde
-//
-//  This framework is inspired by and uses code of the raytracer framework of 
-//  Bert Freudenberg that can be found at
-//  http://isgwww.cs.uni-magdeburg.de/graphik/lehre/cg2/projekt/rtprojekt.html 
-//
-
 #ifndef CYLINDER_H
 #define CYLINDER_H
 
 #include "object.h"
+
+// Cylinder is defined by a position, a unit vector indicating the direction of
+// its centre axis, a height, and a radius.
 
 class Cylinder : public Object
 {
@@ -26,10 +13,10 @@ public:
 
     virtual Hit intersect(const Ray &ray);
 
-    const Point position;
-    const double r;
-    const double height;
-    const Vector direction;
+    const Point position;	// Position of the start of the centre axis.
+    const double r;			// Radius of the cylinder.
+    const double height;	// Length of the centre axis.
+    const Vector direction;	// Direction of the centre axis.
 };
 
 #endif

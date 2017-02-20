@@ -1,27 +1,11 @@
-//
-//  Framework for a raytracer
-//  File: plane.h
-//
-//  Created for the Computer Science course "Introduction Computer Graphics"
-//  taught at the University of Groningen by Tobias Isenberg.
-//
-//  Authors:
-//    Maarten Everts
-//    Jasper van de Gronde
-//
-//  This framework is inspired by and uses code of the raytracer framework of 
-//  Bert Freudenberg that can be found at
-//  http://isgwww.cs.uni-magdeburg.de/graphik/lehre/cg2/projekt/rtprojekt.html 
-//
-
 #ifndef CIRCLE_H
 #define CIRCLE_H
 
 #include "object.h"
 
 
-// An infinite plane consist of a center point 
-// and a orientation which is equal to the normal
+// An infinite plane consist of a centre point and a normal. A circle adds a
+// radius.
 class Circle : public Object
 {
 public:
@@ -29,9 +13,9 @@ public:
 
     virtual Hit intersect(const Ray &ray);
 
-    const Point center;
-    const Vector N;
-    const double radius;
+    const Point center;		// Centre of the circle.
+    const Vector N;			// Normal of the plane in which the circle lays.
+    const double radius;	// Radius of the circle.
 };
 
 #endif

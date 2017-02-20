@@ -46,8 +46,27 @@ object.cpp/.h
 :	Object class. Represents an object in the scene.
 
 sphere.cpp/.h
-:	Sphere class, which is a subclass of the Object class. Respresents a
-	sphere in the scene.
+:	Sphere class, which is a subclass of the Object class. Represents a sphere 
+	in the scene.
+
+plane.cpp/.h
+:	Plane class, a subclass of the Object class. Represents an infinite plane in
+	the scene.
+
+circle.cpp/.h
+:	Circle class, a subclass of the Object class. Represents a circle laying in
+	a plane in the scene.
+
+cylinder.cpp/.h
+:	Cylinder class, a subclass of the Object class. Represents a cylinder in the 
+	scene. The internals are represented as a finite tube along an axis. At both
+	ends of the tube a circle is positioned with equal radius, and a normal in 
+	the same direction of the axis.
+
+torus.cpp/.h
+:	Torus class, a subclass of the Object class. Represents a torus shape in the 
+	scene (donut). The direction of the torus is currently fixed along the z 
+	axis.
 	
 triple.cpp/.h
 :	Triple class. Represents a 3-dimensional vector which is used for colors,
@@ -64,3 +83,7 @@ lodepng.cpp/.h
 yaml/*
 :	Code for parsing YAML documents. Created by Jesse Beder, can be obtained 
 	from <http://code.google.com/p/yaml-cpp/>. See also yaml/license.txt.
+
+algebra/*
+:	Code for solving equations up to the fourth degree. Created by Don Cross,
+	can be obtained from <http://cosinekitty.com/raytrace>.

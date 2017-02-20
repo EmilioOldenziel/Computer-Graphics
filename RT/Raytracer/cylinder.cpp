@@ -1,4 +1,3 @@
-
 #include <math.h>
 #include "cylinder.h"
 #include "circle.h"
@@ -6,6 +5,7 @@
 
 Hit Cylinder::intersect (const Ray &ray)
 {
+	// Determine coefficients for cylinder equation.
 	double a = 1 - ray.D.dot (direction) * ray.D.dot (direction);
 	double b = 2 * ((ray.O - position).dot (ray.D) - 
 		(ray.D.dot (direction) * (ray.O - position).dot (direction)));
@@ -37,20 +37,21 @@ Hit Cylinder::intersect (const Ray &ray)
 
 	// Determine normal.
 	double m = ray.D.dot (direction) * t + (ray.O - position).dot (direction);
+	// The hit misses the cylinder. Maybe hits bottom cap?
 	if (m < 0)
 	{
 		Circle *circle = new Circle (position, -direction, r);
 		return circle->intersect (ray);
 	}
+	// The hit misses the cylinder. Maybe hits top cap?
 	if (m > height)
 	{
 		Circle *circle = new Circle (position + direction * height, direction, r);
 		return circle->intersect (ray);
 	}
 
-
+	// Determine normal.
 	Vector N = ((ray.O + t*ray.D) - position - direction * m).normalized ();
-
 
 	return Hit(t,N);  
 }

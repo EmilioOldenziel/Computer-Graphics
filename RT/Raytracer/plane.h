@@ -1,27 +1,9 @@
-//
-//  Framework for a raytracer
-//  File: plane.h
-//
-//  Created for the Computer Science course "Introduction Computer Graphics"
-//  taught at the University of Groningen by Tobias Isenberg.
-//
-//  Authors:
-//    Maarten Everts
-//    Jasper van de Gronde
-//
-//  This framework is inspired by and uses code of the raytracer framework of 
-//  Bert Freudenberg that can be found at
-//  http://isgwww.cs.uni-magdeburg.de/graphik/lehre/cg2/projekt/rtprojekt.html 
-//
-
 #ifndef PLANE_H
 #define PLANE_H
 
 #include "object.h"
 
-
-// An infinite plane consist of a center point 
-// and a orientation which is equal to the normal
+// An infinite plane consist of a centre point and a normal.
 class Plane : public Object
 {
 public:
@@ -29,8 +11,8 @@ public:
 
     virtual Hit intersect(const Ray &ray);
 
-    const Point center;
-    const Vector N;
+    const Point center;	// Centre of the plane.
+    const Vector N;		// Normal of the plane.
 };
 
 #endif

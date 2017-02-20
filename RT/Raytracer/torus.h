@@ -1,9 +1,10 @@
-
-
 #ifndef TORUS_H
 #define TORUS_H
 
 #include "object.h"
+
+// Currently the torus' hole is always in the z direction. Support for 
+// indicating the direction is planned.
 
 class Torus : public Object
 {
