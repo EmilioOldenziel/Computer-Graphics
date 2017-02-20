@@ -101,11 +101,10 @@ Object* Raytracer::parseObject(const YAML::Node& node)
     {
         Point pos;
         double r, alpha;
-        Vector direction;
         node["position"] >> pos;
         node["radius"] >> r;
         node["alpha"] >> alpha;
-        Torus *torus = new Torus (pos, r, alpha, direction.normalized ());
+        Torus *torus = new Torus (pos, r, alpha);
         returnObject = torus;
     }
 
