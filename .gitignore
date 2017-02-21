@@ -46,3 +46,4 @@ ray
 
 #builds
 build*
+*.user
