@@ -1,5 +1,8 @@
 #include "mainview.h"
 #include "math.h"
+#include <QVector>
+#include <QVector3D>
+#include <random>
 
 #include <QDateTime>
 
@@ -28,6 +31,9 @@ MainView::~MainView() {
     delete cubeModel;
 
     // Free Buffer Objects before Vertex Arrays
+    glDeleteBuffers (1, &this->coors);
+    glDeleteBuffers (1, &this->colours);
+    glDeleteVertexArrays (1, &this->vao);
 
     // Free the main shader
     delete mainShaderProg;
@@ -64,17 +70,62 @@ void MainView::createShaderPrograms() {
  */
 void MainView::createBuffers() {
     // TODO: implement buffer creation
+    glGenVertexArrays (1, &this->vao);
+    glBindVertexArray (this->vao);
 
+    glGenBuffers (1, &this->coors);
+    glGenBuffers (1, &this->colours);
+
+    // Bind coordinates.
+    glBindBuffer (GL_ARRAY_BUFFER, this->coors);
+    glEnableVertexAttribArray (0);
+    glVertexAttribPointer (0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+    // Bind colours.
+    glBindBuffer (GL_ARRAY_BUFFER, this->colours);
+    glEnableVertexAttribArray (1);
+    glVertexAttribPointer (0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+    glBindVertexArray (0);
 }
 
-void MainView::loadModel(QString filename, GLuint bufferObject) {
+void MainView::loadModel(QString filename, GLuint bufferObject) 
+{
 
-    cubeModel = new Model(filename);
-    numTris = cubeModel->getNumTriangles();
+    this->cubeModel = new Model(filename);
+    this->numTris = cubeModel->getNumTriangles();
 
     Q_UNUSED(bufferObject);
 
     // TODO: implement loading of model into Buffer Objects
+    QVector <QVector3D> colours = QVector <QVector3D> ();
+
+    srand (1);
+    for (int i = 0; i < cubeModel->getVertices ().size (); i++)
+    {
+        float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+        float g = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+        float b = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+        colours.append (QVector3D (r, g, b));
+    }
+
+    // Load coordinates.
+    glBindBuffer (GL_ARRAY_BUFFER, this->coors);
+    glBufferData (GL_ARRAY_BUFFER, 
+        sizeof (GL_FLOAT) * 3 * cubeModel->getVertices ().size (), 
+        cubeModel->getVertices ().data (),
+        GL_STATIC_DRAW
+        );
+
+    // Load colours.
+    glBindBuffer (GL_ARRAY_BUFFER, this->colours);
+    glBufferData (GL_ARRAY_BUFFER, 
+        sizeof (GL_FLOAT) * 3 * colours.size (), 
+        colours.data (),
+        GL_STATIC_DRAW
+        );
+
+
 }
 
 void MainView::updateBuffers() {
@@ -117,7 +168,7 @@ void MainView::initializeGL() {
     glEnable(GL_DEPTH_TEST);
 
     // Enable backface culling
-    glEnable(GL_CULL_FACE);
+    // glEnable(GL_CULL_FACE);
 
     // Default is GL_LESS
     glDepthFunc(GL_LEQUAL);
@@ -166,7 +217,9 @@ void MainView::paintGL() {
 
     mainShaderProg->bind();
 
-    // TODO: implement your drawing functions
+    glBindVertexArray (this->vao);
+
+    glDrawArrays (GL_TRIANGLES, 0, this->cubeModel->getVertices ().size ());
 
     mainShaderProg->release();
 }

@@ -71,6 +71,10 @@ private:
 
     unsigned numTris;
 
+    GLuint vao;
+    GLuint coors;
+    GLuint colours;
+
     /* End of private members */
 
 private slots:

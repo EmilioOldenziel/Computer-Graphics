@@ -28,10 +28,10 @@ QVector3D MainView::convertHSLtoRGB(float H, float S, float L) {
     QVector3D preRGB;
 
     // Grey values, S=0.0, so C=0.0
-    C = (1.0 - abs(2.0*L - 1.0)) * S;
+    C = (1.0 - fabs(2.0*L - 1.0)) * S;
     m = L - (C / 2.0);
     Hp = (H * 360.0) / 60.0;
-    X = C * (1.0 - abs(fmod(Hp, 2.0) - 1.0));
+    X = C * (1.0 - fabs(fmod(Hp, 2.0) - 1.0));
 
     if (Hp > 5.0) {
         preRGB = QVector3D(C,0.0,X);
