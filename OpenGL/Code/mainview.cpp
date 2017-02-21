@@ -66,6 +66,9 @@ void MainView::createShaderPrograms() {
     this->projectionptr = glGetUniformLocation (mainShaderProg->programId(), "projection");
     this->normal_matrixptr = glGetUniformLocation (mainShaderProg->programId(), "normal_matrix");
 
+    this->colourptr = glGetUniformLocation (mainShaderProg->programId(), "colour");
+    this->illuminationptr = glGetUniformLocation (mainShaderProg->programId(), "illumination");
+
     /* End of custom shaders */
 
     // Store the locations (pointers in gpu memory) of uniforms in Glint's
@@ -190,7 +193,7 @@ void MainView::initializeGL() {
     glEnable(GL_DEPTH_TEST);
 
     // Enable backface culling
-    //glEnable(GL_CULL_FACE);
+    glEnable(GL_CULL_FACE);
 
     // Default is GL_LESS
     glDepthFunc(GL_LEQUAL);
@@ -244,7 +247,7 @@ void MainView::paintGL() {
     this->projection.setToIdentity ();
 
 //  this->view.translate (QVector3D (0, 0, -4));
-    this->view.translate (QVector3D (0, 0, -1000));
+    this->view.translate (QVector3D (-200, -200, -1000));
 
 //  this->projection.perspective (60, (float) width () / height (), 1, 10);
 

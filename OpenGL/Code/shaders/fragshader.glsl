@@ -7,6 +7,8 @@
 // These must have the same type and name!
 
 in vec3 colour;
+uniform vec3 MaterialColor;
+uniform vec4 illumination;
 
 // in vec3 vertPos; Using the output from the vertex shader example
 
@@ -17,7 +19,8 @@ in vec3 colour;
 // Usually a vec4 describing a color (Red, Green, Blue, Alpha/Transparency)
 out vec4 fColor;
 
+
 void main()
 {
-    fColor = vec4(1.0, 1.0, 1.0 ,1.0);
+    fColor = vec4(1.0, 1.0, 1.0, 1.0);
 }

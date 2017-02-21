@@ -14,12 +14,13 @@ layout (location = 2) in vec3 vertNormal_in;
 uniform mat4 view;
 uniform mat4 model;
 uniform mat4 projection;
+uniform vec3 color;
+uniform vec4 illumination;
 
 // Specify the outputs of the vertex shader
 // These will be the input for the fragment shader
 
 out vec3 colour;
-out vec4 lightings;
 
 void main()
 {
@@ -27,5 +28,5 @@ void main()
     // Currently without any transformation
 
     gl_Position = projection * view * model * vec4(vertCoordinates_in, 1.0);
-    colour = vertColor_in;
+    colour = color;
 }
