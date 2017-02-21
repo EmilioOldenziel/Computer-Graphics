@@ -6,6 +6,8 @@
 // Specify the inputs to the fragment shader
 // These must have the same type and name!
 
+in vec3 colour;
+
 // in vec3 vertPos; Using the output from the vertex shader example
 
 // Specify the Uniforms of the vertex shaders
@@ -17,6 +19,6 @@ out vec4 fColor;
 
 void main()
 {
-    fColor = vec4(1.0, 1.0, 1.0, 1.0);
+    fColor = vec4(colour, 1.0);
 
 }
