@@ -17,6 +17,6 @@ out vec4 fColor;
 
 void main()
 {
-    // Plain White
-    fColor = vec4(1.0, 1.0, 1.0, 1.0);
+    fColor = vec4(vertcolour_in, 1.0);
+
 }
