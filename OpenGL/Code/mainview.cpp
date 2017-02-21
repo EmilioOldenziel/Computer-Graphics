@@ -17,6 +17,10 @@ MainView::MainView(QWidget *parent) : QOpenGLWidget(parent) {
     qDebug() << "MainView constructor";
 
     connect(&timer, SIGNAL(timeout()), this, SLOT(update()));
+
+    this->model = QMatrix4x4 ();
+    this->view = QMatrix4x4 ();
+    this->projection = QMatrix4x4 ();
 }
 
 /**
@@ -56,6 +60,9 @@ void MainView::createShaderPrograms() {
     mainShaderProg->link();
 
     /* Add your other shaders below */
+    this->viewptr = glGetUniformLocation (mainShaderProg->programId(), "view");
+    this->modelptr = glGetUniformLocation (mainShaderProg->programId(), "model");
+    this->projectionptr = glGetUniformLocation (mainShaderProg->programId(), "projection");
 
     /* End of custom shaders */
 
@@ -84,7 +91,7 @@ void MainView::createBuffers() {
     // Bind colours.
     glBindBuffer (GL_ARRAY_BUFFER, this->colours);
     glEnableVertexAttribArray (1);
-    glVertexAttribPointer (0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+    glVertexAttribPointer (1, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
     glBindVertexArray (0);
 }
@@ -168,7 +175,7 @@ void MainView::initializeGL() {
     glEnable(GL_DEPTH_TEST);
 
     // Enable backface culling
-    // glEnable(GL_CULL_FACE);
+    glEnable(GL_CULL_FACE);
 
     // Default is GL_LESS
     glDepthFunc(GL_LEQUAL);
@@ -214,6 +221,17 @@ void MainView::paintGL() {
     // Clear the screen before rendering
     glClearColor(0.0f,0.0f,0.0f, 0.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    this->model.setToIdentity ();
+    this->view.setToIdentity ();
+    this->projection.setToIdentity ();
+
+    this->view.scale (0, 0, 4);
+    this->projection.perspective (60, (float) width () / height (), 1, 10);
+
+    glUniformMatrix4fv (this->viewptr, 1, false, this->view.data ());
+    glUniformMatrix4fv (this->modelptr, 1, false, this->model.data ());
+    glUniformMatrix4fv (this->projectionptr, 1, false, this->projection.data ());
 
     mainShaderProg->bind();
 

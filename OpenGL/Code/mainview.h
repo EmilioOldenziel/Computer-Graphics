@@ -75,6 +75,14 @@ private:
     GLuint coors;
     GLuint colours;
 
+    QMatrix4x4 model;
+    QMatrix4x4 view;
+    QMatrix4x4 projection;
+
+    GLint viewptr;
+    GLint modelptr;
+    GLint projectionptr;
+
     /* End of private members */
 
 private slots:
