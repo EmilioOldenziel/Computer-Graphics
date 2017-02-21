@@ -13,6 +13,10 @@
 
 // Specify the output of the fragment shader
 // Usually a vec4 describing a color (Red, Green, Blue, Alpha/Transparency)
+// Fragment shader
+
+layout (location = 1) in vec3 vertcolour_in;
+
 out vec4 fColor;
 
 void main()
