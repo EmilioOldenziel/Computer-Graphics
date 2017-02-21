@@ -74,14 +74,19 @@ private:
     GLuint vao;
     GLuint coors;
     GLuint colours;
+    GLuint normal_buffer;
 
     QMatrix4x4 model;
     QMatrix4x4 view;
     QMatrix4x4 projection;
 
+    QMatrix3x3 normal_matrix;
+
     GLint viewptr;
     GLint modelptr;
     GLint projectionptr;
+
+    GLint normal_matrixptr;
 
     /* End of private members */
 

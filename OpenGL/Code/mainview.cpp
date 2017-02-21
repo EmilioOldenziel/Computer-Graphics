@@ -37,6 +37,7 @@ MainView::~MainView() {
     // Free Buffer Objects before Vertex Arrays
     glDeleteBuffers (1, &this->coors);
     glDeleteBuffers (1, &this->colours);
+    glDeleteBuffers (1, &this->normal_buffer);
     glDeleteVertexArrays (1, &this->vao);
 
     // Free the main shader
@@ -63,6 +64,7 @@ void MainView::createShaderPrograms() {
     this->viewptr = glGetUniformLocation (mainShaderProg->programId(), "view");
     this->modelptr = glGetUniformLocation (mainShaderProg->programId(), "model");
     this->projectionptr = glGetUniformLocation (mainShaderProg->programId(), "projection");
+    this->normal_matrixptr = glGetUniformLocation (mainShaderProg->programId(), "normal_matrix");
 
     /* End of custom shaders */
 
@@ -82,6 +84,7 @@ void MainView::createBuffers() {
 
     glGenBuffers (1, &this->coors);
     glGenBuffers (1, &this->colours);
+    glGenBuffers (1, &this->normal_buffer);
 
     // Bind coordinates.
     glBindBuffer (GL_ARRAY_BUFFER, this->coors);
@@ -92,6 +95,11 @@ void MainView::createBuffers() {
     glBindBuffer (GL_ARRAY_BUFFER, this->colours);
     glEnableVertexAttribArray (1);
     glVertexAttribPointer (1, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+    // Bind normals.
+    glBindBuffer (GL_ARRAY_BUFFER, this->normal_buffer);
+    glEnableVertexAttribArray (2);
+    glVertexAttribPointer (2, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
     glBindVertexArray (0);
 }
@@ -104,17 +112,17 @@ void MainView::loadModel(QString filename, GLuint bufferObject)
 
     Q_UNUSED(bufferObject);
 
-    // TODO: implement loading of model into Buffer Objects
-    QVector <QVector3D> colours = QVector <QVector3D> ();
+    // add colors
+//    QVector <QVector3D> colours = QVector <QVector3D> ();
 
-    srand (1);
-    for (int i = 0; i < cubeModel->getVertices ().size (); i++)
-    {
-        float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
-        float g = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
-        float b = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
-        colours.append (QVector3D (r, g, b));
-    }
+//    srand (1);
+//    for (int i = 0; i < cubeModel->getVertices ().size (); i++)
+//    {
+//        float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+//        float g = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+//        float b = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+//        colours.append (QVector3D (r, g, b));
+//    }
 
     // Load coordinates.
     glBindBuffer (GL_ARRAY_BUFFER, this->coors);
@@ -125,13 +133,20 @@ void MainView::loadModel(QString filename, GLuint bufferObject)
         );
 
     // Load colours.
-    glBindBuffer (GL_ARRAY_BUFFER, this->colours);
-    glBufferData (GL_ARRAY_BUFFER, 
-        sizeof (GL_FLOAT) * 3 * colours.size (), 
-        colours.data (),
-        GL_STATIC_DRAW
-        );
+//    glBindBuffer (GL_ARRAY_BUFFER, this->colours);
+//    glBufferData (GL_ARRAY_BUFFER,
+//        sizeof (GL_FLOAT) * 3 * colours.size (),
+//        colours.data (),
+//        GL_STATIC_DRAW
+//        );
 
+    // Load Normals
+    glBindBuffer (GL_ARRAY_BUFFER, this->normal_buffer);
+    glBufferData (GL_ARRAY_BUFFER,
+                  sizeof (GL_FLOAT) * 3 * cubeModel->getNormals().size(),
+                  cubeModel->getNormals().data(),
+                  GL_STATIC_DRAW
+                  );
 
 }
 
@@ -175,7 +190,7 @@ void MainView::initializeGL() {
     glEnable(GL_DEPTH_TEST);
 
     // Enable backface culling
-    glEnable(GL_CULL_FACE);
+    //glEnable(GL_CULL_FACE);
 
     // Default is GL_LESS
     glDepthFunc(GL_LEQUAL);
@@ -189,7 +204,7 @@ void MainView::initializeGL() {
 
     createBuffers();
 
-    loadModel(":/models/cube.obj", cubeBO);
+    loadModel(":/models/sphere.obj", cubeBO);
 
     // For animation, you can start your timer here
 
@@ -228,16 +243,22 @@ void MainView::paintGL() {
     this->view.setToIdentity ();
     this->projection.setToIdentity ();
 
-    this->view.translate (QVector3D (0, 0, -4));
-    this->projection.perspective (60, (float) width () / height (), 1, 10);
+//  this->view.translate (QVector3D (0, 0, -4));
+    this->view.translate (QVector3D (0, 0, -1000));
+
+//  this->projection.perspective (60, (float) width () / height (), 1, 10);
+
+    this->projection.perspective (30, (float) width () / height (),1, 2000);
 
     glUniformMatrix4fv (this->viewptr, 1, false, this->view.data ());
     glUniformMatrix4fv (this->modelptr, 1, false, this->model.data ());
     glUniformMatrix4fv (this->projectionptr, 1, false, this->projection.data ());
+    glUniformMatrix4fv (this->normal_matrixptr, 1, false, this->normal_matrix.data ());
 
     glBindVertexArray (this->vao);
 
-    glDrawArrays (GL_TRIANGLES, 0, this->cubeModel->getVertices ().size ());
+//  glDrawArrays (GL_TRIANGLES, 0, this->cubeModel->getVertices ().size ());
+    renderRaytracerScene();
 
     mainShaderProg->release();
 }

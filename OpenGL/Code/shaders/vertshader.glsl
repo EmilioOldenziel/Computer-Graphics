@@ -19,6 +19,7 @@ uniform mat4 projection;
 // These will be the input for the fragment shader
 
 out vec3 colour;
+out vec4 lightings;
 
 void main()
 {

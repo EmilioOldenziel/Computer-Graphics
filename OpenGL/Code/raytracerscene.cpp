@@ -10,6 +10,9 @@ void MainView::renderSphere(QVector3D pos, QVector3D color, QVector4D material, 
     Q_UNUSED(color)
     Q_UNUSED(material)
     Q_UNUSED(lightpos)
+
+    glDrawArrays(GL_TRIANGLES, 0, this->cubeModel->getVertices ().size ());
+
 }
 
 /**
