@@ -222,18 +222,18 @@ void MainView::paintGL() {
     glClearColor(0.0f,0.0f,0.0f, 0.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+    mainShaderProg->bind();
+
     this->model.setToIdentity ();
     this->view.setToIdentity ();
     this->projection.setToIdentity ();
 
-    this->view.translate (QVector3D (0, 0, 4));
+    this->view.translate (QVector3D (0, 0, -4));
     this->projection.perspective (60, (float) width () / height (), 1, 10);
 
     glUniformMatrix4fv (this->viewptr, 1, false, this->view.data ());
     glUniformMatrix4fv (this->modelptr, 1, false, this->model.data ());
     glUniformMatrix4fv (this->projectionptr, 1, false, this->projection.data ());
-
-    mainShaderProg->bind();
 
     glBindVertexArray (this->vao);
 
