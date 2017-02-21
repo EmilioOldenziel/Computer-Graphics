@@ -83,7 +83,8 @@ private:
     QMatrix3x3 normal_matrix;
 
     QVector3D colour;
-    QVector3D illumination;
+    QVector4D material;
+    QVector3D light;
 
     GLint viewptr;
     GLint modelptr;
@@ -92,7 +93,8 @@ private:
     GLint normal_matrixptr;
 
     GLint colourptr;
-    GLint illuminationptr;
+    GLint materialptr;
+    GLint lightptr;
 
     /* End of private members */
 

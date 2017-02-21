@@ -67,7 +67,8 @@ void MainView::createShaderPrograms() {
     this->normal_matrixptr = glGetUniformLocation (mainShaderProg->programId(), "normal_matrix");
 
     this->colourptr = glGetUniformLocation (mainShaderProg->programId(), "colour");
-    this->illuminationptr = glGetUniformLocation (mainShaderProg->programId(), "illumination");
+    this->materialptr = glGetUniformLocation (mainShaderProg->programId(), "material");
+    this->lightptr = glGetUniformLocation (mainShaderProg->programId(), "light");
 
     /* End of custom shaders */
 
@@ -95,9 +96,9 @@ void MainView::createBuffers() {
     glVertexAttribPointer (0, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
     // Bind colours.
-    glBindBuffer (GL_ARRAY_BUFFER, this->colours);
-    glEnableVertexAttribArray (1);
-    glVertexAttribPointer (1, 3, GL_FLOAT, GL_FALSE, 0, 0);
+//    glBindBuffer (GL_ARRAY_BUFFER, this->colours);
+//    glEnableVertexAttribArray (1);
+//    glVertexAttribPointer (1, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
     // Bind normals.
     glBindBuffer (GL_ARRAY_BUFFER, this->normal_buffer);

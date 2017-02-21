@@ -6,14 +6,20 @@ void MainView::renderSphere(QVector3D pos, QVector3D color, QVector4D material, 
     // Use Model(":/models/sphere.obj") for the model
 
     // you must remove these Q_UNUSED when you implement this function
-    Q_UNUSED(color)
     Q_UNUSED(material)
     Q_UNUSED(lightpos)
 
     this->model.translate(pos);
     this->colour = color;
+    this->material = material;
+    this->light = lightpos;
     glUniformMatrix4fv(this->modelptr, 1, false, this->model.data ());
+    glUniform3fv(this->colourptr, 1, &this->colour[0]);
+    glUniform4fv(this->materialptr, 1, &this->material[0]);
+    glUniform4fv(this->lightptr, 1, &this->light[0]);
+
     glDrawArrays(GL_TRIANGLES, 0, this->cubeModel->getVertices ().size ());
+
     this->model.translate(-pos);
     glUniformMatrix4fv (this->modelptr, 1, false, this->model.data ());
 
