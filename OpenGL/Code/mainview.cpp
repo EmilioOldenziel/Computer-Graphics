@@ -226,7 +226,7 @@ void MainView::paintGL() {
     this->view.setToIdentity ();
     this->projection.setToIdentity ();
 
-    this->view.scale (0, 0, 4);
+    this->view.translate (QVector3D (0, 0, 4));
     this->projection.perspective (60, (float) width () / height (), 1, 10);
 
     glUniformMatrix4fv (this->viewptr, 1, false, this->view.data ());

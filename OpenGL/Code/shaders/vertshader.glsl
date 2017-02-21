@@ -25,5 +25,5 @@ void main()
     // gl_Position is the output (a vec4) of the vertex shader
     // Currently without any transformation
 
-    gl_Position = view * model * projection * vec4(vertCoordinates_in, 1.0);
+    gl_Position = projection * view * model * vec4(vertCoordinates_in, 1.0);
 }
