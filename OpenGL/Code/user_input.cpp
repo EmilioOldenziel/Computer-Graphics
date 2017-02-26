@@ -5,6 +5,12 @@
 void MainView::updateRotation(int x, int y, int z)
 {
     qDebug() << "updateRotation(" << x << "," << y << "," << z << ");";
+    this->model.translate (200,200,200);
+    this->model.rotate (x, 1, 0, 0);
+    this->model.rotate (y, 0, 1, 0);
+    this->model.rotate (z, 0, 0, 1);
+    this->model.translate (-200,-200,-200);
+    update ();
 }
 
 void MainView::updateModel(QString name)
@@ -75,13 +81,21 @@ void MainView::mouseMoveEvent(QMouseEvent *ev)
 {
     qDebug() << "x" << ev->x() << "y" << ev->y();
 
-    update();
+    updateRotation (ev->y () - this->rotation_y,
+                    ev->x () - this->rotation_x,
+                    0);
+
+    this->rotation_x = ev->x ();
+    this->rotation_y = ev->y ();
 }
 
 // Triggered when pressing any mouse button
 void MainView::mousePressEvent(QMouseEvent *ev)
 {
     qDebug() << "Mouse button pressed:" << ev->button();
+
+    this->rotation_x = ev->x ();
+    this->rotation_y = ev->y ();
 
     update();
     // Do not remove the line below, clicking must focus on this widget!

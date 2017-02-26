@@ -97,6 +97,14 @@ private:
     GLint materialptr;
     GLint lightptr;
 
+    // Rotation parameters requirements
+    QMatrix4x4 model_reset;
+    int rotation_x;
+    int rotation_y;
+    int rotation_z;
+
+    // void determineRotationMatrix ();
+
     /* End of private members */
 
 private slots:

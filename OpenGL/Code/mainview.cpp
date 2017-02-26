@@ -117,18 +117,6 @@ void MainView::loadModel(QString filename, GLuint bufferObject)
 
     Q_UNUSED(bufferObject);
 
-    // add colors
-//    QVector <QVector3D> colours = QVector <QVector3D> ();
-
-//    srand (1);
-//    for (int i = 0; i < cubeModel->getVertices ().size (); i++)
-//    {
-//        float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
-//        float g = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
-//        float b = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
-//        colours.append (QVector3D (r, g, b));
-//    }
-
     // Load coordinates.
     glBindBuffer (GL_ARRAY_BUFFER, this->coors);
     glBufferData (GL_ARRAY_BUFFER, 
@@ -136,14 +124,6 @@ void MainView::loadModel(QString filename, GLuint bufferObject)
         cubeModel->getVertices ().data (),
         GL_STATIC_DRAW
         );
-
-    // Load colours.
-//    glBindBuffer (GL_ARRAY_BUFFER, this->colours);
-//    glBufferData (GL_ARRAY_BUFFER,
-//        sizeof (GL_FLOAT) * 3 * colours.size (),
-//        colours.data (),
-//        GL_STATIC_DRAW
-//        );
 
     // Load Normals
     glBindBuffer (GL_ARRAY_BUFFER, this->normal_buffer);
@@ -244,30 +224,22 @@ void MainView::paintGL() {
 
     mainShaderProg->bind();
 
-    this->model.setToIdentity ();
+    // this->model.setToIdentity ();
     this->view.setToIdentity ();
     this->projection.setToIdentity ();
 
-//  this->view.translate (QVector3D (0, 0, -4));
     this->view.translate (QVector3D (-200, -200, -1000));
-
-//  this->projection.perspective (60, (float) width () / height (), 1, 10);
-
     this->projection.perspective (30, (float) width () / height (),1, 2000);
 
     glUniformMatrix4fv (this->viewptr, 1, false, this->view.data ());
     glUniformMatrix4fv (this->modelptr, 1, false, this->model.data ());
     glUniformMatrix4fv (this->projectionptr, 1, false, this->projection.data ());
     glUniformMatrix4fv (this->normal_matrixptr, 1, false, this->normal_matrix.data ());
-
     glBindVertexArray (this->vao);
 
-//  glDrawArrays (GL_TRIANGLES, 0, this->cubeModel->getVertices ().size ());
     renderRaytracerScene();
 
     mainShaderProg->release();
 }
 
 // Add your function implementations below
-
-// TODO: add your code
