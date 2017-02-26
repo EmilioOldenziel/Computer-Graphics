@@ -6,15 +6,18 @@
 // Specify the inputs to the fragment shader
 // These must have the same type and name!
 
-in vec3 vertex_colour;
-in vec4 vertex_material;
-in vec3 vertex_light;
-in vec3 vertex_normal;
+in vec4 position_vertex;
+in vec3 normal;
 
 // in vec3 vertPos; Using the output from the vertex shader example
 
 // Specify the Uniforms of the vertex shaders
 // uniform vec3 lightPosition; for example
+
+uniform vec3 colour_object;
+uniform vec3 colour_light;
+uniform vec4 material;
+uniform vec3 position_light;
 
 // Specify the output of the fragment shader
 // Usually a vec4 describing a color (Red, Green, Blue, Alpha/Transparency)
@@ -23,5 +26,14 @@ out vec4 fColor;
 
 void main()
 {
-    fColor = vec4(vertex_colour, 1.0);
+    fColor = vec4(0.0, 0.0, 0.0, 1.0);
+    fColor += vec4(colour_object, 1.0) * material[0];
+
+    vec3 direction_light = normalize (vec3 (position_vertex) - position_light);
+    fColor += vec4(colour_object, 1.0) * max (0.0, dot (normal, direction_light) * material[1]);
+
+    vec3 direction_view = normalize (vec3 (position_vertex));
+    vec3 direction_refraction = dot (direction_light, normal) * 2 * normal - direction_light;
+    fColor += vec4(colour_object, 1.0) * material[2] * 
+    	pow (max (0.0, dot (direction_refraction, direction_view)), material[3]);
 }

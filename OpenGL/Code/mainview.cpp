@@ -66,9 +66,10 @@ void MainView::createShaderPrograms() {
     this->projectionptr = glGetUniformLocation (mainShaderProg->programId(), "projection");
     this->normal_matrixptr = glGetUniformLocation (mainShaderProg->programId(), "normal_matrix");
 
-    this->colourptr = glGetUniformLocation (mainShaderProg->programId(), "colour");
-    this->materialptr = glGetUniformLocation (mainShaderProg->programId(), "material");
-    this->lightptr = glGetUniformLocation (mainShaderProg->programId(), "light");
+    this->colourptr = glGetUniformLocation (mainShaderProg->programId(), "colour_object");
+    this->lightcolourptr = glGetUniformLocation (mainShaderProg->programId (), "colour_light");
+    this->materialptr = glGetUniformLocation (mainShaderProg->programId (), "material");
+    this->lightptr = glGetUniformLocation (mainShaderProg->programId(), "position_light");
 
     /* End of custom shaders */
 

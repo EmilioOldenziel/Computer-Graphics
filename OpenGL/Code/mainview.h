@@ -93,6 +93,7 @@ private:
     GLint normal_matrixptr;
 
     GLint colourptr;
+    GLint lightcolourptr;
     GLint materialptr;
     GLint lightptr;
 
