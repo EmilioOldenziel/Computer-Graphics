@@ -6,7 +6,7 @@
 // Specify the inputs to the fragment shader
 // These must have the same type and name!
 
-in vec4 position_vertex;
+in vec4 position_pixel;
 in vec3 normal;
 
 // in vec3 vertPos; Using the output from the vertex shader example
@@ -26,14 +26,20 @@ out vec4 fColor;
 
 void main()
 {
-    fColor = vec4(0.0, 0.0, 0.0, 1.0);
-    fColor += vec4(colour_object, 1.0) * material[0];
+	// // Set colour to ambient lighting.
+ //    fColor = vec4(colour_object * material[0], 1.0);
 
-    vec3 direction_light = normalize (vec3 (position_vertex) - position_light);
-    fColor += vec4(colour_object, 1.0) * max (0.0, dot (normal, direction_light) * material[1]);
+ //    // Determine directions of light, view and refraction.
+ //    vec3 direction_light = normalize (position_light - vec3 (position_pixel));
+ //    vec3 direction_view = normalize (- vec3 (position_pixel));
+ //    vec3 direction_refraction = 2 * dot (direction_light, normal) * normal - direction_light;
 
-    vec3 direction_view = normalize (vec3 (position_vertex));
-    vec3 direction_refraction = dot (direction_light, normal) * 2 * normal - direction_light;
-    fColor += vec4(colour_object, 1.0) * material[2] * 
-    	pow (max (0.0, dot (direction_refraction, direction_view)), material[3]);
+ //    // Add diffuse light.
+ //    fColor += vec4(colour_object, 1.0) * max (0.0, dot (normal, direction_light) * material[1]);
+
+ //    // Add specular light.
+ //    fColor += vec4(colour_object, 1.0) * material[2] * 
+ //    	pow (max (0.0, dot (direction_refraction, direction_view)), material[3]);
+
+    fColor = vec4(normal, 1.0);
 }

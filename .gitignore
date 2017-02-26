@@ -35,6 +35,7 @@
 *.dep
 *.out
 ray
+*.zip
 
 #images
 *.png

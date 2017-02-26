@@ -23,17 +23,17 @@ uniform mat4 projection;
 // out vec3 vertex_colour;
 // out vec4 vertex_material;
 // out vec3 vertex_light;
-out vec4 position_vertex;
+out vec4 position_pixel;
 out vec3 normal;
 
 void main()
 {
     // gl_Position is the output (a vec4) of the vertex shader
     // Currently without any transformation
-    vec4 pos = projection * view * model * vec4(vertCoordinates_in, 1.0);
+    vec4 pos = view * model * vec4(vertCoordinates_in, 1.0);
 
-    gl_Position = pos;
+    gl_Position = projection * pos;
 
-    position_vertex = pos;
+    position_pixel = pos;
     normal = vertNormal_in;
 }
