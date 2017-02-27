@@ -114,7 +114,7 @@ void MainView::createBuffers() {
     glBindVertexArray (0);
 }
 
-void MainView::loadModel(QString filename, GLuint bufferObject) 
+void MainView::loadModel(QString filename, GLuint bufferObject)
 {
 
     this->cubeModel = new Model(filename);
@@ -124,8 +124,8 @@ void MainView::loadModel(QString filename, GLuint bufferObject)
 
     // Load coordinates.
     glBindBuffer (GL_ARRAY_BUFFER, this->coors);
-    glBufferData (GL_ARRAY_BUFFER, 
-        sizeof (GL_FLOAT) * 3 * cubeModel->getVertices ().size (), 
+    glBufferData (GL_ARRAY_BUFFER,
+        sizeof (GL_FLOAT) * 3 * cubeModel->getVertices ().size (),
         cubeModel->getVertices ().data (),
         GL_STATIC_DRAW
         );
@@ -245,7 +245,6 @@ void MainView::paintGL() {
     glUniformMatrix4fv (this->viewptr, 1, false, this->view.data ());
     glUniformMatrix4fv (this->modelptr, 1, false, this->model.data ());
     glUniformMatrix4fv (this->projectionptr, 1, false, this->projection.data ());
-    glUniformMatrix4fv (this->normal_matrixptr, 1, false, this->normal_matrix.data ());
     glBindVertexArray (this->vao);
 
     renderRaytracerScene();

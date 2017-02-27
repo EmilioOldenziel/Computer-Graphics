@@ -16,7 +16,7 @@ Part 1.
 Part 2.
     First we implemented the drawing the sphere at the right positions doing a translation, render the sphere at its position 
     and then undo the translation and go to the next sphere so that all spheres are rendered in the end.
-    The result is shown in screenshot flat_spheres.png
+    The result is shown in screenshot flat_spheres.jpeg
 
     After that we had to implement phong in the fragment shader, first we added uniforms for normals, lighting and material.
     The normals have to be interpolated through the pipeline from the vector shader to the fragment shader.

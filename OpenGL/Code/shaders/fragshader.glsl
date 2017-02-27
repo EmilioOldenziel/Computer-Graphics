@@ -26,20 +26,23 @@ out vec4 fColor;
 
 void main()
 {
-	// Set colour to ambient lighting.
-    fColor = vec4(colour_object * material[0], 1.0);
+        // Set colour to ambient lighting.
+    vec3 ambient, diffuse;
+    ambient = colour_object * material[0];
 
     // Determine directions of light, view and refraction.
-    vec3 direction_light = normalize (position_light - vec3 (position_pixel));
-    vec3 direction_view = normalize (- vec3 (position_pixel));
-    vec3 direction_refraction = 2 * dot (direction_light, normal) * normal - direction_light;
+    vec3 direction_light = normalize (position_light - position_pixel.xyz);
+    vec3 direction_view = normalize (-(position_pixel.xyz));
+    vec3 direction_refraction = normalize(2 * dot (normal, direction_light) * normal - direction_light);
 
     // Add diffuse light.
-    fColor += vec4(colour_object, 1.0) * max (0.0, dot (normal, direction_light) * material[1]);
+    diffuse = colour_object * max (0.0, dot (normal, direction_light) * material[1]);
 
     // Add specular light.
-    fColor += vec4(colour_object, 1.0) * material[2] * 
-    	pow (max (0.0, dot (direction_refraction, direction_view)), material[3]);
+    float specular = material[2] * pow (max (0.0, dot (direction_refraction, direction_view)), material[3]);
 
-    // fColor = vec4(normal, 1.0);
+
+
+    //fColor = vec4(ambient + diffuse + specular, 1.0);
+    fColor = vec4((normal+1)/2, 1.0);
 }
