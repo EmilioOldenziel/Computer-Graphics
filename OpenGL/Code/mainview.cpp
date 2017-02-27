@@ -21,6 +21,11 @@ MainView::MainView(QWidget *parent) : QOpenGLWidget(parent) {
     this->model = QMatrix4x4 ();
     this->view = QMatrix4x4 ();
     this->projection = QMatrix4x4 ();
+
+    this->rotation_x = 0;
+    this->rotation_y = 0;
+    this->rotation_z = 0;
+    this->scale = 1;
 }
 
 /**
@@ -66,10 +71,10 @@ void MainView::createShaderPrograms() {
     this->projectionptr = glGetUniformLocation (mainShaderProg->programId(), "projection");
     this->normal_matrixptr = glGetUniformLocation (mainShaderProg->programId(), "normal_matrix");
 
-    this->colourptr = glGetUniformLocation (mainShaderProg->programId(), "colour_object");
-    this->lightcolourptr = glGetUniformLocation (mainShaderProg->programId (), "colour_light");
-    this->materialptr = glGetUniformLocation (mainShaderProg->programId (), "material");
-    this->lightptr = glGetUniformLocation (mainShaderProg->programId(), "position_light");
+    this->colourptr = glGetUniformLocation (mainShaderProg->programId(), "colour_object_in");
+    this->lightcolourptr = glGetUniformLocation (mainShaderProg->programId (), "colour_light_in");
+    this->materialptr = glGetUniformLocation (mainShaderProg->programId (), "material_in");
+    this->lightptr = glGetUniformLocation (mainShaderProg->programId(), "position_light_in");
 
     /* End of custom shaders */
 
@@ -224,9 +229,15 @@ void MainView::paintGL() {
 
     mainShaderProg->bind();
 
-    // this->model.setToIdentity ();
+    this->model.setToIdentity ();
     this->view.setToIdentity ();
     this->projection.setToIdentity ();
+
+    qDebug () << ":: View matrix: " << this->view;
+
+    determineRotationMatrix ();
+
+    qDebug () << ":: View matrix: " << this->view;
 
     this->view.translate (QVector3D (-200, -200, -1000));
     this->projection.perspective (30, (float) width () / height (),1, 2000);
@@ -243,3 +254,13 @@ void MainView::paintGL() {
 }
 
 // Add your function implementations below
+
+void MainView::determineRotationMatrix ()
+{
+    this->model.translate (200, 200, 200);
+    this->model.rotate (this->rotation_x, 1, 0, 0);
+    this->model.rotate (this->rotation_y, 0, 1, 0);
+    this->model.rotate (this->rotation_z, 0, 0, 1);
+    this->model.scale (this->scale);
+    this->model.translate (-200, -200, -200);
+}

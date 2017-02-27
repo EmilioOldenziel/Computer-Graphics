@@ -13,16 +13,18 @@ layout (location = 2) in vec3 vertNormal_in;
 uniform mat4 view;
 uniform mat4 model;
 uniform mat4 projection;
-// uniform vec3 colour;
-// uniform vec4 material;
-// uniform vec3 light;
+uniform vec3 colour_object_in;
+uniform vec3 colour_light_in;
+uniform vec4 material_in;
+uniform vec3 position_light_in;
 
 // Specify the outputs of the vertex shader
 // These will be the input for the fragment shader
 
-// out vec3 vertex_colour;
-// out vec4 vertex_material;
-// out vec3 vertex_light;
+out vec3 colour_object;
+out vec3 colour_light;
+out vec4 material;
+out vec3 position_light;
 out vec4 position_pixel;
 out vec3 normal;
 
@@ -36,4 +38,9 @@ void main()
 
     position_pixel = pos;
     normal = vertNormal_in;
+
+    colour_object = colour_object_in;
+    colour_light = colour_light_in;
+    material = material_in;
+    position_light = position_light_in;
 }

@@ -14,10 +14,10 @@ in vec3 normal;
 // Specify the Uniforms of the vertex shaders
 // uniform vec3 lightPosition; for example
 
-uniform vec3 colour_object;
-uniform vec3 colour_light;
-uniform vec4 material;
-uniform vec3 position_light;
+in vec3 colour_object;
+in vec3 colour_light;
+in vec4 material;
+in vec3 position_light;
 
 // Specify the output of the fragment shader
 // Usually a vec4 describing a color (Red, Green, Blue, Alpha/Transparency)

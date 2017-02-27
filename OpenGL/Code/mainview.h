@@ -102,8 +102,12 @@ private:
     int rotation_x;
     int rotation_y;
     int rotation_z;
+    double scale;
 
-    // void determineRotationMatrix ();
+    int rotation_x_start;
+    int rotation_y_start;
+
+    void determineRotationMatrix ();
 
     /* End of private members */
 

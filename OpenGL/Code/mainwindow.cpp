@@ -53,6 +53,6 @@ void MainWindow::on_modelSelect_currentIndexChanged(const QString &arg1)
 
 void MainWindow::on_scaleSlider_valueChanged(int value)
 {
-    double scale = (double)value / (double)(ui->scaleSlider->maximum()/3);
+    double scale = (double)value * 3.0 / (double)(ui->scaleSlider->maximum());
     ui->mainView->updateScale((float)scale);
 }
