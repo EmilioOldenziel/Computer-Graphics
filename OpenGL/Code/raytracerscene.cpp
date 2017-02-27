@@ -19,7 +19,6 @@ void MainView::renderSphere(QVector3D pos, QVector3D color, QVector4D material, 
     glUniform4fv(this->materialptr, 1, &this->material[0]);
     glUniformMatrix3fv (this->normal_matrixptr, 1, false, this->normal_matrix.data ());
 
-
     glDrawArrays(GL_TRIANGLES, 0, this->cubeModel->getVertices ().size ());
 
     this->model.translate(-pos);
@@ -34,6 +33,8 @@ void MainView::renderSphere(QVector3D pos, QVector3D color, QVector4D material, 
 void MainView::renderRaytracerScene()
 {
     QVector3D lightpos = QVector3D(-200,600,1500);
+
+    //re calculate lightposition for all spheres
     lightpos = (view * QVector4D(lightpos, 1.0)).toVector3D();
 
     // Blue sphere
