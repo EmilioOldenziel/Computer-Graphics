@@ -1,15 +1,7 @@
-This is a README file
-
-When submitting your assignment, describe (briefly) the changes you made and what difficulties you encountered in this file.
-
-Also describe what controls (key short-cuts, mouse clicks, mouse movement etc) and possible bonus assignments you implemented, so we can check them more easily.
-
-If you have any suggestions/feedback for improving the practical assignments or support from teaching assistants, you may include it here OR post in anonymously on Nestor under Feedback.
-
 Part 1.
     We changed the mainwindow and added buffers, uniforms and implemented drawing of the model so that we could get our first image of the cube.
     Then we implemented the vertex shader and fragment shader to display the colors of the triangles.
-    After that we used rotations and translations to rotate and scale the model using mouse inputs.
+    After that we used rotations, scaling and translations to rotate and scale the model using mouse inputs around the center of the model.
 
     Dragging on the view makes the view (camera) rotate around the model. Using the scoll wheel scales the model.
 
@@ -19,7 +11,9 @@ Part 2.
     The result is shown in screenshot flat_spheres.jpeg
 
     After that we had to implement phong in the fragment shader, first we added uniforms for normals, lighting and material.
-    The normals have to be interpolated through the pipeline from the vector shader to the fragment shader.
-    Non the less we implement it in the fragmentshader and let the normals be interpolated the image looks like it has gouroud shading.
-    We emailed about the problem but didnt receive an answer (yet). 
-    We thing this had to do with the normal matrix but this part is not so clear in the assignment.
+    The normal is multiplied with the normal matrix so that the normal on the sphere keeps the same after rotating, see normal.jpeg for a screenshot of the normal-buffer.
+    
+    We got seriously stuck on two occasions, the first one was that we forgot to normalize a value and the result looked like vertex shading.
+    The second one is why we are late, if the normal is/was multiplied with the normal matrix it resulted in 
+    a scene where the lighting came from all directions or moved with the camera and there was no 'dark-side'.
+    If it then wasn't multiplied by the matrix, the 'dark side' came back.
