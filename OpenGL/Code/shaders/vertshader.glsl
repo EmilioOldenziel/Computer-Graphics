@@ -13,19 +13,12 @@ layout (location = 2) in vec3 vertNormal_in;
 uniform mat4 view;
 uniform mat4 model;
 uniform mat4 projection;
-uniform vec3 colour_object_in;
-uniform vec3 colour_light_in;
-uniform vec4 material_in;
-uniform vec3 position_light_in;
+
 uniform mat3 normal_matrix;
 
 // Specify the outputs of the vertex shader
 // These will be the input for the fragment shader
 
-out vec3 colour_object;
-out vec3 colour_light;
-out vec4 material;
-out vec3 position_light;
 out vec4 position_pixel;
 out vec3 normal;
 
@@ -38,11 +31,6 @@ void main()
     gl_Position = projection * pos;
 
     position_pixel = pos;
-
-    colour_object = colour_object_in;
-    colour_light = colour_light_in;
-    material = material_in;
-    position_light = position_light_in;
 
     normal = normalize (normal_matrix * vertNormal_in);
 }
