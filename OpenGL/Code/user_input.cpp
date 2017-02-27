@@ -5,11 +5,6 @@
 void MainView::updateRotation(int x, int y, int z)
 {
     qDebug() << "updateRotation(" << x << "," << y << "," << z << ");";
-    // this->model.translate (200,200,200);
-    // this->model.rotate (x, 1, 0, 0);
-    // this->model.rotate (y, 0, 1, 0);
-    // this->model.rotate (z, 0, 0, 1);
-    // this->model.translate (-200,-200,-200);
     this->rotation_x += x;
     this->rotation_y += y;
     this->rotation_z += z;
@@ -35,11 +30,6 @@ void MainView::updateShader(QString name)
 void MainView::updateScale(float scale)
 {
     qDebug() << "updateScale(" << scale << ")";
-    // TODO: update model scale
-    // this->model.translate (200,200,200);
-    // this->model.scale (scale);
-    // this->model.translate (-200,-200,-200);
-
     this->scale = scale;
     update();
 }
