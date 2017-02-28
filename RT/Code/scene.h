@@ -39,6 +39,7 @@ private:
     RenderMode rm;
     bool shadows;
     int recursionDepth;
+    int superSampling;
 public:
     Color trace(const Ray &ray, RenderMode rm, int depth);
     void render(Image &img);
@@ -48,6 +49,7 @@ public:
     void setRenderMode (string in);
     void setShadows (bool val);
     void setMaxRecursionDepth (int val);
+    void setSuperSampling(int val);
     unsigned int getNumObjects() { return objects.size(); }
     unsigned int getNumLights() { return lights.size(); }
 };

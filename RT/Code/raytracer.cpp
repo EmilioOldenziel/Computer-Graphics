@@ -195,7 +195,17 @@ bool Raytracer::readScene(const std::string& inputFilename)
             else
                 scene->setShadows (true);
 
-            // Set shadows to specified value, default = true.
+             // Set SuperSampling
+            if (const YAML::Node *rec = doc.FindValue("SuperSampling")) 
+            { 
+                unsigned int val;
+                *rec >> val;
+                scene->setSuperSampling (val);
+            }
+            else
+                scene->setSuperSampling (1);
+
+            // Set MaxRecursionDepth to specified value, default = 1.
             if (const YAML::Node *rec = doc.FindValue("MaxRecursionDepth")) 
             { 
                 unsigned int val;

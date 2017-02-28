@@ -125,9 +125,13 @@ void Scene::render(Image &img)
 	double min = std::numeric_limits<double>::max (), max = std::numeric_limits<double>::min ();
 	for (int y = 0; y < h; y++) {
 		for (int x = 0; x < w; x++) {
-			Point pixel(x+0.5, h-1-y+0.5, 0);
-			Ray ray(eye, (pixel-eye).normalized());
-			Color col = trace(ray, rm, this->recursionDepth);
+            Color col(0.0,0.0,0.0);
+            for(int s = 0; s != this->superSampling; s++){
+                Point pixel(x+0.5, h-1-y+0.5, 0);
+			    Ray ray(eye, (pixel-eye).normalized());
+			    col += trace(ray, rm, this->recursionDepth);
+            }
+            col = col/superSampling;
 			if (rm != ZBuffer)
 				col.clamp();
 			else
@@ -193,4 +197,10 @@ void Scene::setShadows (bool val)
 void Scene::setMaxRecursionDepth (int val)
 {
 	this->recursionDepth = val;
+}
+
+// Set super sampling
+void Scene::setSuperSampling (int val)
+{
+	this->superSampling = val;
 }
