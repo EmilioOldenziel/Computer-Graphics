@@ -40,5 +40,10 @@ void main()
     float specular = material_in[2] * pow (max (0.0, dot (direction_refraction, direction_view)), material_in[3]);
 
     fColor = vec4(ambient + diffuse + specular, 1.0);
+
+    // -------------------------------------------------------------------------
+    // This is normal buffer. Uncomment this line and comment the rest for 
+    // normal buffer rendering. Debugging purposes.
+
     //fColor = vec4((normal+1)/2, 1.0);
 }

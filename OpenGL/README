@@ -1,19 +1,47 @@
 Part 1.
-    We changed the mainwindow and added buffers, uniforms and implemented drawing of the model so that we could get our first image of the cube.
-    Then we implemented the vertex shader and fragment shader to display the colors of the triangles.
-    After that we used rotations, scaling and translations to rotate and scale the model using mouse inputs around the center of the model.
+    We changed the mainwindow and added buffers, uniforms and implemented 
+    drawing of the model so that we could get our first image of the cube. Then 
+    we implemented the vertex shader and fragment shader to display the colors 
+    of the triangles. After that we used rotations, scaling and translations to 
+    rotate and scale the model using mouse inputs around the center of the 
+    model.
 
-    Dragging on the view makes the view (camera) rotate around the model. Using the scoll wheel scales the model.
+    Dragging on the view makes the view (camera) rotate around the model. Using 
+    the scoll wheel scales the model (in it's entirety, not each shape 
+    individually).
 
 Part 2.
-    First we implemented the drawing the sphere at the right positions doing a translation, render the sphere at its position 
-    and then undo the translation and go to the next sphere so that all spheres are rendered in the end.
-    The result is shown in screenshot flat_spheres.jpeg
+    First we implemented the drawing the sphere at the right positions doing a 
+    translation, render the sphere at its position and then undo the translation 
+    and go to the next sphere so that all spheres are rendered in the end. The 
+    result is shown in screenshot flat_spheres.jpeg
 
-    After that we had to implement phong in the fragment shader, first we added uniforms for normals, lighting and material.
-    The normal is multiplied with the normal matrix so that the normal on the sphere keeps the same after rotating, see normal.jpeg for a screenshot of the normal-buffer.
+    After that we had to implement phong in the fragment shader, first we added 
+    uniforms for normals, lighting and material. The normal is multiplied with 
+    the normal matrix so that the normal on the sphere keeps the same after 
+    rotating, see normal.jpeg for a screenshot of the normal-buffer.
     
-    We got seriously stuck on two occasions, the first one was that we forgot to normalize a value and the result looked like vertex shading.
-    The second one is why we are late, if the normal is/was multiplied with the normal matrix it resulted in 
-    a scene where the lighting came from all directions or moved with the camera and there was no 'dark-side'.
-    If it then wasn't multiplied by the matrix, the 'dark side' came back.
+    We got seriously stuck on two occasions, the first one was that we forgot to 
+    normalize a value and the result looked like vertex shading. The second one 
+    is why we are late, if the normal is/was multiplied with the normal matrix 
+    it resulted in a scene where the lighting came from all directions or moved 
+    with the camera and there was no 'dark-side'. If it then wasn't multiplied 
+    by the matrix, the 'dark side' came back. Furthermore, during this issue the
+    light source seemed to placed at the camera itself.
+
+    The second issue was really dumb on our part. We transformed the light
+    source using the view matrix, instead of the model matrix. The issue that 
+    caused the light source to be placed at the origin was caused because we 
+    used 'glUniform4fv' instead of its 3fv counterpart.
+
+    Because we solved these issues so late, we were unable to confirm our 
+    product works on the wingtips, unfortunately. Since, we have been 
+    consistently working on Unix machines, we are fairly confident that it will 
+    run smoothly, though. This is reinforced by the fact that the RayTracer also 
+    ran fine on the wingtips without any conversions necessary.
+
+    Finally, we included a screen captured video, showing how the product 
+    behaves and the different aspects the user can control using mouse movement.
+    This video is placed in the Screenshots directory, and should be hard to 
+    miss.
+
