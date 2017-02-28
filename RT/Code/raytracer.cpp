@@ -174,6 +174,8 @@ bool Raytracer::readScene(const std::string& inputFilename)
             parser.GetNextDocument(doc);
 
             // Read scene configuration options
+
+            // Set render mode to specified value, default = phong.
             if (const YAML::Node *rec = doc.FindValue("RenderMode")) 
             { 
                 string val;
@@ -182,6 +184,27 @@ bool Raytracer::readScene(const std::string& inputFilename)
             }
             else
                 scene->setRenderMode ("phong");
+
+            // Set shadows to specified value, default = true.
+            if (const YAML::Node *rec = doc.FindValue("Shadows")) 
+            { 
+                bool val;
+                *rec >> val;
+                scene->setShadows (val);
+            }
+            else
+                scene->setShadows (true);
+
+            // Set shadows to specified value, default = true.
+            if (const YAML::Node *rec = doc.FindValue("MaxRecursionDepth")) 
+            { 
+                unsigned int val;
+                *rec >> val;
+                scene->setMaxRecursionDepth (val);
+            }
+            else
+                scene->setMaxRecursionDepth (1);
+
             scene->setEye(parseTriple(doc["Eye"]));
 
             // Read and parse the scene objects

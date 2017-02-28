@@ -25,8 +25,8 @@ Hit Plane::intersect(const Ray &ray)
     {
         double t = (-N).dot (ray.O - center) / angle;
         //check if plane is not behind the camera and which side is shown
-        if (t >= 0 && angle > 0.0001l) return Hit (t, (-N).normalized());
-        if (t >= 0 && angle < -0.0001l) return Hit (t, N.normalized());
+        if (t >= 0.0001l && angle > 0.0001l) return Hit (t, (-N).normalized());
+        if (t >= 0.0001l && angle < -0.0001l) return Hit (t, N.normalized());
     }
     return Hit::NO_HIT();
 }
