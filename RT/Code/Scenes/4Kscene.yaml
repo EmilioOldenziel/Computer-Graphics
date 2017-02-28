@@ -1,7 +1,9 @@
 ---
 #  This scene will render in 4K with supersampling of 2x2 rays per pixel.
 
-Eye: [200,200,1000]  
+Eye: [1920,1080,1000]  
+
+RenderMode: "phong"
 
 Shadows: true
 MaxRecursionDepth: 2
@@ -11,63 +13,48 @@ Resolution:
   y: 2160
 
 Lights:
-- position: [-200,600,1500]
+- position: [-1920,3240,1500]
   color: [0.4,0.4,0.8]
-- position: [600,600,1500]
+- position: [5760,3240,1500]
   color: [0.8,0.8,0.4]
 
 Objects:
 - type: sphere
-  position: [90,320,100]
-  radius: 50
+  position: [1920,1080,100]
+  radius: 300
   material: # blue
     color: [0.0,0.0,1.0]
     ka: 0.2
     kd: 0.7
     ks: 0.5
     n: 64
-- type: sphere
-  position: [210,270,300]
-  radius: 50
-  material: # green
-    color: [0.0,1.0,0.0]
+- type: torus
+  position: [3000,1400,300]
+  radius: 300
+  alpha: 30
+  material: # Green
+    color: [0.17,0.74,0.14]
     ka: 0.2
-    kd: 0.3
-    ks: 0.5
-    n: 8
-- type: sphere
-  position: [290,170,150]
-  radius: 50
-  material: # red
-    color: [1.0,0.0,0.0]
-    ka: 0.2
-    kd: 0.7
-    ks: 0.8
+    kd: 0.9
+    ks: 0.3
     n: 32
-- type: sphere
-  position: [140,220,400]
-  radius: 50
-  material: # yellow
-    color: [1.0,0.8,0.0]
+- type: torus
+  position: [840,1400,300]
+  radius: 300
+  alpha: 30
+  material: # Green
+    color: [0.74,0.14,0.14]
     ka: 0.2
-    kd: 0.8
-    ks: 0
-    n: 1
-- type: sphere
-  position: [110,130,200]
-  radius: 50
-  material: # orange
-    color: [1.0,0.5,0.0]
-    ka: 0.2
-    kd: 0.8
-    ks: 0.5
+    kd: 0.9
+    ks: 0.3
     n: 32
-- type: sphere
-  position: [200,200,-1000]
-  radius: 1000
-  material: # grey
-    color: [0.4,0.4,0.4]
-    ka: 0.2
-    kd: 0.8
-    ks: 0
-    n: 1
+- type: plane
+  center: [0,0,-500]
+  N: [0,0,1]
+  material:
+    color: [0,0,0]
+    ka: 0
+    kd: 0
+    ks: 1
+    n: 64
+
