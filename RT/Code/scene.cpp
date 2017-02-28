@@ -126,12 +126,15 @@ void Scene::render(Image &img)
 	for (int y = 0; y < h; y++) {
 		for (int x = 0; x < w; x++) {
             Color col(0.0,0.0,0.0);
-            for(int s = 0; s != this->superSampling; s++){
-                Point pixel(x+0.5, h-1-y+0.5, 0);
-			    Ray ray(eye, (pixel-eye).normalized());
-			    col += trace(ray, rm, this->recursionDepth);
+            float span = 1.0/(this->superSampling+1.0);
+            for(int row = 1; row != this->superSampling+1; row++){
+                for(int column = 1; column != this->superSampling+1; column++){
+                    Point pixel(x+(row*span), h-1-y+(column*span), 0);
+                    Ray ray(eye, (pixel-eye).normalized());
+                    col += trace(ray, rm, this->recursionDepth);
+                }
             }
-            col = col/superSampling;
+            col = col/(superSampling*superSampling);
 			if (rm != ZBuffer)
 				col.clamp();
 			else
