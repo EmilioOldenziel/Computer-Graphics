@@ -88,6 +88,7 @@ Color Scene::trace(const Ray &ray, RenderMode rm)
             }
         }
 
+        // Refraction ray.
         Vector R = 2 * (L.dot (N)) * N - L;
 
         // No blocking objects -> Determine colour.
