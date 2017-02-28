@@ -22,7 +22,7 @@
 // method to give the color based on rendermode
 Color Scene::trace(const Ray &ray, RenderMode rm, int depth)
 {
-	if (!depth) return Color (0.0, 0.0, 0.0);
+	if (!depth) return Color (-1.0, -1.0, -1.0);
 
 	// Find hit object and distance
 	Hit min_hit(std::numeric_limits<double>::infinity(),Vector());
@@ -36,7 +36,7 @@ Color Scene::trace(const Ray &ray, RenderMode rm, int depth)
 	}
 
 	// No hit? Return background color.
-	if (!obj) return Color(0.0, 0.0, 0.0);
+	if (!obj) return Color(-1.0, -1.0, -1.0);
 
 	Material *material = obj->material;            //the hit objects material
 	Point hit = ray.at(min_hit.t);                 //the hit point
@@ -113,7 +113,8 @@ Color Scene::trace(const Ray &ray, RenderMode rm, int depth)
 	// Determine reflection colour.
 	Ray refractionRay (hit, H);
 	Color refractionColour = trace (refractionRay, rm, depth - 1);
-	color += (refractionColour * material->ks);
+	if (refractionColour.r >= 0)
+		color = (refractionColour * material->ks) + (color * (1 - material->ks));
 	
 	return color;
 }
@@ -131,6 +132,9 @@ void Scene::render(Image &img)
                 for(int column = 1; column != this->superSampling+1; column++){
                     Point pixel(x+(row*span), h-1-y+(column*span), 0);
                     Ray ray(eye, (pixel-eye).normalized());
+                    Color tmp = trace (ray, rm, this->recursionDepth);
+                    if (tmp.r < 0.0)
+                    	tmp.r = tmp.b = tmp.g = 0.0;
                     col += trace(ray, rm, this->recursionDepth);
                 }
             }
