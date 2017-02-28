@@ -22,6 +22,11 @@
 #include "scene.h"
 #include "yaml/yaml.h"
 
+typedef struct Resolution {
+	int x;
+	int y;
+} Resolution;
+
 class Raytracer {
 private:
     Scene *scene;
@@ -30,12 +35,15 @@ private:
     Material* parseMaterial(const YAML::Node& node);
     Object* parseObject(const YAML::Node& node);
     Light* parseLight(const YAML::Node& node);
+    Resolution parseResolution (const YAML::Node &node);
+
 
 public:
     Raytracer() { }
 
     bool readScene(const std::string& inputFilename);
     void renderToFile(const std::string& outputFilename);
+    Resolution resolution;
 };
 
 #endif /* end of include guard: RAYTRACER_H_6GQO67WK */

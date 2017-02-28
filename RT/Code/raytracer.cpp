@@ -60,6 +60,15 @@ Material* Raytracer::parseMaterial(const YAML::Node& node)
     return m;
 }
 
+
+Resolution Raytracer::parseResolution (const YAML::Node &node)
+{
+    Resolution res;
+    node["x"] >> res.x;
+    node["y"] >> res.y;
+    return res;
+}
+
 Object* Raytracer::parseObject(const YAML::Node& node)
 {
     Object *returnObject = NULL;
@@ -195,7 +204,7 @@ bool Raytracer::readScene(const std::string& inputFilename)
             else
                 scene->setShadows (true);
 
-             // Set SuperSampling
+            // Set SuperSampling
             if (const YAML::Node *rec = doc.FindValue("SuperSampling")) 
             { 
                 unsigned int val;
@@ -214,6 +223,17 @@ bool Raytracer::readScene(const std::string& inputFilename)
             }
             else
                 scene->setMaxRecursionDepth (1);
+
+            // Set MaxRecursionDepth to specified value, default = 1.
+            if (const YAML::Node *rec = doc.FindValue("Resolution")) 
+                this->resolution = parseResolution (*rec->begin ());
+            else
+            {
+                Resolution res;
+                res.x = 400;
+                res.y = 400;
+                this->resolution = res;
+            }
 
             scene->setEye(parseTriple(doc["Eye"]));
 
@@ -257,7 +277,7 @@ bool Raytracer::readScene(const std::string& inputFilename)
 
 void Raytracer::renderToFile(const std::string& outputFilename)
 {
-    Image img(400,400);
+    Image img(this->resolution.x, this->resolution.y);
     cout << "Tracing..." << endl;
     scene->render(img);
     cout << "Writing image to " << outputFilename << "..." << endl;
