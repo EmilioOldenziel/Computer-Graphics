@@ -22,8 +22,13 @@ Hit Triangle::intersect(const Ray &ray)
 
     double a = e01.dot(Q);
 
+    //if we see the back flip normal
+    if(a <= -0.001){
+        N = -N;
+    }
+
     //check if triangle is not parallel with the ray
-    if ((N.dot(ray.D) >= 0) || (fabs(a) <= 0.001)) 
+    if ((N.dot(ray.D) >= 0.001) || (fabs(a) <= 0.001))
         return Hit::NO_HIT();
 
     Vector s = (ray.O - p0) / a;
