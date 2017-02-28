@@ -81,7 +81,7 @@ Color Scene::trace(const Ray &ray, RenderMode rm)
         Hit tmp_hit(std::numeric_limits<double>::infinity(),Vector());
         Object *tmp = NULL;
         for (unsigned int i = 0; i < objects.size(); ++i) {
-            Hit hit(objects[i]->intersect(ray));
+            Hit hit(objects[i]->intersect(diffusedLightRay));
             if (hit.t<tmp_hit.t) {
                 tmp_hit = hit;
                 tmp = objects[i];
