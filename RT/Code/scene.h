@@ -36,6 +36,8 @@ private:
     std::vector<Object*> objects;
     std::vector<Light*> lights;
     Triple eye;
+    Triple center;
+    Triple up;
     RenderMode rm;
     bool shadows;
     int recursionDepth;
@@ -46,6 +48,8 @@ public:
     void addObject(Object *o);
     void addLight(Light *l);
     void setEye(Triple e);
+    void setCenter (Triple c);
+    void setUp (Triple u);
     void setRenderMode (string in);
     void setShadows (bool val);
     void setMaxRecursionDepth (int val);

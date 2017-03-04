@@ -60,13 +60,25 @@ Material* Raytracer::parseMaterial(const YAML::Node& node)
     return m;
 }
 
-
-Resolution Raytracer::parseResolution (const YAML::Node &node)
+void Raytracer::parseCamera (const YAML::Node &node)
 {
-    Resolution res;
-    node["x"] >> res.x;
-    node["y"] >> res.y;
-    return res;
+    const YAML::Node& res = node["viewSize"];
+    scene->setEye (parseTriple (node["eye"]));
+    scene->setCenter (parseTriple (node["center"]));
+    scene->setUp (parseTriple (node["up"]));
+    unsigned int width, height;
+    res[0] >> width;
+    res[1] >> height;
+    this->resolution = Resolution (width, height);
+    cout << "Set resolution to " << width << " by " << height << endl;
+}
+
+void Raytracer::parseSuperSampling (const YAML::Node &node)
+{
+    const YAML::Node& tmp = node["factor"];
+    unsigned int val;
+    tmp >> val;
+    scene->setSuperSampling (val);
 }
 
 Object* Raytracer::parseObject(const YAML::Node& node)
@@ -206,11 +218,7 @@ bool Raytracer::readScene(const std::string& inputFilename)
 
             // Set SuperSampling
             if (const YAML::Node *rec = doc.FindValue("SuperSampling")) 
-            { 
-                unsigned int val;
-                *rec >> val;
-                scene->setSuperSampling (val);
-            }
+                parseSuperSampling (*rec);
             else
                 scene->setSuperSampling (1);
 
@@ -224,18 +232,13 @@ bool Raytracer::readScene(const std::string& inputFilename)
             else
                 scene->setMaxRecursionDepth (1);
 
-            // Set MaxRecursionDepth to specified value, default = 1.
-            if (const YAML::Node *rec = doc.FindValue("Resolution")) 
-                this->resolution = parseResolution (*rec->begin ());
+            if (const YAML::Node *rec = doc.FindValue("Camera")) 
+                parseCamera (*rec);
             else
             {
-                Resolution res;
-                res.x = 400;
-                res.y = 400;
-                this->resolution = res;
+                scene->setEye(parseTriple(doc["Eye"]));
+                this->resolution = Resolution ();
             }
-
-            scene->setEye(parseTriple(doc["Eye"]));
 
             // Read and parse the scene objects
             const YAML::Node& sceneObjects = doc["Objects"];
@@ -277,7 +280,7 @@ bool Raytracer::readScene(const std::string& inputFilename)
 
 void Raytracer::renderToFile(const std::string& outputFilename)
 {
-    Image img(this->resolution.x, this->resolution.y);
+    Image img(this->resolution.width, this->resolution.height);
     cout << "Tracing..." << endl;
     scene->render(img);
     cout << "Writing image to " << outputFilename << "..." << endl;

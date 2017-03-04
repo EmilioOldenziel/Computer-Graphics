@@ -132,16 +132,20 @@ void Scene::render(Image &img)
 	double min = std::numeric_limits<double>::max (), max = std::numeric_limits<double>::min ();
 	for (int y = 0; y < h; y++) {
 		for (int x = 0; x < w; x++) {
+			double adjX = (x - center.x) * up.length ();
+			double adjY = (y - center.y) * up.length ();
             Color col(0.0,0.0,0.0);
-            float span = 1.0/(this->superSampling+1.0);
-            for(int row = 1; row != this->superSampling+1; row++){
-                for(int column = 1; column != this->superSampling+1; column++){
-                    Point pixel(x+(row*span), h-1-y+(column*span), 0);
-                    Ray ray(eye, (pixel-eye).normalized());
-                    col += trace(ray, rm, this->recursionDepth);
+            float span = up.length () / (this->superSampling + 1.0);
+
+            for(int row = 1; row != this->superSampling + 1; row++){
+                for(int column = 1; column != this->superSampling + 1; column++){
+                    Point pixel (adjX + (row * span), h - 1 - adjY + (column * span), 0);
+                    Ray ray (eye, (pixel - eye).normalized());
+                    col += trace (ray, rm, this->recursionDepth);
                 }
             }
-            col = col/(superSampling*superSampling);
+            col = col / (superSampling * superSampling);
+
 			if (rm != ZBuffer)
 				col.clamp();
 			else
@@ -151,7 +155,7 @@ void Scene::render(Image &img)
 				if (col.r > max)
 					max = col.r;
 			}
-			img(x,y) = col;
+			img (x, y) = col;
 		}
 
 		// Prints the progress.
@@ -196,6 +200,16 @@ void Scene::addLight(Light *l)
 void Scene::setEye(Triple e)
 {
 	eye = e;
+}
+
+void Scene::setCenter (Triple c)
+{
+	center = c;
+}
+
+void Scene::setUp (Triple u)
+{
+	up = u;
 }
 
 //rendermodes can be zbuffer normal or phong (=default)

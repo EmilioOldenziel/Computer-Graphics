@@ -1,0 +1,90 @@
+---
+#  This scene will render in 4K with supersampling of 3x3 rays per pixel.
+
+Camera:
+    eye: [640,360,1000]
+    center: [200,200,0]
+    up: [0,1,0]
+    viewSize: [1280,720]
+
+RenderMode: "phong"
+
+Shadows: true
+MaxRecursionDepth: 5
+SuperSampling: 2
+
+Lights:
+- position: [-360,3240,1500]
+  color: [1.0,1.0,1.0]
+- position: [5760,3240,1500]
+  color: [1.0,1.0,1.0]
+
+Objects:
+- type: torus
+  position: [1920,1255,300] # Center
+  radius: 300
+  alpha: 30
+  material: # Black
+    color: [0.0,0.0,0.0]
+    ka: 0.2
+    kd: 0.7
+    ks: 0.3
+    n: 32
+- type: torus
+  position: [1220,1255,300] # Top left
+  radius: 300
+  alpha: 30
+  material: # Blue
+    color: [0.0,0.48,0.79]
+    ka: 0.2
+    kd: 0.7
+    ks: 0.3
+    n: 32
+- type: torus
+  position: [2620,1255,300] # Top right
+  radius: 300
+  alpha: 30
+  material: # Red
+    color: [0.88,0.05,0.29]
+    ka: 0.2
+    kd: 0.7
+    ks: 0.3
+    n: 32
+- type: torus
+  position: [1570,905,300] # Bottom left
+  radius: 300
+  alpha: 30
+  material: # Yellow
+    color: [1.0,0.63,0.0]
+    ka: 0.2
+    kd: 0.7
+    ks: 0.3
+    n: 32
+- type: torus
+  position: [2270,905,300] # Bottom right
+  radius: 300
+  alpha: 30
+  material: # Green
+    color: [0.0,0.61,0.23]
+    ka: 0.2
+    kd: 0.7
+    ks: 0.3
+    n: 32
+- type: plane
+  center: [0,0,-500] # Behind the scene
+  N: [0,0,1] # Perpendicular to the scene
+  material:
+    color: [0.0,0.0,0.0] # Grey 
+    ka: 0
+    kd: 0
+    ks: 1
+    n: 64
+- type: plane
+  center: [0,0,1501] # Behind the camera
+  N: [0,0,1] # Perpendicular to the scene
+  material:
+    color: [0.5,0.5,0.5] # Grey 
+    ka: 1
+    kd: 0.7
+    ks: 0.3
+    n: 64

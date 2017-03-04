@@ -18,14 +18,15 @@
 #include <iostream>
 #include <string>
 #include "triple.h"
+#include "resolution.h"
 #include "light.h"
 #include "scene.h"
 #include "yaml/yaml.h"
 
-typedef struct Resolution {
-	int x;
-	int y;
-} Resolution;
+// typedef struct Resolution {
+// 	int x;
+// 	int y;
+// } Resolution;
 
 class Raytracer {
 private:
@@ -36,6 +37,8 @@ private:
     Object* parseObject(const YAML::Node& node);
     Light* parseLight(const YAML::Node& node);
     Resolution parseResolution (const YAML::Node &node);
+    void parseCamera (const YAML::Node &node);
+    void parseSuperSampling (const YAML::Node &node);
 
 
 public:
