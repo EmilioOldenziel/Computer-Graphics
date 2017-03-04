@@ -23,12 +23,12 @@ Hit Triangle::intersect(const Ray &ray)
     double a = e01.dot(Q);
 
     //if we see the back flip normal
-    if(a <= -0.001){
+    if(a <= -0.00001){
         N = -N;
     }
 
     //check if triangle is not parallel with the ray
-    if ((N.dot(ray.D) >= 0.001) || (fabs(a) <= 0.001))
+    if ((N.dot(ray.D) >= 0.00001) || (fabs(a) <= 0.00001))
         return Hit::NO_HIT();
 
     Vector s = (ray.O - p0) / a;
@@ -45,7 +45,7 @@ Hit Triangle::intersect(const Ray &ray)
     double t = e02.dot(r);
     
     //check if triangle is not behind the camera
-    if(t >= 0.0f){
+    if(t >= 0.00001){
         return Hit(t,N.normalized());
     }
 

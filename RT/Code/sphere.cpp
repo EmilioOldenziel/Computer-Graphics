@@ -49,7 +49,7 @@ Hit Sphere::intersect(const Ray &ray)
     // Determine closest hit point (if any).
     double t = 0;
     if (numRoots == 2){
-        if(roots[0] > 0 && roots[1] > 0){
+        if(roots[0] > 0.00001 && roots[1] > 0.00001){
             t = min (roots[0], roots[1]);
         }
         else if(roots[0] > 0.00001 && roots[1] <= 0.00001){

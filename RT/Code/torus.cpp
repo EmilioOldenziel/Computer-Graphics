@@ -1,6 +1,7 @@
 
 #include "torus.h"
 #include <math.h>
+#include <limits>
 #include "algebra/algebra.h"
 
 Hit Torus::intersect (const Ray &ray)
@@ -41,9 +42,9 @@ Hit Torus::intersect (const Ray &ray)
 	// Find smallest root, if any.
 	if (!numRoots)
 		return Hit::NO_HIT ();
-	double t = roots[0];
-	for (int i = 1; i < numRoots; i++)
-		if (roots [i] < t)
+	double t = std::numeric_limits<double>::max ();
+	for (int i = 0; i < numRoots; i++)
+		if (roots [i] < t && roots[i] > 0.00001)
 			t = roots [i];
 
 	// Determine centre of the tube perpendicular to the hit point.

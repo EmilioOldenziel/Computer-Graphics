@@ -20,7 +20,7 @@ Hit Circle::intersect(const Ray &ray)
     {
         double t = (-N).dot (ray.O - center) / angle;
         //check if plane is not behind the camera
-        if (t >= 0) 
+        if (t > 0.00001) 
         {
             Point hit = ray.O + t * ray.D;
             //plane is bound by the radius

@@ -16,6 +16,7 @@
 
 #include <limits>
 #include <math.h>
+#include <ctime>
 #include "scene.h"
 #include "material.h"
 
@@ -77,6 +78,7 @@ Color Scene::trace(const Ray &ray, RenderMode rm, int depth)
 	{
 		// Determine hit object only if shadows enabled.
 		Object *tmp = NULL;
+		Hit tmp_hit (std::numeric_limits<double>::infinity(),Vector());
 		Vector L = (lights[i]->position - hit).normalized ();
 		if (this->shadows)
 		{
@@ -84,7 +86,6 @@ Color Scene::trace(const Ray &ray, RenderMode rm, int depth)
 			Ray diffusedLightRay (hit, L);
 
 			// Determine blocking object(s).
-			Hit tmp_hit(std::numeric_limits<double>::infinity(),Vector());
 			for (unsigned int i = 0; i < objects.size(); ++i) {
 				Hit hit(objects[i]->intersect(diffusedLightRay));
 				if (hit.t<tmp_hit.t) {
@@ -98,7 +99,7 @@ Color Scene::trace(const Ray &ray, RenderMode rm, int depth)
 		Vector R = 2 * (L.dot (N)) * N - L;
 
 		// No blocking objects -> Determine colour.
-		if (!tmp || tmp == obj) 
+		if (!tmp || tmp == obj || tmp_hit.t > (lights[i]->position - hit).length ()) 
 		{
 			// Diffuse lighting.
 			color += (lights[i]->color * material->color * (fmax (0, N.dot (L)) * material->kd));
@@ -120,6 +121,12 @@ Color Scene::trace(const Ray &ray, RenderMode rm, int depth)
 
 void Scene::render(Image &img)
 {
+	// Timing stuff
+	std::clock_t start = std::clock ();
+    double duration = 0.0;
+    cout.precision (9);
+
+    // Here begins the interesting part
 	int w = img.width();
 	int h = img.height();
 	double min = std::numeric_limits<double>::max (), max = std::numeric_limits<double>::min ();
@@ -146,11 +153,23 @@ void Scene::render(Image &img)
 			}
 			img(x,y) = col;
 		}
+
+		// Prints the progress.
+		if ((y + 1) * 20 % h == 0)
+		{
+			duration = (std::clock () - start) / (double) CLOCKS_PER_SEC;
+			int percentage = (y + 1) * 100 / h;
+			cout << percentage 
+				<< "\% done. Estimated completion in "
+				<< (duration / percentage) * (100 - percentage)
+				<< " seconds."
+				<< endl;
+		}
 	}
 	// If ZBuffer has been selected, scale the colours.
 	if (rm == ZBuffer)
 	{
-		cerr << min << " " << max << endl;
+		cout << "Normalising the result..." << endl;
 		for (int y = 0; y < h; y++) {
 			for (int x = 0; x < w; x++) {
 				Color col = img.get_pixel (x, y);

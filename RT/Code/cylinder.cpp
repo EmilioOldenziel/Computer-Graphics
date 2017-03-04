@@ -20,7 +20,16 @@ Hit Cylinder::intersect (const Ray &ray)
 	// Determine closest hit point (if any).
 	double t = 0;
 	if (numRoots == 2)
-		t = min (roots[0], roots[1]);
+	{
+		if(roots[0] > 0.00001 && roots[1] > 0.00001)
+			t = min (roots[0], roots[1]);
+		else if(roots[0] > 0.00001 && roots[1] <= 0.00001)
+			t = roots[0];
+		else if(roots[0] <= 0.00001 && roots[1] > 0.00001)
+			t = roots[1];
+		else
+			return Hit::NO_HIT ();
+	}
 	else if (numRoots == 1)
 		t = roots[0];
 	else
