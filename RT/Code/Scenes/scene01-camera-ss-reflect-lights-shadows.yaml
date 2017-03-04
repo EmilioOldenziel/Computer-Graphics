@@ -13,10 +13,10 @@
 #  it should be clear that the #-character can be used to insert comments.
 
 Camera:
-    eye: [200,200,1000]
-    center: [200,200,0]
-    up: [0,1,0]
-    viewSize: [400,400]
+  eye: [200,200,1000]
+  center: [200,200,0]
+  up: [0,1,0]
+  viewSize: [400,400]
 
 Shadows: true
 MaxRecursionDepth: 2
