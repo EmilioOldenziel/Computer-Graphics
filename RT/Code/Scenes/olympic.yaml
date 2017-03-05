@@ -1,17 +1,18 @@
 ---
 #  This scene will render in 4K with supersampling of 3x3 rays per pixel.
 
-Eye: [1920,1080,1000]  
+Camera:
+  eye: [1920,1080,1000]  
+  center: [1920,1080,0]
+  up: [0,1,0]
+  viewSize: [3840,2160]
 
 RenderMode: "phong"
 
 Shadows: true
 MaxRecursionDepth: 5
-SuperSampling: 2
-
-Resolution:
-- x: 3840
-  y: 2160
+SuperSampling: 
+  factor: 2
 
 Lights:
 - position: [-1920,3240,1500]

@@ -130,26 +130,43 @@ void Scene::render(Image &img)
 	int w = img.width();
 	int h = img.height();
 	double min = std::numeric_limits<double>::max (), max = std::numeric_limits<double>::min ();
-	for (int y = 0; y < h; y++) {
-		for (int x = 0; x < w; x++) {
-			double adjX = (x - center.x) * up.length ();
-			double adjY = (y - center.y) * up.length ();
+
+	// For each pixel.
+	for (int y = 0; y < h; y++) 
+	{
+		for (int x = 0; x < w; x++) 
+		{
             Color col(0.0,0.0,0.0);
             float span = up.length () / (this->superSampling + 1.0);
 
-            for(int row = 1; row != this->superSampling + 1; row++){
-                for(int column = 1; column != this->superSampling + 1; column++){
-                    Point pixel (adjX + (row * span), h - 1 - adjY + (column * span), 0);
+            for(int row = 1; row != this->superSampling + 1; row++)
+            {
+                for(int column = 1; column != this->superSampling + 1; column++)
+                {
+                	// Determine pixel location. Around the centre point, 
+                	// adjusted for size of the view in combination with pixel 
+                	// size. Also adjusted for super sampling.
+                	Point pixel (
+                		center.x 
+                			+ (x - (img.width () / 2)) * up.length () 
+                			+ column * span,
+                		center.y 
+                			+ ((img.height () - 1 - y) - (img.height () / 2)) * up.length () 
+                			+ row * span,
+                		center.z );
+
+                	// Shoot ray & trace.
                     Ray ray (eye, (pixel - eye).normalized());
                     col += trace (ray, rm, this->recursionDepth);
                 }
             }
-            col = col / (superSampling * superSampling);
+            col /= superSampling * superSampling;
 
 			if (rm != ZBuffer)
 				col.clamp();
 			else
 			{
+				// Find minimum and maximum for zbuffer.
 				if (col.r > 0 && col.r < min)
 					min = col.r;
 				if (col.r > max)
@@ -165,7 +182,7 @@ void Scene::render(Image &img)
 			int percentage = (y + 1) * 100 / h;
 			cout << percentage 
 				<< "\% done. Estimated completion in "
-				<< (duration / percentage) * (100 - percentage)
+				<< floor ((duration / percentage) * (100 - percentage))
 				<< " seconds."
 				<< endl;
 		}
@@ -212,7 +229,7 @@ void Scene::setUp (Triple u)
 	up = u;
 }
 
-//rendermodes can be zbuffer normal or phong (=default)
+// Render modes can be zbuffer normal or phong (=default)
 void Scene::setRenderMode (string in)
 {
 	if (!in.compare ("zbuffer"))
