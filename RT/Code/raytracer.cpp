@@ -238,6 +238,8 @@ bool Raytracer::readScene(const std::string& inputFilename)
             {
                 scene->setEye(parseTriple(doc["Eye"]));
                 this->resolution = Resolution ();
+                scene->setCenter(Triple(this->resolution.width / 2, this->resolution.height / 2,0));
+                scene->setUp(Triple(0,1,0));
             }
 
             // Read and parse the scene objects
