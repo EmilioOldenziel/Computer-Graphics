@@ -43,7 +43,7 @@ MainView::~MainView() {
     glDeleteBuffers (1, &this->coors);
     glDeleteBuffers (1, &this->colours);
     glDeleteBuffers (1, &this->normal_buffer);
-    glDeleteBuffers (1, &this->texptr);
+    glDeleteTextures (1, &this->texptr);
     glDeleteVertexArrays (1, &this->vao);
 
     // Free the main shader
@@ -98,6 +98,8 @@ void MainView::createBuffers() {
     glGenBuffers (1, &this->coors);
     glGenBuffers (1, &this->colours);
     glGenBuffers (1, &this->normal_buffer);
+    glGenBuffers (1, &this->texture_coordinates);
+    glGenTextures (1, &this->texptr);
 
     // Bind coordinates.
     glBindBuffer (GL_ARRAY_BUFFER, this->coors);
@@ -115,9 +117,10 @@ void MainView::createBuffers() {
     glVertexAttribPointer (2, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
     // Bind textures.
-    glBindBuffer (GL_ARRAY_BUFFER, this->texptr);
+    glBindTexture (GL_TEXTURE_2D, this->texptr);
+    glBindBuffer (GL_ARRAY_BUFFER, this->texture_coordinates);
     glEnableVertexAttribArray (3);
-    glVertexAttribPointer (3, 4, GL_UNSIGNED_BYTE, GL_FALSE, 0, 0);
+    glVertexAttribPointer (3, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
     glBindVertexArray (0);
 }
@@ -145,6 +148,13 @@ void MainView::loadModel(QString filename, GLuint bufferObject)
                   cubeModel->getNormals().data(),
                   GL_STATIC_DRAW
                   );
+
+    glBindBuffer (GL_ARRAY_BUFFER, this->texture_coordinates);
+    glBufferData (GL_ARRAY_BUFFER,
+                    sizeof (GL_FLOAT) * 2 * cubeModel->getTextureCoords ().size (),
+                    cubeModel->getTextureCoords ().data (),
+                    GL_STATIC_DRAW
+                    );
 
 }
 
@@ -280,11 +290,6 @@ void MainView::loadTexture (QString file, GLuint texptr)
     QImage t = QImage (file);
     QVector<quint8> v = imageToBytes (t);
 
-    glGenTextures(1, &texptr);
-    glBindTexture (GL_TEXTURE_2D, texptr);
-    glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
     glTexImage2D (GL_TEXTURE_2D, 
         0, 
         GL_RGBA8, 
@@ -295,5 +300,8 @@ void MainView::loadTexture (QString file, GLuint texptr)
         GL_UNSIGNED_BYTE, 
         v.data ()
         );
+
+    glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 }
 

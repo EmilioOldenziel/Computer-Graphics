@@ -111,6 +111,7 @@ private:
 
     // Texture stuff
     GLuint texptr;
+    GLuint texture_coordinates;
     GLint texture_uniform_ptr;
 
     void loadTexture (QString file, GLuint texptr);
