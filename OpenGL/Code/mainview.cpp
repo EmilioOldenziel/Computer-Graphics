@@ -43,7 +43,7 @@ MainView::~MainView() {
     glDeleteBuffers (1, &this->coors);
     glDeleteBuffers (1, &this->colours);
     glDeleteBuffers (1, &this->normal_buffer);
-    glDeleteBuffers (1, &this->texture);
+    glDeleteBuffers (1, &this->texptr);
     glDeleteVertexArrays (1, &this->vao);
 
     // Free the main shader
@@ -113,7 +113,7 @@ void MainView::createBuffers() {
     glVertexAttribPointer (2, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
     // Bind textures.
-    glBindBuffer (GL_ARRAY_BUFFER, this->texture_uniform_ptr);
+    glBindBuffer (GL_ARRAY_BUFFER, this->texptr);
     glEnableVertexAttribArray (3);
     glVertexAttribPointer (3, 4, GL_UNSIGNED_BYTE, GL_FALSE, 0, 0);
 
@@ -202,7 +202,7 @@ void MainView::initializeGL() {
 
     loadModel(":/models/cube.obj", cubeBO);
 
-    loadTexture (":/textures/rug_logo.png", texture);
+    loadTexture (":/textures/rug_logo.png", texptr);
 
     // For animation, you can start your timer here
 

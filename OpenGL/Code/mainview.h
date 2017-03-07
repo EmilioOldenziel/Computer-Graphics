@@ -110,7 +110,7 @@ private:
     void determineRotationMatrix ();
 
     // Texture stuff
-    GLuint texture;
+    GLuint texptr;
     GLint texture_uniform_ptr;
 
     void loadTexture (QString file, GLuint texptr);
