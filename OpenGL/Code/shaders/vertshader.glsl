@@ -6,6 +6,7 @@
 // Specify the input locations of attributes
 layout (location = 0) in vec3 vertCoordinates_in;
 layout (location = 2) in vec3 vertNormal_in;
+layout (location = 3) in vec2 textureCoordinates_in;
 
 // Specify the Uniforms of the vertex shader
 
@@ -21,6 +22,7 @@ uniform mat3 normal_matrix;
 
 out vec4 position_pixel;
 out vec3 normal;
+out vec2 tex_coors;
 
 void main()
 {
@@ -33,4 +35,5 @@ void main()
     position_pixel = pos;
 
     normal = normalize (normal_matrix * vertNormal_in);
+    tex_coors = textureCoordinates_in;
 }

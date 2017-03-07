@@ -77,6 +77,8 @@ void MainView::createShaderPrograms() {
     this->materialptr = glGetUniformLocation (mainShaderProg->programId (), "material_in");
     this->lightptr = glGetUniformLocation (mainShaderProg->programId(), "position_light_in");
 
+    this->texture_uniform_ptr = glGetUniformLocation (mainShaderProg->programId (), "sampler");
+
     /* End of custom shaders */
 
     // Store the locations (pointers in gpu memory) of uniforms in Glint's
@@ -254,6 +256,9 @@ void MainView::paintGL() {
     glUniformMatrix4fv (this->modelptr, 1, false, this->model.data ());
     glUniformMatrix4fv (this->projectionptr, 1, false, this->projection.data ());
     glBindVertexArray (this->vao);
+
+    glActiveTexture (GL_TEXTURE0);
+    glBindTexture (GL_TEXTURE_2D, this->texptr);
 
     renderRaytracerScene();
 
