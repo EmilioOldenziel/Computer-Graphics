@@ -194,7 +194,7 @@ void MainView::initializeGL() {
 
     createBuffers();
 
-    loadModel(":/models/sphere.obj", cubeBO);
+    loadModel(":/models/cube.obj", cubeBO);
 
     // For animation, you can start your timer here
 
@@ -239,7 +239,7 @@ void MainView::paintGL() {
 
     qDebug () << ":: View matrix: " << this->view;
 
-    this->view.translate (QVector3D (-200, -200, -1000));
+    this->view.translate (QVector3D (0, 0, -10));
     this->projection.perspective (30, (float) width () / height (),1, 2000);
 
     glUniformMatrix4fv (this->viewptr, 1, false, this->view.data ());
@@ -256,10 +256,8 @@ void MainView::paintGL() {
 
 void MainView::determineRotationMatrix ()
 {
-    this->model.translate (200, 200, 200);
     this->model.rotate (this->rotation_x, 1, 0, 0);
     this->model.rotate (this->rotation_y, 0, 1, 0);
     this->model.rotate (this->rotation_z, 0, 0, 1);
     this->model.scale (this->scale);
-    this->model.translate (-200, -200, -200);
 }
