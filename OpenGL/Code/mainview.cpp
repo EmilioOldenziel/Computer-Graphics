@@ -43,6 +43,7 @@ MainView::~MainView() {
     glDeleteBuffers (1, &this->coors);
     glDeleteBuffers (1, &this->colours);
     glDeleteBuffers (1, &this->normal_buffer);
+    glDeleteBuffers (1, &this->texture);
     glDeleteVertexArrays (1, &this->vao);
 
     // Free the main shader
@@ -110,6 +111,11 @@ void MainView::createBuffers() {
     glBindBuffer (GL_ARRAY_BUFFER, this->normal_buffer);
     glEnableVertexAttribArray (2);
     glVertexAttribPointer (2, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+    // Bind textures.
+    glBindBuffer (GL_ARRAY_BUFFER, this->texture_uniform_ptr);
+    glEnableVertexAttribArray (3);
+    glVertexAttribPointer (3, 4, GL_UNSIGNED_BYTE, GL_FALSE, 0, 0);
 
     glBindVertexArray (0);
 }
@@ -264,8 +270,25 @@ void MainView::determineRotationMatrix ()
     this->model.scale (this->scale);
 }
 
-void MainView::loadTexture (QString filename, GLuint texptr)
+void MainView::loadTexture (QString file, GLuint texptr)
 {
+    QImage t = QImage (file);
+    QVector<quint8> v = imageToBytes (t);
 
+    glGenTextures (1, &texptr);
+    glBindTexture (GL_TEXTURE_2D, texture_uniform_ptr);
+    glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+    glTexImage2D (GL_TEXTURE_2D, 
+        0, 
+        GL_RGBA8, 
+        t.width (), 
+        t.height (), 
+        0, 
+        GL_RGBA, 
+        GL_UNSIGNED_BYTE, 
+        v.data ()
+        );
 }
 

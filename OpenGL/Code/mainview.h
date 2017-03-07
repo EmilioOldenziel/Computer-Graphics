@@ -111,9 +111,9 @@ private:
 
     // Texture stuff
     GLuint texture;
-    GLint textureptr;
+    GLint texture_uniform_ptr;
 
-    void loadTexture (QString filename, GLuint texptr);
+    void loadTexture (QString file, GLuint texptr);
     QVector<quint8> imageToBytes(QImage image);
 
     /* End of private members */
