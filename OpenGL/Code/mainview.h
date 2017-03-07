@@ -109,6 +109,13 @@ private:
 
     void determineRotationMatrix ();
 
+    // Texture stuff
+    GLuint texture;
+    GLint textureptr;
+
+    void loadTexture (QString filename, GLuint texptr);
+    QVector<quint8> imageToBytes(QImage image);
+
     /* End of private members */
 
 private slots:

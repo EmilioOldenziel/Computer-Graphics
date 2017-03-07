@@ -196,6 +196,8 @@ void MainView::initializeGL() {
 
     loadModel(":/models/cube.obj", cubeBO);
 
+    loadTexture (":/textures/rug_logo.png", texture);
+
     // For animation, you can start your timer here
 
 }
@@ -261,3 +263,9 @@ void MainView::determineRotationMatrix ()
     this->model.rotate (this->rotation_z, 0, 0, 1);
     this->model.scale (this->scale);
 }
+
+void MainView::loadTexture (QString filename, GLuint texptr)
+{
+
+}
+
