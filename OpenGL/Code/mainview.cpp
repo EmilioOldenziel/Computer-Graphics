@@ -280,8 +280,8 @@ void MainView::loadTexture (QString file, GLuint texptr)
     QImage t = QImage (file);
     QVector<quint8> v = imageToBytes (t);
 
-    glGenTextures (1, &texptr);
-    glBindTexture (GL_TEXTURE_2D, texture_uniform_ptr);
+    glGenTextures(1, &texptr);
+    glBindTexture (GL_TEXTURE_2D, texptr);
     glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
