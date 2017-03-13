@@ -55,7 +55,7 @@ private:
     void updateUniforms();
 
     // Raytracer scene functions
-    void renderCube(QVector3D pos, QVector3D color, QVector4D material, QVector3D lightpos);
+    void renderCube(QVector3D pos, QVector3D color, QVector4D material, QVector3D lightpos, GLint texptr_local);
     void renderAnimation();
 
     /* Add your private members below */
@@ -113,6 +113,16 @@ private:
     GLuint texptr;
     GLuint texture_coordinates;
     GLint texture_uniform_ptr;
+
+    GLuint texptr_2;
+    GLuint texptr_3;
+    GLuint texptr_4;
+    GLuint texptr_5;
+    GLuint texptr_6;
+    GLuint texptr_7;
+    GLuint texptr_8;
+    GLuint texptr_9;
+    GLuint texptr_10;
 
     void loadTexture (QString file, GLuint texptr);
     QVector<quint8> imageToBytes(QImage image);

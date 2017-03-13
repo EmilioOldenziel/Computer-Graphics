@@ -44,6 +44,7 @@ MainView::~MainView() {
     glDeleteBuffers (1, &this->colours);
     glDeleteBuffers (1, &this->normal_buffer);
     glDeleteTextures (1, &this->texptr);
+    glDeleteTextures (1, &this->texptr_2);
     glDeleteVertexArrays (1, &this->vao);
 
     // Free the main shader
@@ -100,6 +101,15 @@ void MainView::createBuffers() {
     glGenBuffers (1, &this->normal_buffer);
     glGenBuffers (1, &this->texture_coordinates);
     glGenTextures (1, &this->texptr);
+    glGenTextures (1, &this->texptr_2);
+    glGenTextures (1, &this->texptr_3);
+    glGenTextures (1, &this->texptr_4);
+    glGenTextures (1, &this->texptr_5);
+    glGenTextures (1, &this->texptr_6);
+    glGenTextures (1, &this->texptr_7);
+    glGenTextures (1, &this->texptr_8);
+    glGenTextures (1, &this->texptr_9);
+    glGenTextures (1, &this->texptr_10);
 
     // Bind coordinates.
     glBindBuffer (GL_ARRAY_BUFFER, this->coors);
@@ -117,7 +127,6 @@ void MainView::createBuffers() {
     glVertexAttribPointer (2, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
     // Bind textures.
-    glBindTexture (GL_TEXTURE_2D, this->texptr);
     glBindBuffer (GL_ARRAY_BUFFER, this->texture_coordinates);
     glEnableVertexAttribArray (3);
     glVertexAttribPointer (3, 2, GL_FLOAT, GL_FALSE, 0, 0);
@@ -212,10 +221,18 @@ void MainView::initializeGL() {
 
     createBuffers();
 
-    loadModel(":/models/cube.obj", cubeBO);
+    loadModel(":/models/sphere.obj", cubeBO);
 
-    loadTexture (":/textures/rug_logo.png", texptr);
-
+    loadTexture (":/textures/sun.jpg", this->texptr);
+    loadTexture (":/textures/mercury.jpg", this->texptr_2);
+    loadTexture (":/textures/venus.jpg", this->texptr_3);
+    loadTexture (":/textures/earth.png", this->texptr_4);
+    loadTexture (":/textures/mars.jpg", this->texptr_5);
+    loadTexture (":/textures/jupiter.png", this->texptr_6);
+    loadTexture (":/textures/saturn.jpg", this->texptr_7);
+    loadTexture (":/textures/uranus.jpg", this->texptr_8);
+    loadTexture (":/textures/neptune.jpg", this->texptr_9);
+    loadTexture (":/textures/pluto.jpg", this->texptr_10);
     // For animation, you can start your timer here
 
 }
@@ -259,7 +276,7 @@ void MainView::paintGL() {
 
     qDebug () << ":: View matrix: " << this->view;
 
-    this->view.translate (QVector3D (0, 0, -10));
+    this->view.translate (QVector3D (0, 0, -300));
     this->projection.perspective (30, (float) width () / height (),1, 2000);
 
     glUniformMatrix4fv (this->viewptr, 1, false, this->view.data ());
@@ -268,7 +285,6 @@ void MainView::paintGL() {
     glBindVertexArray (this->vao);
 
     glActiveTexture (GL_TEXTURE0);
-    glBindTexture (GL_TEXTURE_2D, this->texptr);
 
     renderAnimation();
 
@@ -287,6 +303,7 @@ void MainView::determineRotationMatrix ()
 
 void MainView::loadTexture (QString file, GLuint texptr)
 {
+    glBindTexture (GL_TEXTURE_2D, texptr);
     QImage t = QImage (file);
     QVector<quint8> v = imageToBytes (t);
 
@@ -303,5 +320,6 @@ void MainView::loadTexture (QString file, GLuint texptr)
 
     glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
 }
 
