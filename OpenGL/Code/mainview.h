@@ -77,6 +77,7 @@ private:
     GLuint normal_buffer;
 
     QMatrix4x4 model;
+    QVector3D planet_rotations[10];
     QMatrix4x4 view;
     QMatrix4x4 projection;
 

@@ -43,32 +43,32 @@ void MainView::renderAnimation()
     lightpos = (this->model * QVector4D(lightpos, 1.0)).toVector3D();
 
     //Sun
-    renderCube(QVector3D(0,0,0),QVector3D(1,0.8f,0),QVector4D(0.2f,0.8f,0.0f,1),lightpos, this->texptr, 5);
+    renderCube(QVector3D(0,0,0) * this->planet_rotations[0],QVector3D(1,0.8f,0),QVector4D(0.2f,0.8f,0.0f,1),lightpos, this->texptr, 5);
 
     //Mecury
-    renderCube(QVector3D(400,0,0),QVector3D(1,0.8f,0),QVector4D(0.2f,0.8f,0.0f,1),lightpos, this->texptr_2, 1);
+    renderCube(QVector3D(400,0,0) * this->planet_rotations[1],QVector3D(1,0.8f,0),QVector4D(0.2f,0.8f,0.0f,1),lightpos, this->texptr_2, 1);
 
     //Venus
-    renderCube(QVector3D(600,0,0),QVector3D(1,0.8f,0),QVector4D(0.2f,0.8f,0.0f,1),lightpos, this->texptr_3, 1.3);
+    renderCube(QVector3D(600,0,0) * this->planet_rotations[2],QVector3D(1,0.8f,0),QVector4D(0.2f,0.8f,0.0f,1),lightpos, this->texptr_3, 1.3);
 
     //Earth
-    renderCube(QVector3D(800,0,0),QVector3D(1,0.8f,0),QVector4D(0.2f,0.8f,0.0f,1),lightpos, this->texptr_4, 1.5);
+    renderCube(QVector3D(800,0,0) * this->planet_rotations[3],QVector3D(1,0.8f,0),QVector4D(0.2f,0.8f,0.0f,1),lightpos, this->texptr_4, 1.5);
 
     //Mars
-    renderCube(QVector3D(1050,0,0),QVector3D(1,0.8f,0),QVector4D(0.2f,0.8f,0.0f,1),lightpos, this->texptr_5, 1);
+    renderCube(QVector3D(1050,0,0) * this->planet_rotations[4],QVector3D(1,0.8f,0),QVector4D(0.2f,0.8f,0.0f,1),lightpos, this->texptr_5, 1);
 
     //Jupiter
-    renderCube(QVector3D(1450,0,0),QVector3D(1,0.8f,0),QVector4D(0.2f,0.8f,0.0f,1),lightpos, this->texptr_6, 4);
+    renderCube(QVector3D(1450,0,0) * this->planet_rotations[5],QVector3D(1,0.8f,0),QVector4D(0.2f,0.8f,0.0f,1),lightpos, this->texptr_6, 4);
 
     //Saturn
-    renderCube(QVector3D(1850,0,0),QVector3D(1,0.8f,0),QVector4D(0.2f,0.8f,0.0f,1),lightpos, this->texptr_7, 2.5);
+    renderCube(QVector3D(1850,0,0) * this->planet_rotations[6],QVector3D(1,0.8f,0),QVector4D(0.2f,0.8f,0.0f,1),lightpos, this->texptr_7, 2.5);
 
     //Uranus
-    renderCube(QVector3D(2150,0,0),QVector3D(1,0.8f,0),QVector4D(0.2f,0.8f,0.0f,1),lightpos, this->texptr_8, 2);
+    renderCube(QVector3D(2150,0,0) * this->planet_rotations[7],QVector3D(1,0.8f,0),QVector4D(0.2f,0.8f,0.0f,1),lightpos, this->texptr_8, 2);
 
     //Neptune
-    renderCube(QVector3D(2450,0,0),QVector3D(1,0.8f,0),QVector4D(0.2f,0.8f,0.0f,1),lightpos, this->texptr_9, 2);
+    renderCube(QVector3D(2450,0,0) * this->planet_rotations[8],QVector3D(1,0.8f,0),QVector4D(0.2f,0.8f,0.0f,1),lightpos, this->texptr_9, 2);
 
     //Pluto
-    renderCube(QVector3D(2650,0,0),QVector3D(1,0.8f,0),QVector4D(0.2f,0.8f,0.0f,1),lightpos, this->texptr_10, 0.5);
+    renderCube(QVector3D(2650,0,0) * this->planet_rotations[9],QVector3D(1,0.8f,0),QVector4D(0.2f,0.8f,0.0f,1),lightpos, this->texptr_10, 0.5);
 }
