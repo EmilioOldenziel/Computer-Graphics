@@ -55,7 +55,7 @@ private:
     void updateUniforms();
 
     // Raytracer scene functions
-    void renderCube(QVector3D pos, QVector3D color, QVector4D material, QVector3D lightpos, GLint texptr_local);
+    void renderCube(QVector3D pos, QVector3D color, QVector4D material, QVector3D lightpos, GLint texptr_local, float scale_factor);
     void renderAnimation();
 
     /* Add your private members below */
