@@ -276,8 +276,9 @@ void MainView::paintGL() {
 
     qDebug () << ":: View matrix: " << this->view;
 
-    this->view.translate (QVector3D (0, 0, -300));
-    this->projection.perspective (30, (float) width () / height (),1, 2000);
+    this->model.translate(QVector3D(0,0,0));
+    this->view.translate (QVector3D (0, 0, -2000));
+    this->projection.perspective (30, (float) width () / height (),1, 4000);
 
     glUniformMatrix4fv (this->viewptr, 1, false, this->view.data ());
     glUniformMatrix4fv (this->modelptr, 1, false, this->model.data ());
