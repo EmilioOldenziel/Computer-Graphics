@@ -270,7 +270,7 @@ void MainView::paintGL() {
     glActiveTexture (GL_TEXTURE0);
     glBindTexture (GL_TEXTURE_2D, this->texptr);
 
-    renderRaytracerScene();
+    renderAnimation();
 
     mainShaderProg->release();
 }

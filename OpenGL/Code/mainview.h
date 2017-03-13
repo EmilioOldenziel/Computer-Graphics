@@ -56,7 +56,7 @@ private:
 
     // Raytracer scene functions
     void renderCube(QVector3D pos, QVector3D color, QVector4D material, QVector3D lightpos);
-    void renderRaytracerScene();
+    void renderAnimation();
 
     /* Add your private members below */
     void loadModel(QString filename, GLuint bufferObject);

@@ -30,7 +30,7 @@ void MainView::renderCube(QVector3D pos, QVector3D color, QVector4D material, QV
  * Renders a similar scene used for the raytracer:
  * 5 colored spheres with a single light
  */
-void MainView::renderRaytracerScene()
+void MainView::renderAnimation()
 {
 
     QVector3D lightpos = QVector3D(-200,600,1500);
