@@ -55,6 +55,7 @@ private:
     void updateUniforms();
 
     // Raytracer scene functions
+    QVector3D rotate3D(QVector3D point, float angle);
     void renderCube(QVector3D pos, QVector3D color, QVector4D material, QVector3D lightpos, GLint texptr_local, float scale_factor);
     void renderAnimation();
 
@@ -77,7 +78,7 @@ private:
     GLuint normal_buffer;
 
     QMatrix4x4 model;
-    QVector3D planet_rotations[10];
+    float planet_rotations[10];
     QMatrix4x4 view;
     QMatrix4x4 projection;
 

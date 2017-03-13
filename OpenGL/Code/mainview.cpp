@@ -29,7 +29,7 @@ MainView::MainView(QWidget *parent) : QOpenGLWidget(parent) {
 
     //set all planet rotations to 0
     for(int i = 0; i < 10; i++){
-        this->planet_rotations[i] = QVector3D(1,1,1);
+        this->planet_rotations[i] = 0;
     }
 }
 
