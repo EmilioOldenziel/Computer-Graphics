@@ -1,3 +1,21 @@
+OpenGL 2.
+Part 1.
+    We followed the steps of the assignment, we got a cube but the textures 
+    where all over the place on the cube. We found out that we forgot to load 
+    the coordinates of the texture, when we did load them we had our textured
+    cube. We chose GL_NEAREST for the minifying and magnifying because that was
+    the simplest choice to make it work.
+
+Part 2.
+    We chose to do the solar system for our animation. We made a GLint for every
+    texture and bind the corresponding one for every planet. We then defined a
+    scaling factor for every planet according to its relative size. We created a 
+    function rotate3D that rotates a planet (point) around the sun (the origin) 
+    given an angle in degrees. All planet rotations are stored in a list with an
+    angle for every planet called planet_rotations which is updated after every 
+    frame refresh. ...
+
+OpenGL 1.
 Part 1.
     We changed the mainwindow and added buffers, uniforms and implemented 
     drawing of the model so that we could get our first image of the cube. Then 
