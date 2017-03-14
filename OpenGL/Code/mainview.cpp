@@ -2,9 +2,10 @@
 #include "math.h"
 #include <QVector>
 #include <QVector3D>
-#include <random>
 
 #include <QDateTime>
+#include <QTimer>
+#include <time.h>
 
 /**
  * @brief MainView::MainView
@@ -31,6 +32,7 @@ MainView::MainView(QWidget *parent) : QOpenGLWidget(parent) {
     for(int i = 0; i < 10; i++){
         this->planet_rotations[i] = 0;
     }
+    this->frameCounter = 0;
 }
 
 /**
@@ -239,6 +241,10 @@ void MainView::initializeGL() {
     loadTexture (":/textures/neptune.jpg", this->texptr_9);
     loadTexture (":/textures/pluto.jpg", this->texptr_10);
     // For animation, you can start your timer here
+
+    QTimer *timedLoop = new QTimer (this);
+    connect (timedLoop, SIGNAL (timeout ()), this, SLOT (animate ()));
+    timedLoop->start (18);
 
 }
 

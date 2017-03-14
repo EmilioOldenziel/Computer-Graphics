@@ -56,7 +56,7 @@ private:
 
     // Raytracer scene functions
     QVector3D rotate3D(QVector3D point, float angle);
-    void renderCube(QVector3D pos, QVector3D color, QVector4D material, QVector3D lightpos, GLint texptr_local, float scale_factor);
+    void renderObject(QVector3D pos, QVector3D color, QVector4D material, QVector3D lightpos, GLint texptr_local, float scale_factor);
     void renderAnimation();
 
     /* Add your private members below */
@@ -79,6 +79,7 @@ private:
 
     QMatrix4x4 model;
     float planet_rotations[10];
+    float planet_rotation_period[10] = {1.0, 6.0, 15.3, 24.9, 46.8, 295.36, 733.56, 2092.0, 4104.0, 6168.0};
     QMatrix4x4 view;
     QMatrix4x4 projection;
 
@@ -126,6 +127,8 @@ private:
     GLuint texptr_9;
     GLuint texptr_10;
 
+    int frameCounter;
+
     void loadTexture (QString file, GLuint texptr);
     QVector<quint8> imageToBytes(QImage image);
 
@@ -133,6 +136,7 @@ private:
 
 private slots:
     void onMessageLogged( QOpenGLDebugMessage Message );
+    void animate ();
 
 };
 

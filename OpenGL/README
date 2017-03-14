@@ -13,7 +13,10 @@ Part 2.
     function rotate3D that rotates a planet (point) around the sun (the origin) 
     given an angle in degrees. All planet rotations are stored in a list with an
     angle for every planet called planet_rotations which is updated after every 
-    frame refresh. ...
+    frame refresh. 
+    We implemented this by calling the function animate () on a 18 millisecond 
+    interval, using a QTimer. This function recomputes the angle with which the 
+    planets should be rotated around the sun and repaints the model.
 
 OpenGL 1.
 Part 1.
