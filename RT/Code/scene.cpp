@@ -62,6 +62,7 @@ Color Scene::trace(const Ray &ray, RenderMode rm, int depth)
 	*        Color*Color        dito
 	*        pow(a,b)           a to the power of b
 	****************************************************/
+	Color color;
 
 	// return the distance to hitpoint for the zbuffer
 	if (rm == ZBuffer)
@@ -69,9 +70,10 @@ Color Scene::trace(const Ray &ray, RenderMode rm, int depth)
 	// return the color between 0 and 1
 	else if (rm == Normal)
 		return (N * 0.5) + 0.5;
-
-	// Set colour to ambient light.
-	Color color = material->color * material->ka;
+	else if (!(rm == Gooch)){
+		// Set colour to ambient light.
+		color = material->color * material->ka;
+	}
 
 	// For each light source.
 	for (unsigned int i = 0; i < lights.size (); i++)
@@ -101,8 +103,17 @@ Color Scene::trace(const Ray &ray, RenderMode rm, int depth)
 		// No blocking objects -> Determine colour.
 		if (!tmp || tmp == obj || tmp_hit.t > (lights[i]->position - hit).length ()) 
 		{
-			// Diffuse lighting.
-			color += (lights[i]->color * material->color * (fmax (0, N.dot (L)) * material->kd));
+			if(rm == Gooch){
+				Color goochkd = lights[i]->color*material->color*material->kd;
+				Color cool = Color(0,0,1) * b + this->alpha*goochkd;
+				Color warm = Color(1,1,0) * y + this->beta*goochkd;
+				// I = kCool ∗ (1 − dot(N,L))/2 + kW arm ∗ (1 + dot(N,L))/2
+				color = cool * (1 - N.dot(L))/2 + warm * (1 + N.dot(L))/2;
+			}
+			else{
+				// Diffuse lighting.
+				color += (lights[i]->color * material->color * (fmax (0, N.dot (L)) * material->kd));
+			}
 			// Specular lighting.
 			color += (lights[i]->color * material->ks * pow (fmax (0, R.dot (V)), material->n));
 		}
@@ -250,6 +261,8 @@ void Scene::setRenderMode (string in)
 		rm = ZBuffer;
 	else if (!in.compare ("normal"))
 		rm = Normal;
+	else if (!in.compare ("gooch"))
+		rm = Gooch;
 	else
 		rm = Phong;
 }

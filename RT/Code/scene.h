@@ -27,7 +27,8 @@
 typedef enum RenderMode {
     Phong,
     ZBuffer,
-    Normal
+    Normal,
+    Gooch,
 } RenderMode;
 
 class Scene
