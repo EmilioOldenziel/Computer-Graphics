@@ -52,6 +52,12 @@ Triple parseTriple(const YAML::Node& node)
 Material* Raytracer::parseMaterial(const YAML::Node& node)
 {
     Material *m = new Material();
+    // if(node.FindValue("texture")){
+    //     std::string text;
+    //     node["texture"] >> text;
+    //     const char *c = text.c_str () ;
+    //     m->texture = new Image (c) ;
+    // }
     node["color"] >> m->color;	
     node["ka"] >> m->ka;
     node["kd"] >> m->kd;
@@ -71,6 +77,25 @@ void Raytracer::parseCamera (const YAML::Node &node)
     res[1] >> height;
     this->resolution = Resolution (width, height);
     cout << "Set resolution to " << width << " by " << height << endl;
+}
+
+void Raytracer::parseGooch (const YAML::Node &node)
+{   
+    float b;
+    node["b"] >> b; 
+    scene->setB(b);
+
+    float y;
+    node["y"] >> y;
+    scene->setY(y);
+
+    float alpha;
+    node["alpha"] >> alpha;
+    scene->setAlpha(alpha);
+
+    float beta;
+    node["beta"] >> beta;
+    scene->setBeta(beta);
 }
 
 void Raytracer::parseSuperSampling (const YAML::Node &node)
@@ -205,6 +230,13 @@ bool Raytracer::readScene(const std::string& inputFilename)
             }
             else
                 scene->setRenderMode ("phong");
+
+            if (const YAML::Node *rec = doc.FindValue("GoochParameters")){
+                parseGooch (*rec);
+            }
+            else{
+                cerr << "Error: expected a gooch parameters." << endl;
+            }
 
             // Set shadows to specified value, default = true.
             if (const YAML::Node *rec = doc.FindValue("Shadows")) 

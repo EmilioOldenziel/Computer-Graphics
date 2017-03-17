@@ -39,6 +39,7 @@ private:
     Resolution parseResolution (const YAML::Node &node);
     void parseCamera (const YAML::Node &node);
     void parseSuperSampling (const YAML::Node &node);
+    void parseGooch (const YAML::Node &node);
 
 
 public:

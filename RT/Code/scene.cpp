@@ -160,7 +160,7 @@ void Scene::render(Image &img)
                 	// 		+ (((img.height () - 1 - y) - (img.height () / 2))
                 	// 		+ row * span) * up.length () ,
                 	// 	center.z*eye_to_center.normalized().length() );
-					
+
 					//from topleft to bottom right
 					Point pixel = top_left 
 					//in the width direction with ss
@@ -258,6 +258,24 @@ void Scene::setRenderMode (string in)
 void Scene::setShadows (bool val)
 {
 	this->shadows = val;
+}
+
+void Scene::setB(float val){
+	this->b = val;
+}
+
+
+void Scene::setY(float val){
+	this->y = val;
+}
+
+
+void Scene::setAlpha(float val){
+	this->alpha = val;
+}
+
+void Scene::setBeta(float val){
+	this->beta = val;
 }
 
 // Set maximum recursion depth.
