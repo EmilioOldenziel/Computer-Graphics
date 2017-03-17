@@ -131,6 +131,11 @@ void Scene::render(Image &img)
 	int h = img.height();
 	double min = std::numeric_limits<double>::max (), max = std::numeric_limits<double>::min ();
 
+	Triple eye_to_center = center - eye;
+	Triple right = eye_to_center.cross(up).normalized();
+
+	Point top_left = center + (up*h/2) - (right*w/2);
+
 	// For each pixel.
 	for (int y = 0; y < h; y++) 
 	{
@@ -146,16 +151,25 @@ void Scene::render(Image &img)
                 	// Determine pixel location. Around the centre point, 
                 	// adjusted for size of the view in combination with pixel 
                 	// size. Also adjusted for super sampling.
-                	Point pixel (
-                		center.x 
-                			+ (x - (img.width () / 2)) * up.length () 
-                			+ column * span,
-                		center.y 
-                			+ ((img.height () - 1 - y) - (img.height () / 2)) * up.length () 
-                			+ row * span,
-                		center.z );
+                	// Point pixel (
+                	// 	center.x 
+					// 		- (img.width () / 2) * 
+                	// 		+ ((x - (img.width () / 2))
+                	// 		+ column * span)* right.length () ,
+                	// 	center.y 
+                	// 		+ (((img.height () - 1 - y) - (img.height () / 2))
+                	// 		+ row * span) * up.length () ,
+                	// 	center.z*eye_to_center.normalized().length() );
+					
+					//from topleft to bottom right
+					Point pixel = top_left 
+					//in the width direction with ss
+					+ (x*right + (column * span* right)) 
+					//in the height direction with ss					
+					- (y*up + (row * span * up)) ;
 
-                	// Shoot ray & trace.
+
+                	// // Shoot ray & trace.
                     Ray ray (eye, (pixel - eye).normalized());
                     col += trace (ray, rm, this->recursionDepth);
                 }
