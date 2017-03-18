@@ -27,6 +27,7 @@
 #include <ctype.h>
 #include <fstream>
 #include <assert.h>
+#include "glm.h"
 
 // Functions to ease reading from YAML input
 void operator >> (const YAML::Node& node, Triple& t);
@@ -52,22 +53,22 @@ Triple parseTriple(const YAML::Node& node)
 Material* Raytracer::parseMaterial(const YAML::Node& node)
 {
     Material *m = new Material();
-    if(node.FindValue ("texture")){
-        cout << "text" << endl;
-        std::string text;
-        node["texture"] >> text ;
-        const char* c = text.c_str();
-        m->texture = new Image(c);
-    }
-    else{
+    // if(node.FindValue ("texture")){
+    //     cout << "text" << endl;
+    //     std::string text;
+    //     node["texture"] >> text ;
+    //     const char* c = text.c_str();
+    //     m->texture = new Image(c);
+    // }
+    // else{
         node["color"] >> m->color;
-    }
+    // }
     node["ka"] >> m->ka;
     node["kd"] >> m->kd;
     node["ks"] >> m->ks;
     node["n"] >> m->n;
     return m;
-}ss
+}
 
 void Raytracer::parseCamera (const YAML::Node &node)
 {
@@ -182,6 +183,51 @@ Object* Raytracer::parseObject(const YAML::Node& node)
         node["N"] >> N;
         Circle *circle = new Circle (center, N, radius);
         returnObject = circle;
+    }
+
+    // Added support for mesh.
+    if (objectType == "mesh")
+    {
+        Point pos;
+        node["position"] >> pos;
+        std::string filename;
+        node["filename"] >> filename;
+        char* fn = &filename[0];
+        GLMmodel *model = glmReadOBJ(fn);
+        int num_triangles = model->numtriangles;
+        cout << num_triangles << " triangles read" << endl;
+        Material *material = parseMaterial(node["material"]);
+        for(int i=0; i < (int)model->numvertices; i++){
+            cout << model->vertices[i] << endl;
+        }
+        for(int i = 0; i < num_triangles; i++){
+            //get triangle vertex indices
+            int x_index = model->triangles[i].vindices[0];
+            int y_index = model->triangles[i].vindices[1];
+            int z_index = model->triangles[i].vindices[2];
+            cout << x_index << y_index << z_index << endl;
+            // get triangle vertices
+            Point pos1 = Point(
+                model->vertices[x_index],
+                model->vertices[x_index+1],
+                model->vertices[x_index+2]) + pos;
+            Point pos2 = Point(
+                model->vertices[y_index],
+                model->vertices[y_index+1],
+                model->vertices[y_index+2]) + pos;
+            Point pos3 = Point(
+                model->vertices[z_index],
+                model->vertices[z_index+1],
+                model->vertices[z_index+2]) + pos;
+            cout << "x: " << pos1.x;
+            cout << " y: " << pos1.y;
+            cout << " z: " << pos1.z << endl;
+            //make and add triangle
+            Triangle *triangle = new Triangle(pos1, pos2, pos3);
+            triangle->material = material;
+            scene->addObject(triangle);
+        }
+        return NULL;
     }
 
     if (returnObject) {

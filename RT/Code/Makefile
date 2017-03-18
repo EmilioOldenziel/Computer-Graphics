@@ -17,7 +17,7 @@ LIBS = -lm
 EXECUTABLE = ray
 
 OBJS = main.o raytracer.o light.o material.o image.o triple.o resolution.o lodepng.o scene.o algebra.o \
-	sphere.o triangle.o plane.o torus.o cylinder.o circle.o
+	sphere.o triangle.o plane.o torus.o cylinder.o circle.o glm.o
 
 YAMLOBJS = $(subst .cpp,.o,$(wildcard yaml/*.cpp))
 
