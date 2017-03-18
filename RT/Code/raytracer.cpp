@@ -52,19 +52,22 @@ Triple parseTriple(const YAML::Node& node)
 Material* Raytracer::parseMaterial(const YAML::Node& node)
 {
     Material *m = new Material();
-    // if(node.FindValue("texture")){
-    //     std::string text;
-    //     node["texture"] >> text;
-    //     const char *c = text.c_str () ;
-    //     m->texture = new Image (c) ;
-    // }
-    node["color"] >> m->color;	
+    if(node.FindValue ("texture")){
+        cout << "text" << endl;
+        std::string text;
+        node["texture"] >> text ;
+        const char* c = text.c_str();
+        m->texture = new Image(c);
+    }
+    else{
+        node["color"] >> m->color;
+    }
     node["ka"] >> m->ka;
     node["kd"] >> m->kd;
     node["ks"] >> m->ks;
     node["n"] >> m->n;
     return m;
-}
+}ss
 
 void Raytracer::parseCamera (const YAML::Node &node)
 {
@@ -233,9 +236,6 @@ bool Raytracer::readScene(const std::string& inputFilename)
 
             if (const YAML::Node *rec = doc.FindValue("GoochParameters")){
                 parseGooch (*rec);
-            }
-            else{
-                cerr << "Error: expected a gooch parameters." << endl;
             }
 
             // Set shadows to specified value, default = true.
