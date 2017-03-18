@@ -142,8 +142,8 @@ void Scene::render(Image &img)
 	int h = img.height();
 	double min = std::numeric_limits<double>::max (), max = std::numeric_limits<double>::min ();
 
-	Triple eye_to_center = center - eye;
-	Triple right = eye_to_center.cross(up).normalized();
+	Triple eye_to_center = (center - eye).normalized();
+	Triple right = (eye_to_center.cross(up).normalized()) * up.length();
 
 	Point top_left = center + (up*h/2) - (right*w/2);
 
