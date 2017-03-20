@@ -112,6 +112,7 @@ inline Color& Image::operator()(int x, int y)
 
 inline const Color& Image::colorAt(float x, float y) const
 {
+    // cout << x << " " << y << " " << sizeof (_pixel) / sizeof (*_pixel) << " " << findex (x,y) << endl;
     return _pixel[findex(x, y)];
 }
 

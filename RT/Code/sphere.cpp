@@ -22,79 +22,80 @@
 
 Hit Sphere::intersect(const Ray &ray)
 {
-    /****************************************************
-    * RT1.1: INTERSECTION CALCULATION
-    *
-    * Given: ray, position, r
-    * Sought: intersects? if true: *t
-    * 
-    * Insert calculation of ray/sphere intersection here. 
-    *
-    * You have the sphere's center (C) and radius (r) as well as
-    * the ray's origin (ray.O) and direction (ray.D).
-    *
-    * If the ray does not intersect the sphere, return false.
-    * Otherwise, return true and place the distance of the
-    * intersection point from the ray origin in *t (see example).
-    ****************************************************/
+	/****************************************************
+	* RT1.1: INTERSECTION CALCULATION
+	*
+	* Given: ray, position, r
+	* Sought: intersects? if true: *t
+	* 
+	* Insert calculation of ray/sphere intersection here. 
+	*
+	* You have the sphere's center (C) and radius (r) as well as
+	* the ray's origin (ray.O) and direction (ray.D).
+	*
+	* If the ray does not intersect the sphere, return false.
+	* Otherwise, return true and place the distance of the
+	* intersection point from the ray origin in *t (see example).
+	****************************************************/
 
-    // Determine coefficients
-    double a = 1;
-    double b = 2 * (ray.O - position).dot (ray.D);
-    double c = ((ray.O - position).dot (ray.O - position)) - (r * r);
+	// Determine coefficients
+	double a = 1;
+	double b = 2 * (ray.O - position).dot (ray.D);
+	double c = ((ray.O - position).dot (ray.O - position)) - (r * r);
 
-    // Determine hit points (on the ray).
-    double roots [2];
-    int numRoots = Algebra::SolveQuadraticEquation (a, b, c, roots);
+	// Determine hit points (on the ray).
+	double roots [2];
+	int numRoots = Algebra::SolveQuadraticEquation (a, b, c, roots);
 
-    // Determine closest hit point (if any).
-    double t = 0;
-    if (numRoots == 2){
-        if(roots[0] > 0.00001 && roots[1] > 0.00001){
-            t = min (roots[0], roots[1]);
-        }
-        else if(roots[0] > 0.00001 && roots[1] <= 0.00001){
-            t = roots[0];
-        }
-        else if(roots[0] <= 0.00001 && roots[1] > 0.00001){
-            t = roots[1];
-        }
-        else{
-            return Hit::NO_HIT ();
-        }
-    }
-        
-    else if (numRoots == 1)
-        t = roots[0];
-    else
-        return Hit::NO_HIT ();
+	// Determine closest hit point (if any).
+	double t = 0;
+	if (numRoots == 2){
+		if(roots[0] > 0.00001 && roots[1] > 0.00001){
+			t = min (roots[0], roots[1]);
+		}
+		else if(roots[0] > 0.00001 && roots[1] <= 0.00001){
+			t = roots[0];
+		}
+		else if(roots[0] <= 0.00001 && roots[1] > 0.00001){
+			t = roots[1];
+		}
+		else{
+			return Hit::NO_HIT ();
+		}
+	}
+		
+	else if (numRoots == 1)
+		t = roots[0];
+	else
+		return Hit::NO_HIT ();
 
-    /****************************************************
-    * RT1.2: NORMAL CALCULATION
-    *
-    * Given: t, C, r
-    * Sought: N
-    * 
-    * Insert calculation of the sphere's normal at the intersection point.
-    ****************************************************/
+	/****************************************************
+	* RT1.2: NORMAL CALCULATION
+	*
+	* Given: t, C, r
+	* Sought: N
+	* 
+	* Insert calculation of the sphere's normal at the intersection point.
+	****************************************************/
 
-    // Determine normal.
-    Vector N = ((ray.O + t*ray.D) - position).normalized ();
+	// Determine normal.
+	Vector N = ((ray.O + t*ray.D) - position).normalized ();
 
-    return Hit(t,N);
+	return Hit(t,N);
 }
 
 Color Sphere::textureColor (Point hit)
 {
-    const double pi = 3.14159265358979323846;
-    double theta = acos ((hit.z - position.z) / r);
-    double phi   = atan2 (hit.y - position.y, hit.x - position.x);
-    if (phi < 0)
-        phi += 2 * pi;
+	Point tmp = hit - position;
+	const double pi = 3.14159265358979323846;
+	float theta = acos ((float)(tmp.z) / (float)r);
+	float phi   = atan2 ((float)(tmp.y), (float)(tmp.x));
+	if (phi < 0)
+		phi += 2 * pi;
 
-    double u = phi / (2 * pi);
-    double v = (pi - theta) / pi;
-    cout << u << " " << v << " " << this->material->texture->colorAt (u, v) << endl;
-    // return this->material->texture->colorAt (u, v);
+	float u = phi / (2 * pi);
+	float v = (pi - theta) / pi;
+	// cout << u << " " << v << " " << this->material->texture << endl;
+	return this->material->texture->colorAt (u, v);
 }
 

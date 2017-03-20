@@ -20,7 +20,7 @@ Camera: # Possible position of moon (although I haven't checked whether it's on 
 
 Shadows: true
 SuperSampling:
-  factor: 2
+  factor: 1
 
 Lights:
 - position: [0,0,0]
@@ -33,7 +33,7 @@ Objects:
   # radius: [6378.1,[0,0.91740769935748826377361893702175,-0.39794863130761038954479576746719]]
 #   angle: -90
   material:
-    texture: Scenes/earth.png
+    texture: Scenes/bluegrid.png
     ka: 0.2
     kd: 0.7
     ks: 0.0

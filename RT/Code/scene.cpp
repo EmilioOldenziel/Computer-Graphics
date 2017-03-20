@@ -118,7 +118,7 @@ Color Scene::trace(const Ray &ray, RenderMode rm, int depth)
 				if (!material->texture)
 					color += (lights[i]->color * material->color * (fmax (0, N.dot (L)) * material->kd));
 				else
-					color += (lights[i]->color * obj->textureColor (hit));
+					color += (lights[i]->color * obj->textureColor (hit) * (fmax (0, N.dot (L)) * material->kd));
 			}
 			// Specular lighting.
 			color += (lights[i]->color * material->ks * pow (fmax (0, R.dot (V)), material->n));
@@ -138,12 +138,18 @@ Color Scene::trace(const Ray &ray, RenderMode rm, int depth)
 
 void Scene::render(Image &img)
 {
+	cout << "Rendermode:\t\t" 		<< toString (rm)	<< endl
+		<< "Shadows:\t\t" 			<< shadows 			<< endl
+		<< "Recursion depth:\t" 	<< recursionDepth 	<< endl
+		<< "Super sampling:\t\t" 	<< superSampling 	<< endl
+		<< "Rendering scene..." 						<< endl;
+
 	// Timing stuff
 	std::clock_t start = std::clock ();
-    double duration = 0.0;
-    cout.precision (9);
+	double duration = 0.0;
+	cout.precision (9);
 
-    // Here begins the interesting part
+	// Here begins the interesting part
 	int w = img.width();
 	int h = img.height();
 	double min = std::numeric_limits<double>::max (), max = std::numeric_limits<double>::min ();
@@ -158,40 +164,31 @@ void Scene::render(Image &img)
 	{
 		for (int x = 0; x < w; x++) 
 		{
-            Color col(0.0,0.0,0.0);
-            float span = up.length () / (this->superSampling + 1.0);
+			Color col(0.0,0.0,0.0);
+			float span = up.length () / (this->superSampling + 1.0);
 
-            for(int row = 1; row != this->superSampling + 1; row++)
-            {
-                for(int column = 1; column != this->superSampling + 1; column++)
-                {
-                	// Determine pixel location. Around the centre point, 
-                	// adjusted for size of the view in combination with pixel 
-                	// size. Also adjusted for super sampling.
-                	// Point pixel (
-                	// 	center.x 
-					// 		- (img.width () / 2) * 
-                	// 		+ ((x - (img.width () / 2))
-                	// 		+ column * span)* right.length () ,
-                	// 	center.y 
-                	// 		+ (((img.height () - 1 - y) - (img.height () / 2))
-                	// 		+ row * span) * up.length () ,
-                	// 	center.z*eye_to_center.normalized().length() );
+			for(int row = 1; row != this->superSampling + 1; row++)
+			{
+				for(int column = 1; column != this->superSampling + 1; column++)
+				{
+					// Determine pixel location. Around the centre point, 
+					// adjusted for size of the view in combination with pixel 
+					// size. Also adjusted for super sampling.
 
-					//from topleft to bottom right
+					// from topleft to bottom right
 					Point pixel = top_left 
-					//in the width direction with ss
-					+ (x*right + (column * span* right)) 
-					//in the height direction with ss					
-					- (y*up + (row * span * up)) ;
+						//in the width direction with ss
+						+ (x * right + (column * span * right)) 
+						//in the height direction with ss					
+						- (y * up + (row * span * up));
 
 
-                	// // Shoot ray & trace.
-                    Ray ray (eye, (pixel - eye).normalized());
-                    col += trace (ray, rm, this->recursionDepth);
-                }
-            }
-            col /= superSampling * superSampling;
+					// Shoot ray & trace.
+					Ray ray (eye, (pixel - eye).normalized());
+					col += trace (ray, rm, this->recursionDepth);
+				}
+			}
+			col /= superSampling * superSampling;
 
 			if (rm != ZBuffer)
 				col.clamp();

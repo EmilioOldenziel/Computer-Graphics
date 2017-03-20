@@ -31,6 +31,17 @@ typedef enum RenderMode {
     Gooch,
 } RenderMode;
 
+inline const char* toString (RenderMode r)
+{
+    switch (r)
+    {
+        case Phong:     return "Phong";
+        case ZBuffer:   return "z-buffer";
+        case Normal:    return "normal buffer";
+        case Gooch:     return "Gooch";
+    }
+}
+
 class Scene
 {
 private:
