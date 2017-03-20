@@ -1,6 +1,25 @@
 Authors: Emilio Oldenziel s2509679 & Yannick Stoffers s2372061
 Group: Tuesday 02
 
+Raytracer 3:
+    3.1: Textures
+        
+
+    3.2: Gooch
+        For the gooch shading we had to change the lighting model a bit,
+        If the rendermode is gooch we took out the ambient lighting and the 
+        diffuse light was changed to the one from the paper. We calculated the 
+        warm and cold color using y and b intensities and alpha and beta.
+
+    3.3: Geometries
+        -   We already had planes, triangles, cilinders and tori. 
+    3.4:
+        -   We read the filename from the yaml file, then we used the provided
+            glm to read the .obj file. (we needed to install the freeglut-dev 
+            lib to compile the glm file). After this we created a raytracer 
+            triangle for every traingle in the mesh model with the material 
+            from the yaml file.
+
 Raytracer 2:
     2.1: Optical laws
         -   We made some changes in scene for the optical laws
