@@ -17,6 +17,7 @@
 
 #include <iostream>
 #include "triple.h"
+#include "image.h"
 
 class Material
 {

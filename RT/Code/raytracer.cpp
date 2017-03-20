@@ -197,31 +197,34 @@ Object* Raytracer::parseObject(const YAML::Node& node)
         int num_triangles = model->numtriangles;
         cout << num_triangles << " triangles read" << endl;
         Material *material = parseMaterial(node["material"]);
-        for(int i=0; i < (int)model->numvertices; i++){
-            cout << model->vertices[i] << endl;
-        }
+
+        // for (int i=1; i <= (int)model->numvertices; i++)
+        //     cout << "(" << model->vertices[3*i] << "," << model->vertices[3*i+1] << "," << model->vertices[3*i+2] << ")" << endl;
+
         for(int i = 0; i < num_triangles; i++){
             //get triangle vertex indices
-            int x_index = model->triangles[i].vindices[0];
-            int y_index = model->triangles[i].vindices[1];
-            int z_index = model->triangles[i].vindices[2];
-            cout << x_index << y_index << z_index << endl;
+            int first = model->triangles[i].vindices[0];
+            int second = model->triangles[i].vindices[1];
+            int third = model->triangles[i].vindices[2];
+
+            // cout << first << " " << second << " " << third << endl;
+
             // get triangle vertices
             Point pos1 = Point(
-                model->vertices[x_index],
-                model->vertices[x_index+1],
-                model->vertices[x_index+2]) + pos;
+                model->vertices[3*first],
+                model->vertices[3*first+1],
+                model->vertices[3*first+2]) + pos;
             Point pos2 = Point(
-                model->vertices[y_index],
-                model->vertices[y_index+1],
-                model->vertices[y_index+2]) + pos;
+                model->vertices[3*second],
+                model->vertices[3*second+1],
+                model->vertices[3*second+2]) + pos;
             Point pos3 = Point(
-                model->vertices[z_index],
-                model->vertices[z_index+1],
-                model->vertices[z_index+2]) + pos;
-            cout << "x: " << pos1.x;
-            cout << " y: " << pos1.y;
-            cout << " z: " << pos1.z << endl;
+                model->vertices[3*third],
+                model->vertices[3*third+1],
+                model->vertices[3*third+2]) + pos;
+            // cout << "(" << pos1.x << "," << pos1.y << "," << pos1.z << ") "
+            //     << "(" << pos2.x << "," << pos2.y << "," << pos2.z << ") "
+            //     << "(" << pos3.x << "," << pos3.y << "," << pos3.z << ") " << endl;
             //make and add triangle
             Triangle *triangle = new Triangle(pos1, pos2, pos3);
             triangle->material = material;

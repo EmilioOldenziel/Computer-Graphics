@@ -1,5 +1,5 @@
 ---
-#  This scene will render in 4K with supersampling of 3x3 rays per pixel.
+#  This scene will render in 4K with supersampling of 2x2 rays per pixel.
 
 Camera:
   eye: [1920,1080,1000]  
