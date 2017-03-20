@@ -18,9 +18,9 @@ Camera: # Possible position of moon (although I haven't checked whether it's on 
     up: [0,40,0]
     viewSize: [400,400]
 
-Shadows: true
-SuperSampling:
-  factor: 4
+# Shadows: true
+# SuperSampling:
+#   factor: 4
 
 Lights:
 - position: [0,0,0]
@@ -29,8 +29,9 @@ Lights:
 Objects:
 - type: sphere
   position: [0,0,149597890]
-  radius: [6378.1,[0,0.91740769935748826377361893702175,-0.39794863130761038954479576746719]]
-  angle: -90
+  radius: 6378
+  # radius: [6378.1,[0,0.91740769935748826377361893702175,-0.39794863130761038954479576746719]]
+#   angle: -90
   material:
     texture: bluegrid.png
     ka: 0.2
