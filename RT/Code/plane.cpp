@@ -31,3 +31,9 @@ Hit Plane::intersect(const Ray &ray)
     return Hit::NO_HIT();
 }
 
+Color Plane::textureColor (const Point hit)
+{
+    cerr << "Textures not supported for planes." << endl;
+    return Color (0, 0, 0);
+}
+

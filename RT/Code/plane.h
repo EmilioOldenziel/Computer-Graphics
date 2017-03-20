@@ -10,6 +10,7 @@ public:
     Plane(Point center, Vector N) : center(center), N(N) { }
 
     virtual Hit intersect(const Ray &ray);
+    virtual Color textureColor (const Point hit);
 
     const Point center;	// Centre of the plane.
     const Vector N;		// Normal of the plane.

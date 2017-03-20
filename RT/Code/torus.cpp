@@ -57,3 +57,9 @@ Hit Torus::intersect (const Ray &ray)
 	return Hit (t, (hit - centre).normalized ());
 
 }
+
+Color Torus::textureColor (const Point hit)
+{
+    cerr << "Textures not supported for tori." << endl;
+    return Color (0, 0, 0);
+}

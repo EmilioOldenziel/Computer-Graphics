@@ -12,6 +12,7 @@ public:
 	Cylinder (Point position, double r, double height, Vector direction) : position (position), r (r), height (height), direction(direction) { }
 
     virtual Hit intersect(const Ray &ray);
+    virtual Color textureColor (const Point hit);
 
     const Point position;	// Position of the start of the centre axis.
     const double r;			// Radius of the cylinder.

@@ -25,6 +25,7 @@ public:
     Triangle(Point p0, Point p1, Point p2) : p0(p0), p1(p1), p2(p2) {}
 
     virtual Hit intersect(const Ray &ray);
+    virtual Color textureColor (const Point hit);
 
     const Point p0;
     const Point p1;

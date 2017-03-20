@@ -52,3 +52,9 @@ Hit Triangle::intersect(const Ray &ray)
     return Hit::NO_HIT();
 }
 
+Color Triangle::textureColor (const Point hit)
+{
+    cerr << "Textures not supported for triangles." << endl;
+    return Color (0, 0, 0);
+}
+

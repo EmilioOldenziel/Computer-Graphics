@@ -64,3 +64,9 @@ Hit Cylinder::intersect (const Ray &ray)
 
 	return Hit(t,N);  
 }
+
+Color Cylinder::textureColor (const Point hit)
+{
+    cerr << "Textures not supported for cylinders." << endl;
+    return Color (0, 0, 0);
+}

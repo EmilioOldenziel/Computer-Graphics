@@ -32,3 +32,9 @@ Hit Circle::intersect(const Ray &ray)
     return Hit::NO_HIT();
 }
 
+Color Circle::textureColor (const Point hit)
+{
+    cerr << "Textures not supported for circles." << endl;
+    return Color (0, 0, 0);
+}
+

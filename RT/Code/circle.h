@@ -12,6 +12,7 @@ public:
     Circle(Point center, Vector N, double radius) : center(center), N(N), radius(radius) { }
 
     virtual Hit intersect(const Ray &ray);
+    virtual Color textureColor (const Point hit);
 
     const Point center;		// Centre of the circle.
     const Vector N;			// Normal of the plane in which the circle lays.

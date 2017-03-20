@@ -12,6 +12,7 @@ public:
 	Torus (Point position, double r, double alpha) : position (position), r (r), alpha (alpha) { }
 
 	virtual Hit intersect (const Ray &ray);
+	virtual Color textureColor (const Point hit);
 
 	const Point position;	// Position of centre of the torus.
 	const double r;			// Distance from centre of tube to centre of torus.
