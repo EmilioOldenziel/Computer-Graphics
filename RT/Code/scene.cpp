@@ -72,7 +72,10 @@ Color Scene::trace(const Ray &ray, RenderMode rm, int depth)
 		return (N * 0.5) + 0.5;
 	else if (!(rm == Gooch)){
 		// Set colour to ambient light.
-		color = material->color * material->ka;
+		if (!material->texture)
+			color = material->color * material->ka;
+		else
+			color = material->ka * obj->textureColor (hit);
 	}
 
 	// For each light source.
@@ -104,7 +107,7 @@ Color Scene::trace(const Ray &ray, RenderMode rm, int depth)
 		if (!tmp || tmp == obj || tmp_hit.t > (lights[i]->position - hit).length ()) 
 		{
 			if(rm == Gooch){
-				Color goochkd = lights[i]->color*material->color*material->kd;
+				Color goochkd = lights[i]->color * material->color * material->kd;
 				Color cool = Color(0,0,1) * b + this->alpha*goochkd;
 				Color warm = Color(1,1,0) * y + this->beta*goochkd;
 				// I = kCool ∗ (1 − dot(N,L))/2 + kW arm ∗ (1 + dot(N,L))/2
@@ -112,7 +115,10 @@ Color Scene::trace(const Ray &ray, RenderMode rm, int depth)
 			}
 			else{
 				// Diffuse lighting.
-				color += (lights[i]->color * material->color * (fmax (0, N.dot (L)) * material->kd));
+				if (!material->texture)
+					color += (lights[i]->color * material->color * (fmax (0, N.dot (L)) * material->kd));
+				else
+					color += (lights[i]->color * obj->textureColor (hit));
 			}
 			// Specular lighting.
 			color += (lights[i]->color * material->ks * pow (fmax (0, R.dot (V)), material->n));
