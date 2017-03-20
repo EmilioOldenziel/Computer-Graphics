@@ -212,10 +212,8 @@ Object* Raytracer::parseObject(const YAML::Node& node)
         int num_triangles = model->numtriangles;
         cout << num_triangles << " triangles read" << endl;
         Material *material = parseMaterial(node["material"]);
-
-        // for (int i=1; i <= (int)model->numvertices; i++)
-        //     cout << "(" << model->vertices[3*i] << "," << model->vertices[3*i+1] << "," << model->vertices[3*i+2] << ")" << endl;
-
+        
+        //add all triangles from model
         for(int i = 0; i < num_triangles; i++){
             //get triangle vertex indices
             int first = model->triangles[i].vindices[0];
@@ -237,14 +235,13 @@ Object* Raytracer::parseObject(const YAML::Node& node)
                 model->vertices[3*third],
                 model->vertices[3*third+1],
                 model->vertices[3*third+2]) + pos;
-            // cout << "(" << pos1.x << "," << pos1.y << "," << pos1.z << ") "
-            //     << "(" << pos2.x << "," << pos2.y << "," << pos2.z << ") "
-            //     << "(" << pos3.x << "," << pos3.y << "," << pos3.z << ") " << endl;
+
             //make and add triangle
             Triangle *triangle = new Triangle(pos1, pos2, pos3);
             triangle->material = material;
             scene->addObject(triangle);
         }
+        glmDelete(model);
         return NULL;
     }
 
