@@ -3,7 +3,7 @@ Group: Tuesday 02
 
 Raytracer 3:
     3.1: Textures
-        
+
 
     3.2: Gooch
         For the gooch shading we had to change the lighting model a bit,
@@ -18,7 +18,10 @@ Raytracer 3:
             glm to read the .obj file. (we needed to install the freeglut-dev 
             lib to compile the glm file). After this we created a raytracer 
             triangle for every traingle in the mesh model with the material 
-            from the yaml file.
+            from the yaml file. As example we took the cat from the OpenGL part.
+            See mesh.yaml for an example, as a bonus we introduced scaling 
+            factor of a mesh in the yaml file (see mesh.yaml).
+            (See Screenshots for results).
 
 Raytracer 2:
     2.1: Optical laws

@@ -14,7 +14,7 @@
 
 RenderMode: "phong"
 
-Eye: [200,320,105]  
+Eye: [200,321,100.5]  
 
 Lights:
 - position: [-200,600,1500]
@@ -22,7 +22,8 @@ Lights:
 
 Objects:
 - type: mesh
-  filename: "Scenes/cube.obj"
+  filename: "Scenes/cat.obj"
+  scalefactor: 2.0
   position: [200,320,100]
   material: # blue
     color: [0.0,0.0,1.0]
