@@ -16,6 +16,7 @@
 
 #include "sphere.h"
 #include "algebra/algebra.h"
+#include <math.h>
 
 /************************** Sphere **********************************/
 
@@ -81,5 +82,19 @@ Hit Sphere::intersect(const Ray &ray)
     Vector N = ((ray.O + t*ray.D) - position).normalized ();
 
     return Hit(t,N);
+}
+
+Color Sphere::textureColor (Point hit)
+{
+    const double pi = 3.14159265358979323846;
+    double theta = acos ((hit.z - position.z) / r);
+    double phi   = atan2 (hit.y - position.y, hit.x - position.x);
+    if (phi < 0)
+        phi += 2 * pi;
+
+    double u = phi / (2 * pi);
+    double v = (pi - theta) / pi;
+    cout << u << " " << v << " " << this->material->texture->colorAt (u, v) << endl;
+    // return this->material->texture->colorAt (u, v);
 }
 

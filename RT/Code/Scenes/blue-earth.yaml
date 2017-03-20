@@ -18,9 +18,9 @@ Camera: # Possible position of moon (although I haven't checked whether it's on 
     up: [0,40,0]
     viewSize: [400,400]
 
-# Shadows: true
-# SuperSampling:
-#   factor: 4
+Shadows: true
+SuperSampling:
+  factor: 4
 
 Lights:
 - position: [0,0,0]
