@@ -201,11 +201,14 @@ Object* Raytracer::parseObject(const YAML::Node& node)
     if (objectType == "mesh")
     {
         Point pos;
+        float sf;
         node["position"] >> pos;
         std::string filename;
         node["filename"] >> filename;
+        node["scalefactor"] >> sf;
         char* fn = &filename[0];
         GLMmodel *model = glmReadOBJ(fn);
+        glmScale(model, sf);
         int num_triangles = model->numtriangles;
         cout << num_triangles << " triangles read" << endl;
         Material *material = parseMaterial(node["material"]);
