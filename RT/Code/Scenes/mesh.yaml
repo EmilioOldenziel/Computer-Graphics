@@ -14,7 +14,12 @@
 
 RenderMode: "phong"
 
-Eye: [200,321,101]  
+Eye: [200,320,200]  
+
+SuperSampling: 
+  factor: 4
+
+MaxRecursionDepth: 2
 
 Lights:
 - position: [-200,600,1500]
@@ -23,8 +28,8 @@ Lights:
 Objects:
 - type: mesh
   filename: "Scenes/cat.obj"
-  scalefactor: 2.0
-  position: [200,320,100]
+  scalefactor: 100.0
+  position: [200,220,100]
   material: # blue
     color: [0.0,0.0,1.0]
     ka: 0.2

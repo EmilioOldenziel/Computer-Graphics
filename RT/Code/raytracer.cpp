@@ -235,12 +235,13 @@ Object* Raytracer::parseObject(const YAML::Node& node)
                 model->vertices[3*third],
                 model->vertices[3*third+1],
                 model->vertices[3*third+2]) + pos;
-                
+
             //make and add triangle
             Triangle *triangle = new Triangle(pos1, pos2, pos3);
             triangle->material = material;
             scene->addObject(triangle);
         }
+        glmDelete(model);
         return NULL;
     }
 
