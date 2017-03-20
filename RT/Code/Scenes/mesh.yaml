@@ -14,7 +14,7 @@
 
 RenderMode: "phong"
 
-Eye: [200,321,100.5]  
+Eye: [200,321,101]  
 
 Lights:
 - position: [-200,600,1500]
