@@ -47,7 +47,9 @@ MainView::~MainView() {
     glDeleteBuffers (1, &this->normal_buffer);
     glDeleteTextures (1, &this->texptr);
     glDeleteTextures (1, &this->texptr_2);
+    glDeleteTextures (1, &this->texptr_3);
     glDeleteVertexArrays (1, &this->vao);
+    glDeleteFramebuffers(1, &this->frame_buffer);
 
     // Free the main shader
     delete mainShaderProg;
@@ -97,6 +99,9 @@ void MainView::createBuffers() {
     // TODO: implement buffer creation
     glGenVertexArrays (1, &this->vao);
     glBindVertexArray (this->vao);
+
+    glGenFramebuffers(1, &this->frame_buffer);
+    glBindFramebuffer(GL_DRAW_FRAMEBUFFER,&this->frame_buffer);
 
     glGenBuffers (1, &this->coors);
     glGenBuffers (1, &this->colours);
@@ -218,9 +223,87 @@ void MainView::initializeGL() {
 
     loadModel(":/models/cat.obj", cubeBO);
 
-    loadTexture (":/textures/cat_diff.png", this->texptr);
-    loadTexture (":/textures/cat_norm.png", this->texptr_2);
-    loadTexture (":/textures/cat_spec.png", this->texptr_3);
+    //tex1
+    glBindTexture (GL_TEXTURE_2D, this->texptr);
+    glTexImage2D (GL_TEXTURE_2D,
+        0,
+        GL_RGB,
+        t.width (),
+        t.height (),
+        0,
+        GL_RGB,
+        GL_UNSIGNED_BYTE,
+        NULL
+    );
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
+    //tex2
+    glBindTexture (GL_TEXTURE_2D, this->texptr_2);
+    glTexImage2D (GL_TEXTURE_2D,
+        0,
+        GL_RGB,
+        t.width (),
+        t.height (),
+        0,
+        GL_RGB,
+        GL_UNSIGNED_BYTE,
+        NULL
+    );
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
+    //tex3
+    glBindTexture (GL_TEXTURE_2D, this->texptr_3);
+    glTexImage2D (GL_TEXTURE_2D,
+        0,
+        GL_DEPTH_COMPONENT,
+        t.width (),
+        t.height (),
+        0,
+        GL_DEPTH_COMPONENT,
+        GL_UNSIGNED_BYTE,
+        NULL
+    );
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
+    glFramebufferTexture2D(
+        GL_DRAW_FRAMEBUFFER,
+        GL_COLOR_ATTACHMENT0,
+        GL_TEXTURE_2D,
+        this->texptr,
+        0
+    );
+
+    glFramebufferTexture2D(
+        GL_DRAW_FRAMEBUFFER,
+        GL_COLOR_ATTACHMENT1,
+        GL_TEXTURE_2D,
+        this->texptr_2,
+        0
+    );
+
+    glFramebufferTexture2D(
+        GL_DRAW_FRAMEBUFFER,
+        GL_DEPTH_ATTACHMENT,
+        GL_TEXTURE_2D,
+        this->texptr_3,
+        0
+    );
+
+    GLenum drawBuffers[2] = {GL_COLOR_ATTACHMENT0,
+    GL_COLOR_ATTACHMENT1};
+    glDrawBuffers(2, drawBuffers);
+
+
+
+    //loadTexture (":/textures/cat_diff.png", this->texptr);
+    //loadTexture (":/textures/cat_norm.png", this->texptr_2);
+    //loadTexture (":/textures/cat_spec.png", this->texptr_3);
     // For animation, you can start your timer here
 }
 
@@ -295,7 +378,7 @@ void MainView::loadTexture (QString file, GLuint texptr)
     QImage t = QImage (file);
     QVector<quint8> v = imageToBytes (t);
 
-    glTexImage2D (GL_TEXTURE_2D, 
+    glTexImage2D (GL_TEXTURE_2D,
         0, 
         GL_RGBA8, 
         t.width (), 

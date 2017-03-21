@@ -121,6 +121,8 @@ private:
     GLuint texptr_2;
     GLuint texptr_3;
 
+    GLuint frame_buffer;
+
     int frameCounter;
 
     void loadTexture (QString file, GLuint texptr);

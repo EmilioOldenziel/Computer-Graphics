@@ -35,7 +35,7 @@ void MainView::renderObject (QVector3D pos, QVector3D color, QVector4D material,
 
     this->model.scale(1/scale_factor);
     this->model.translate(-pos);
-    glUniformMatrix4fv (this->modelptr, 1, false, this->model.data ());
+    glUniformMatrix4fv (this->modelptr, 1, false, this->model.data());
 
 }
 

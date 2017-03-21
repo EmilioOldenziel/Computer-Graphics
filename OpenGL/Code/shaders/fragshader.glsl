@@ -24,6 +24,7 @@ uniform sampler2D sampler;
 // Specify the output of the fragment shader
 // Usually a vec4 describing a color (Red, Green, Blue, Alpha/Transparency)
 out vec4 fColor;
+out vec3 normal_out;
 
 void main()
 {
@@ -43,7 +44,8 @@ void main()
 
     // fColor = vec4(ambient + diffuse + specular, 1.0);
 
-    fColor = texture (sampler, tex_coors);
+    fColor = texture(sampler, tex_coors);
+    normal_out = (normal+1)/2.0;
 
     //fColor = vec4(1.0,1.0,0,1.0);
 
