@@ -57,7 +57,8 @@ private:
     // Raytracer scene functions
     QVector3D rotate3D(QVector3D point, float angle);
     void renderObject(QVector3D pos, QVector3D color, QVector4D material, QVector3D lightpos, GLint texptr_local, float scale_factor);
-    void renderAnimation();
+    //void renderAnimation();
+    void renderCat();
 
     /* Add your private members below */
     void loadModel(QString filename, GLuint bufferObject);
@@ -119,13 +120,6 @@ private:
 
     GLuint texptr_2;
     GLuint texptr_3;
-    GLuint texptr_4;
-    GLuint texptr_5;
-    GLuint texptr_6;
-    GLuint texptr_7;
-    GLuint texptr_8;
-    GLuint texptr_9;
-    GLuint texptr_10;
 
     int frameCounter;
 

@@ -45,6 +45,8 @@ void main()
 
     fColor = texture (sampler, tex_coors);
 
+    //fColor = vec4(1.0,1.0,0,1.0);
+
     // -------------------------------------------------------------------------
     // This is normal buffer. Uncomment this line and comment the rest for 
     // normal buffer rendering. Debugging purposes.

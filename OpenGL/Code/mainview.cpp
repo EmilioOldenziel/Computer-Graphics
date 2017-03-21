@@ -27,11 +27,6 @@ MainView::MainView(QWidget *parent) : QOpenGLWidget(parent) {
     this->rotation_y = 0;
     this->rotation_z = 0;
     this->scale = 1;
-
-    //set all planet rotations to 0
-    for(int i = 0; i < 10; i++){
-        this->planet_rotations[i] = 0;
-    }
     this->frameCounter = 0;
 }
 
@@ -110,13 +105,6 @@ void MainView::createBuffers() {
     glGenTextures (1, &this->texptr);
     glGenTextures (1, &this->texptr_2);
     glGenTextures (1, &this->texptr_3);
-    glGenTextures (1, &this->texptr_4);
-    glGenTextures (1, &this->texptr_5);
-    glGenTextures (1, &this->texptr_6);
-    glGenTextures (1, &this->texptr_7);
-    glGenTextures (1, &this->texptr_8);
-    glGenTextures (1, &this->texptr_9);
-    glGenTextures (1, &this->texptr_10);
 
     // Bind coordinates.
     glBindBuffer (GL_ARRAY_BUFFER, this->coors);
@@ -228,24 +216,12 @@ void MainView::initializeGL() {
 
     createBuffers();
 
-    loadModel(":/models/sphere.obj", cubeBO);
+    loadModel(":/models/cat.obj", cubeBO);
 
-    loadTexture (":/textures/sun.jpg", this->texptr);
-    loadTexture (":/textures/mercury.jpg", this->texptr_2);
-    loadTexture (":/textures/venus.jpg", this->texptr_3);
-    loadTexture (":/textures/earth.png", this->texptr_4);
-    loadTexture (":/textures/mars.jpg", this->texptr_5);
-    loadTexture (":/textures/jupiter.png", this->texptr_6);
-    loadTexture (":/textures/saturn.jpg", this->texptr_7);
-    loadTexture (":/textures/uranus.jpg", this->texptr_8);
-    loadTexture (":/textures/neptune.jpg", this->texptr_9);
-    loadTexture (":/textures/pluto.jpg", this->texptr_10);
+    loadTexture (":/textures/cat_diff.png", this->texptr);
+    loadTexture (":/textures/cat_norm.png", this->texptr_2);
+    loadTexture (":/textures/cat_spec.png", this->texptr_3);
     // For animation, you can start your timer here
-
-    QTimer *timedLoop = new QTimer (this);
-    connect (timedLoop, SIGNAL (timeout ()), this, SLOT (animate ()));
-    timedLoop->start (18);
-
 }
 
 /**
@@ -288,8 +264,8 @@ void MainView::paintGL() {
     qDebug () << ":: View matrix: " << this->view;
 
     this->model.translate(QVector3D(0,0,0));
-    this->view.translate (QVector3D (0, 0, -2000));
-    this->projection.perspective (30, (float) width () / height (),1, 4000);
+    this->view.translate (QVector3D (0, 0, -5));
+    this->projection.perspective (30, (float) width () / height (),1, 500);
 
     glUniformMatrix4fv (this->viewptr, 1, false, this->view.data ());
     glUniformMatrix4fv (this->modelptr, 1, false, this->model.data ());
@@ -298,7 +274,7 @@ void MainView::paintGL() {
 
     glActiveTexture (GL_TEXTURE0);
 
-    renderAnimation();
+    renderCat();
 
     mainShaderProg->release();
 }
