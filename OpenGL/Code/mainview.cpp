@@ -49,7 +49,7 @@ MainView::~MainView() {
     glDeleteTextures (1, &this->texptr_2);
     glDeleteTextures (1, &this->texptr_3);
     glDeleteVertexArrays (1, &this->vao);
-    glDeleteFramebuffers(1, &this->frame_buffer);
+    // glDeleteFramebuffers(1, &this->frame_buffer);
 
     // Free the main shader
     delete mainShaderProg;
@@ -102,8 +102,7 @@ void MainView::createBuffers() {
 
     glGenFramebuffers(1, &this->frame_buffer);
 
-    glGetIntegerv(GL_FRAMEBUFFER_BINDING, &this->original_frame_buffer);
-    glBindFramebuffer(GL_DRAW_FRAMEBUFFER,&this->frame_buffer);
+    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, this->frame_buffer);
 
     glGenBuffers (1, &this->coors);
     glGenBuffers (1, &this->colours);
@@ -230,8 +229,8 @@ void MainView::initializeGL() {
     glTexImage2D (GL_TEXTURE_2D,
         0,
         GL_RGB,
-        t.width (),
-        t.height (),
+        width (),
+        height (),
         0,
         GL_RGB,
         GL_UNSIGNED_BYTE,
@@ -246,8 +245,8 @@ void MainView::initializeGL() {
     glTexImage2D (GL_TEXTURE_2D,
         0,
         GL_RGB,
-        t.width (),
-        t.height (),
+        width (),
+        height (),
         0,
         GL_RGB,
         GL_UNSIGNED_BYTE,
@@ -262,8 +261,8 @@ void MainView::initializeGL() {
     glTexImage2D (GL_TEXTURE_2D,
         0,
         GL_DEPTH_COMPONENT,
-        t.width (),
-        t.height (),
+        width (),
+        height (),
         0,
         GL_DEPTH_COMPONENT,
         GL_UNSIGNED_BYTE,
@@ -301,7 +300,7 @@ void MainView::initializeGL() {
     GL_COLOR_ATTACHMENT1};
     glDrawBuffers(2, drawBuffers);
 
-    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, &this->originalFrameBuffer);
+    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 
 
 

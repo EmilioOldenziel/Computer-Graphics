@@ -121,8 +121,8 @@ private:
     GLuint texptr_2;
     GLuint texptr_3;
 
-    GLint originalFrameBuffer;
-    GLint frame_buffer;
+    GLuint original_frame_buffer;
+    GLuint frame_buffer;
 
     int frameCounter;
 
