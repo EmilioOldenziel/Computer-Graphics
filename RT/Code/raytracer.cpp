@@ -122,6 +122,29 @@ void Raytracer::parseSuperSampling (const YAML::Node &node)
     scene->setSuperSampling (val);
 }
 
+Object *Raytracer::parseSphere (const YAML::Node &node)
+{
+    Point pos;
+    Vector axis;
+    double angle, radius;
+    node["position"] >> pos;
+    if (const YAML::Node *rec = node.FindValue("angle")) 
+    {
+        *rec >> angle;
+        node["radius"][0] >> radius;
+        axis = parseTriple (node["radius"][1]);
+    }
+    else
+    {
+        angle = 0;
+        axis = Vector (0, 0, 0);
+        node["radius"] >> radius;
+    }
+
+    Sphere *sphere = new Sphere(pos,radius, angle, axis); 
+    return sphere;
+}
+
 Object* Raytracer::parseObject(const YAML::Node& node)
 {
     Object *returnObject = NULL;
@@ -129,12 +152,7 @@ Object* Raytracer::parseObject(const YAML::Node& node)
     node["type"] >> objectType;
 
     if (objectType == "sphere") {
-        Point pos;
-        node["position"] >> pos;
-        double r;
-        node["radius"] >> r;
-        Sphere *sphere = new Sphere(pos,r);		
-        returnObject = sphere;
+        returnObject = parseSphere (node);
     }
      
     if (objectType == "plane") {

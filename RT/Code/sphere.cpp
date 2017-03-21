@@ -84,9 +84,37 @@ Hit Sphere::intersect(const Ray &ray)
 	return Hit(t,N);
 }
 
+Point Sphere::rotatePoint (Point in)
+{
+	const double pi = 3.14159265358979323846;
+	Point out;
+	double c = cos(angle / 180 * pi);
+	double s = sin(angle / 180 * pi);
+	double C = 1.0 - c;
+	Vector a = axis.normalized ();
+
+	double Q[3][3];
+	Q[0][0] = c + a.x * a.x * C;
+	Q[0][1] = a.x * a.y * C - a.z * s;
+	Q[0][2] = a.x * a.z * C + a.y * s;
+
+	Q[1][0] = a.x * a.y * C + a.z * s;
+	Q[1][1] = c + a.y * a.y * C;
+	Q[1][2] = a.y * a.z * C - a.x * s;
+
+	Q[2][0] = a.x * a.z * C - a.y * s;
+	Q[2][1] = a.y * a.z * C + a.x * s;
+	Q[2][2] = c + a.z * a.z * C;
+
+	out.x = in.x * Q[0][0] + in.x * Q[0][1] + in.x * Q[0][2];
+	out.y = in.y * Q[1][0] + in.y * Q[1][1] + in.y * Q[1][2];
+	out.z = in.z * Q[2][0] + in.z * Q[2][1] + in.z * Q[2][2];
+	return out;
+}
+
 Color Sphere::textureColor (Point hit)
 {
-	Point tmp = hit - position;
+	Point tmp = rotatePoint (hit - position);
 	const double pi = 3.14159265358979323846;
 	float theta = acos ((float)(tmp.z) / (float)r);
 	float phi   = atan2 ((float)(tmp.y), (float)(tmp.x));
@@ -95,7 +123,6 @@ Color Sphere::textureColor (Point hit)
 
 	float u = phi / (2 * pi);
 	float v = (pi - theta) / pi;
-	// cout << u << " " << v << " " << this->material->texture << endl;
 	return this->material->texture->colorAt (u, v);
 }
 
