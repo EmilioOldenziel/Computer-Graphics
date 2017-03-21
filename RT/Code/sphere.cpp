@@ -84,37 +84,78 @@ Hit Sphere::intersect(const Ray &ray)
 	return Hit(t,N);
 }
 
+Point rotate (double mat[3][3], Point in)
+{
+	Point out;
+	out.x = in.x * mat[0][0] + in.x * mat[0][1] + in.x * mat[0][2];
+	out.y = in.y * mat[1][0] + in.y * mat[1][1] + in.y * mat[1][2];
+	out.z = in.z * mat[2][0] + in.z * mat[2][1] + in.z * mat[2][2];
+	return out;
+}
+
 Point Sphere::rotatePoint (Point in)
 {
 	const double pi = 3.14159265358979323846;
 	Point out;
-	double c = cos(angle / 180 * pi);
-	double s = sin(angle / 180 * pi);
-	double C = 1.0 - c;
 	Vector a = axis.normalized ();
+	double alpha = acos (a.dot (Vector (1, 1, 0)));
+	double c = cos (alpha);
+	double s = sin (alpha);
 
-	double Q[3][3];
-	Q[0][0] = c + a.x * a.x * C;
-	Q[0][1] = a.x * a.y * C - a.z * s;
-	Q[0][2] = a.x * a.z * C + a.y * s;
+	double Z[3][3];
+	Z[0][0] = Z[1][1] = c;
+	Z[0][1] = -s;
+	Z[1][0] = s;
+	Z[2][2] = 1;
+	Z[2][0] = Z[2][1] = Z[0][2] = Z[1][2] = 0;
 
-	Q[1][0] = a.x * a.y * C + a.z * s;
-	Q[1][1] = c + a.y * a.y * C;
-	Q[1][2] = a.y * a.z * C - a.x * s;
+	out = rotate (Z, in);
 
-	Q[2][0] = a.x * a.z * C - a.y * s;
-	Q[2][1] = a.y * a.z * C + a.x * s;
-	Q[2][2] = c + a.z * a.z * C;
+	a = rotate (Z, a);
+	alpha = acos (a.dot (Vector (1, 0, 0)));
+	c = cos (alpha);
+	s = sin (alpha);
 
-	out.x = in.x * Q[0][0] + in.x * Q[0][1] + in.x * Q[0][2];
-	out.y = in.y * Q[1][0] + in.y * Q[1][1] + in.y * Q[1][2];
-	out.z = in.z * Q[2][0] + in.z * Q[2][1] + in.z * Q[2][2];
-	return out;
+	double Y[3][3];
+	Y[0][0] = Y[2][2] = c;
+	Y[0][2] = s;
+	Y[2][0] = -s;
+	Y[1][1] = 1;
+	Y[1][0] = Y[0][1] = Y[1][2] = Y[2][1] = 0;
+
+	out = rotate (Y, out);
+	// cout << in.x << " " << in.y << " " << in.z << " -> " << out.x << " " << out.y << " " << out.z << " " << endl;
+
+	alpha = angle / 180 * pi;
+	c = cos (alpha);
+	s = sin (alpha);
+
+	double X[3][3];
+	X[1][1] = X[2][2] = c;
+	X[1][2] = -s;
+	X[2][1] = s;
+	X[0][0] = 1;
+	X[0][1] = X[0][2] = X[1][0] = X[2][0] = 0;
+
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			Z[i][i] = - Z[i][i];
+			Y[i][i] = - Y[i][i];
+		}
+	}
+
+	out = rotate (X, out);
+	out = rotate (Y, out);
+	out = rotate (Z, out);
+
+	return out.normalized ();
 }
 
 Color Sphere::textureColor (Point hit)
 {
-	Point tmp = rotatePoint (hit - position);
+	Point tmp = rotatePoint ((hit - position).normalized ()) * r;
 	const double pi = 3.14159265358979323846;
 	float theta = acos ((float)(tmp.z) / (float)r);
 	float phi   = atan2 ((float)(tmp.y), (float)(tmp.x));

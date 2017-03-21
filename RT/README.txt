@@ -8,10 +8,12 @@ Raytracer 3:
         straightforward mathematics.
 
     3.2: Rotation
-        We rotate a sphere by determining the rotation matrix around the given
-        axis and the given angle. We rotate the hit point in 3D space and then 
-        determine the corresponding texture coordinates. But, somewhere somehow 
-        this doesn't work.
+        We rotate a sphere by determining by rotating it such that the rotation
+        axis is projected onto the XY plane. Then we rotate it such that the 
+        rotation axis is projected onto the X axis, after which we can just 
+        rotate the texture around said axis. Finally we inverse the first two 
+        steps, and it should be rotated. However, for some reason Antarctica and
+        the north pole seem to be pretty close all of sudden.
 
     3.3: Gooch
         For the gooch shading we had to change the lighting model a bit,
