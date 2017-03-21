@@ -101,6 +101,8 @@ void MainView::createBuffers() {
     glBindVertexArray (this->vao);
 
     glGenFramebuffers(1, &this->frame_buffer);
+
+    glGetIntegerv(GL_FRAMEBUFFER_BINDING, &this->original_frame_buffer);
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER,&this->frame_buffer);
 
     glGenBuffers (1, &this->coors);
@@ -298,6 +300,8 @@ void MainView::initializeGL() {
     GLenum drawBuffers[2] = {GL_COLOR_ATTACHMENT0,
     GL_COLOR_ATTACHMENT1};
     glDrawBuffers(2, drawBuffers);
+
+    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, &this->originalFrameBuffer);
 
 
 
