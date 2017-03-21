@@ -108,6 +108,7 @@ void MainView::createBuffers() {
     glGenBuffers (1, &this->colours);
     glGenBuffers (1, &this->normal_buffer);
     glGenBuffers (1, &this->texture_coordinates);
+    glGenTextures (1, &this->poesje_texture);
     glGenTextures (1, &this->texptr);
     glGenTextures (1, &this->texptr_2);
     glGenTextures (1, &this->texptr_3);
@@ -224,6 +225,8 @@ void MainView::initializeGL() {
 
     loadModel(":/models/cat.obj", cubeBO);
 
+    loadTexture (":/textures/cat_diff.png", this->poesje_texture);
+
     //tex1
     glBindTexture (GL_TEXTURE_2D, this->texptr);
     glTexImage2D (GL_TEXTURE_2D,
@@ -301,8 +304,6 @@ void MainView::initializeGL() {
     glDrawBuffers(2, drawBuffers);
 
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
-
-
 
     //loadTexture (":/textures/cat_diff.png", this->texptr);
     //loadTexture (":/textures/cat_norm.png", this->texptr_2);

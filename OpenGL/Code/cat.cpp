@@ -52,5 +52,5 @@ void MainView::renderCat()
     lightpos = (this->model * QVector4D(lightpos, 1.0)).toVector3D();
 
     //Cat
-    renderObject (rotate3D(QVector3D(0,0,0), 0), QVector3D(1,0.8f,0),QVector4D(0.2f,0.8f,0.0f,1),lightpos, this->texptr, 1);
+    renderObject (rotate3D(QVector3D(0,0,0), 0), QVector3D(1,0.8f,0),QVector4D(0.2f,0.8f,0.0f,1),lightpos, this->poesje_texture, 1);
 }

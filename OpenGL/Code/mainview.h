@@ -114,10 +114,11 @@ private:
     void determineRotationMatrix ();
 
     // Texture stuff
-    GLuint texptr;
+    GLuint poesje_texture;
     GLuint texture_coordinates;
     GLint texture_uniform_ptr;
 
+    GLuint texptr;
     GLuint texptr_2;
     GLuint texptr_3;
 
