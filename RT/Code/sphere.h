@@ -22,13 +22,16 @@
 class Sphere : public Object
 {
 public:
-    Sphere(Point position,double r) : position(position), r(r) { }
+    Sphere(Point position,double r, double angle, Vector axis) : position(position), r(r), angle(angle), axis(axis) { }
 
     virtual Hit intersect(const Ray &ray);
     virtual Color textureColor (const Point hit);
+    Point rotatePoint (Point in);
 
     const Point position;
     const double r;
+    double angle;
+	Vector axis;
 };
 
 #endif /* end of include guard: SPHERE_H_115209AE */

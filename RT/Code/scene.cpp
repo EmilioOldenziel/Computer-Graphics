@@ -165,7 +165,7 @@ void Scene::render(Image &img)
 		for (int x = 0; x < w; x++) 
 		{
 			Color col(0.0,0.0,0.0);
-			float span = up.length () / (this->superSampling + 1.0);
+			float span = 1.0 / (this->superSampling + 1.0);
 
 			for(int row = 1; row != this->superSampling + 1; row++)
 			{

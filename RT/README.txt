@@ -3,17 +3,27 @@ Group: Tuesday 02
 
 Raytracer 3:
     3.1: Textures
+        Spheres can now have textures. The location in the texture is determined
+        by the position at which the ray hits the sphere using some rather 
+        straightforward mathematics.
 
+    3.2: Rotation
+        We rotate a sphere by determining by rotating it such that the rotation
+        axis is projected onto the XY plane. Then we rotate it such that the 
+        rotation axis is projected onto the X axis, after which we can just 
+        rotate the texture around said axis. Finally we inverse the first two 
+        steps, and it should be rotated. However, for some reason Antarctica and
+        the north pole seem to be pretty close all of sudden.
 
-    3.2: Gooch
+    3.3: Gooch
         For the gooch shading we had to change the lighting model a bit,
         If the rendermode is gooch we took out the ambient lighting and the 
         diffuse light was changed to the one from the paper. We calculated the 
         warm and cold color using y and b intensities and alpha and beta.
 
-    3.3: Geometries
+    3.4: Geometries
         -   We already had planes, triangles, cilinders and tori. 
-    3.4:
+    3.5:
         -   We read the filename from the yaml file, then we used the provided
             glm to read the .obj file. (we needed to install the freeglut-dev 
             lib to compile the glm file). After this we created a raytracer 

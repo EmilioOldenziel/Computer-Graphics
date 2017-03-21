@@ -17,7 +17,7 @@ Eye: [200,200,1000]
 Shadows: true
 MaxRecursionDepth: 2
 SuperSampling:
-  factor: 4
+  factor: 1
 
 Lights:
 - position: [-200,600,1500]
@@ -58,7 +58,7 @@ Objects:
   radius: [50,[0,1,0.7]]
   angle: 90
   material:
-    texture: earth.jpg
+    texture: Scenes/earth.png
     ka: 0.2
     kd: 0.8
     ks: 0
