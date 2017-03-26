@@ -134,7 +134,6 @@ private:
 
 private slots:
     void onMessageLogged( QOpenGLDebugMessage Message );
-    void animate ();
 
 };
 
