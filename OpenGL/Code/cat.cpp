@@ -32,6 +32,7 @@ void MainView::renderObject (QVector3D pos, QVector3D color, QVector4D material,
     glUniformMatrix3fv (this->normal_matrixptr, 1, false, this->normal_matrix.data ());
 
     glDrawArrays(GL_TRIANGLES, 0, this->cubeModel->getVertices ().size ());
+    glDrawArrays(GL_TRIANGLES, 6, this->quadModel->getVertices ().size ());
 
     this->model.scale(1/scale_factor);
     this->model.translate(-pos);
