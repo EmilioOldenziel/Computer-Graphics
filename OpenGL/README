@@ -1,3 +1,10 @@
+OpenGL 3.
+    We added the framebuffers but got stuck on multiple things and where not 
+    able to finish the exercise. We understanded that we had to create a
+    shader that combined the framebuffers to get deferred shading but were 
+    lost in the complexity of the exercise.Hopefully we can get some points 
+    from the part that we did implement.
+
 OpenGL 2.
 Part 1.
     We followed the steps of the assignment, we got a cube but the textures 
