@@ -61,7 +61,8 @@ private:
     void renderCat();
 
     /* Add your private members below */
-    void loadModel(QString filename, GLuint bufferObject);
+    void loadCatModel(QString filename, GLuint bufferObject);
+    void loadQuadModel(QString filename, GLuint bufferObject);
 
     // Shader programs, GLint for uniforms/buffer objects, other variables
     QOpenGLShaderProgram *mainShaderProg;
@@ -72,12 +73,18 @@ private:
     Model *cubeModel;
     GLuint cubeBO;
 
-    unsigned numTris;
+    Model *quadModel;
+    GLuint quadBO;
+
+    unsigned numTris_cat;
+    unsigned numTris_quad;
 
     GLuint vao;
-    GLuint coors;
+    GLuint coors_cat;
+    GLuint coors_quad;
     GLuint colours;
-    GLuint normal_buffer;
+    GLuint normal_buffer_cat;
+    GLuint normal_buffer_quad;
 
     QMatrix4x4 model;
     float planet_rotations[10];
@@ -116,7 +123,8 @@ private:
 
     // Texture stuff
     GLuint poesje_texture;
-    GLuint texture_coordinates;
+    GLuint texture_coordinates_cat;
+    GLuint texture_coordinates_quad;
     GLint texture_uniform_ptr;
 
     GLuint texptr;

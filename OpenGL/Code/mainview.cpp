@@ -42,9 +42,11 @@ MainView::~MainView() {
     delete cubeModel;
 
     // Free Buffer Objects before Vertex Arrays
-    glDeleteBuffers (1, &this->coors);
+    glDeleteBuffers (1, &this->coors_cat);
+    glDeleteBuffers (1, &this->coors_quad);
     glDeleteBuffers (1, &this->colours);
-    glDeleteBuffers (1, &this->normal_buffer);
+    glDeleteBuffers (1, &this->normal_buffer_cat);
+    glDeleteBuffers (1, &this->normal_buffer_quad);
     glDeleteTextures (1, &this->texptr);
     glDeleteTextures (1, &this->texptr_2);
     glDeleteTextures (1, &this->texptr_3);
@@ -109,48 +111,38 @@ void MainView::createBuffers() {
 
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, this->frame_buffer);
 
-    glGenBuffers (1, &this->coors);
+    glGenBuffers (1, &this->coors_cat);
+    glGenBuffers (1, &this->coors_quad);
     glGenBuffers (1, &this->colours);
-    glGenBuffers (1, &this->normal_buffer);
-    glGenBuffers (1, &this->texture_coordinates);
+    glGenBuffers (1, &this->normal_buffer_cat);
+    glGenBuffers (1, &this->texture_coordinates_cat);
     glGenTextures (1, &this->poesje_texture);
     glGenTextures (1, &this->texptr);
     glGenTextures (1, &this->texptr_2);
     glGenTextures (1, &this->texptr_3);
 
     // Bind coordinates.
-    glBindBuffer (GL_ARRAY_BUFFER, this->coors);
+    glBindBuffer (GL_ARRAY_BUFFER, this->coors_cat);
     glEnableVertexAttribArray (0);
     glVertexAttribPointer (0, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
-    // Bind colours.
-//    glBindBuffer (GL_ARRAY_BUFFER, this->colours);
-//    glEnableVertexAttribArray (1);
-//    glVertexAttribPointer (1, 3, GL_FLOAT, GL_FALSE, 0, 0);
-
-    // Bind normals.
-    glBindBuffer (GL_ARRAY_BUFFER, this->normal_buffer);
-    glEnableVertexAttribArray (2);
-    glVertexAttribPointer (2, 3, GL_FLOAT, GL_FALSE, 0, 0);
-
-    // Bind textures.
-    glBindBuffer (GL_ARRAY_BUFFER, this->texture_coordinates);
-    glEnableVertexAttribArray (3);
-    glVertexAttribPointer (3, 2, GL_FLOAT, GL_FALSE, 0, 0);
+    glBindBuffer (GL_ARRAY_BUFFER, this->coors_quad);
+    glEnableVertexAttribArray (6);
+    glVertexAttribPointer (6, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
     glBindVertexArray (0);
 }
 
-void MainView::loadModel(QString filename, GLuint bufferObject)
+void MainView::loadCatModel(QString filename, GLuint bufferObject)
 {
 
     this->cubeModel = new Model(filename);
-    this->numTris = cubeModel->getNumTriangles();
+    this->numTris_cat = cubeModel->getNumTriangles();
 
     Q_UNUSED(bufferObject);
 
     // Load coordinates.
-    glBindBuffer (GL_ARRAY_BUFFER, this->coors);
+    glBindBuffer (GL_ARRAY_BUFFER, this->coors_cat);
     glBufferData (GL_ARRAY_BUFFER,
         sizeof (GL_FLOAT) * 3 * cubeModel->getVertices ().size (),
         cubeModel->getVertices ().data (),
@@ -158,14 +150,14 @@ void MainView::loadModel(QString filename, GLuint bufferObject)
         );
 
     // Load Normals
-    glBindBuffer (GL_ARRAY_BUFFER, this->normal_buffer);
+    glBindBuffer (GL_ARRAY_BUFFER, this->normal_buffer_cat);
     glBufferData (GL_ARRAY_BUFFER,
                   sizeof (GL_FLOAT) * 3 * cubeModel->getNormals().size(),
                   cubeModel->getNormals().data(),
                   GL_STATIC_DRAW
                   );
 
-    glBindBuffer (GL_ARRAY_BUFFER, this->texture_coordinates);
+    glBindBuffer (GL_ARRAY_BUFFER, this->texture_coordinates_cat);
     glBufferData (GL_ARRAY_BUFFER,
                     sizeof (GL_FLOAT) * 2 * cubeModel->getTextureCoords ().size (),
                     cubeModel->getTextureCoords ().data (),
@@ -173,6 +165,24 @@ void MainView::loadModel(QString filename, GLuint bufferObject)
                     );
 
 }
+
+void MainView::loadQuadModel(QString filename, GLuint bufferObject)
+{
+
+    this->quadModel = new Model(filename);
+    this->numTris_quad = quadModel->getNumTriangles();
+
+    Q_UNUSED(bufferObject);
+
+    // Load coordinates.
+    glBindBuffer (GL_ARRAY_BUFFER, this->coors_quad);
+    glBufferData (GL_ARRAY_BUFFER,
+        sizeof (GL_FLOAT) * 3 * quadModel->getVertices ().size (),
+        quadModel->getVertices ().data (),
+        GL_STATIC_DRAW
+        );
+}
+
 
 void MainView::updateBuffers() {
     // Change the data inside buffers (if you want)
@@ -228,7 +238,8 @@ void MainView::initializeGL() {
 
     createBuffers();
 
-    loadModel(":/models/cat.obj", cubeBO);
+    loadCatModel(":/models/cat.obj", cubeBO);
+    loadQuadModel(":/models/flat_surface.obj", quadBO);
 
     loadTexture (":/textures/cat_diff.png", this->poesje_texture);
 
