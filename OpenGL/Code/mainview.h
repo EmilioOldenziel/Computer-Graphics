@@ -65,6 +65,7 @@ private:
 
     // Shader programs, GLint for uniforms/buffer objects, other variables
     QOpenGLShaderProgram *mainShaderProg;
+    QOpenGLShaderProgram *secondShaderProg;
 
     QTimer timer; // timer used for animation
 
@@ -122,7 +123,7 @@ private:
     GLuint texptr_2;
     GLuint texptr_3;
 
-    GLuint original_frame_buffer;
+    GLint original_frame_buffer;
     GLuint frame_buffer;
 
     int frameCounter;

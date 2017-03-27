@@ -86,6 +86,11 @@ void MainView::createShaderPrograms() {
 
     /* End of custom shaders */
 
+    secondShaderProg = new QOpenGLShaderProgram ();
+    secondShaderProg->addShaderFromSourceFile (QOpenGLShader::Vertex, "Some placeholder");
+    secondShaderProg->addShaderFromSourceFile (QOpenGLShader::Fragment, "Some placeholder");
+    secondShaderProg->link ();
+
     // Store the locations (pointers in gpu memory) of uniforms in Glint's
 
 }
@@ -333,6 +338,8 @@ void MainView::resizeGL(int newWidth, int newHeight) {
  *
  */
 void MainView::paintGL() {
+    glGetIntegerv (GL_FRAMEBUFFER_BINDING, &original_frame_buffer);
+    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, frame_buffer);
 
     // Clear the screen before rendering
     glClearColor(0.0f,0.0f,0.0f, 0.0f);
@@ -364,6 +371,14 @@ void MainView::paintGL() {
     renderCat();
 
     mainShaderProg->release();
+    glBindFramebuffer (GL_DRAW_FRAMEBUFFER, original_frame_buffer);
+    secondShaderProg->bind ();
+
+    // TODO: DRAW A QUAD! HERE.
+    // Use buffered textures.
+
+    secondShaderProg->release ();
+    // Draw your textured quad, using the gBuffers
 }
 
 // Add your function implementations below
